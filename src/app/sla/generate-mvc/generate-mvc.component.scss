@@ -1,0 +1,20 @@
+
+.js-seslect{
+height: 39px;
+width: 100%;
+background: #fff;
+padding-left: 10px;
+color: rgb(100, 100, 100);
+border-radius: 4px; 
+cursor: pointer;
+}
+.nhif-input{width: 83%;}
+@media screen and (max-width: 768px){
+    .nhif-input{
+        width: 100%;
+    }
+}
+::ng-deep .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+    display: none !important;
+}

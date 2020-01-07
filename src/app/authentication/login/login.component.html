@@ -1,0 +1,29 @@
+<form [formGroup]="loginForm" (submit)="login()" novalidate>
+  <div class="form-group guest-user-input-row">
+    <input autofocus="" class="form-control guest-user-custom-form-field" id="email" formControlName="email"
+    placeholder="Username"
+           type="text"/>
+    <span class="small text-danger form-error-span" *ngIf="loginForm.controls['email'].errors && loginFormSubmitted">
+          {{authenticationErrors.required}}
+    </span>
+  </div>
+  <div class="form-group guest-user-input-row">
+    <input class="form-control guest-user-custom-form-field" id="password" formControlName="password" type="password"
+    placeholder="Password"/>
+    <span class="small text-danger form-error-span" *ngIf="loginForm.controls['password'].errors && loginFormSubmitted">
+          {{authenticationErrors.required}}
+    </span>
+  </div>
+  <div class="row guest-user-error-row mt-4 mb-2" *ngIf="loginFormApiError.hasError">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-12 guest-user-error">
+      {{loginFormApiError.message}}
+    </div>
+  </div>
+  <div class="row guest-user-custom-form-button-row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+      <button class="btn btn-sm guest-form-button" type="submit" [disabled]="loginFormSpinner">
+          <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loginFormSpinner" style="margin-left: -10px" />
+        Sign In</button>
+    </div>
+  </div>
+</form>

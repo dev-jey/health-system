@@ -1,0 +1,67 @@
+<div *ngIf="optValidated && completeMVC" class="p-2 col-md-6 m-3">
+  <form>
+    <div class="text-medi">
+      <h2>Member Verification Code</h2>
+      <span></span>
+    </div>
+    <div class="">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>MVC Number</td>
+            <td>
+              {{mcc_number}}
+            </td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>{{currentMember.first_name}} {{currentMember.last_name}}
+            </td>
+          </tr>
+          <tr>
+            <td>Job Group</td>
+            <td>{{currentMember.bls_member.job_group}}
+            </td>
+          </tr>
+          <tr>
+            <td>DOB</td>
+            <td>{{currentMember.date_of_birth }}</td>
+          </tr>
+          <tr>
+            <td>Age</td>
+            <td>{{currentMember.age}} years</td>
+          </tr>
+          <tr>
+            <td>Mobile Number</td>
+            <td *ngIf="currentMember.mobile_phone_number">
+              {{currentMember.mobile_phone_number}}
+            </td>
+            <td *ngIf="!currentMember.mobile_phone_number">N/A</td>
+          </tr>
+          <tr>
+            <td>Relation</td>
+            <td *ngIf="currentMember.bls_member.relation">{{ currentMember.bls_member.relation }}</td>
+
+          </tr>
+          <tr>
+            <td>Gender</td>
+            <td *ngIf="currentMember.gender==0">Female</td>
+            <td *ngIf="currentMember.gender==1">Male</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
+  <div class="row ml-1">
+    <a class="btn btn-success btn-sm" routerLink="sla/mcc">Generate Pre-Auth</a>
+    <a class="btn btn-info btn-sm" routerLink="sla/mcc">Generate Claim</a>
+    <a routerLink="/sla/mcc" class="btn btn-dark btn-sm">Cancel</a>
+  </div>
+</div>

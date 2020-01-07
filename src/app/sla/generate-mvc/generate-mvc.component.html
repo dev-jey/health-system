@@ -1,0 +1,55 @@
+<section>
+  <div class="main-content">
+    <nav aria-label="breadcrumb" class="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/sla/dashboard']">Dashboard</a></li>
+        <li class="breadcrumb-item active"><a>Generate MVC</a></li>
+      </ol>
+    </nav>
+
+    <div class="dashboard-items">
+      <mat-horizontal-stepper linear>
+        <mat-step>
+          <app-search-member [serviceProvider]="serviceProvider" [objList]="objList" [schemes]="schemes"
+            (setHospitalConfigs)="setHospitalConfigs($event)" (setMemberDetails)=setMemberDetails($event)
+            (initScheme)="initScheme($event)"></app-search-member>
+        </mat-step>
+        <mat-step>
+          <app-select-dependent [dependents]="dependents" [memberRelation]="memberRelation" [member]="member"
+            (setDependentDetails)="setDependentDetails($event)">
+          </app-select-dependent>
+        </mat-step>
+        <mat-step>
+          <app-preview-member-details [currentMember]="currentMember" [dateOfBirth]="dateOfBirth" [age]="age"
+            [currentMemberRelation]="currentMemberRelation" [currentMemberBiometric]="currentMemberBiometric">
+          </app-preview-member-details>
+        </mat-step>
+        <mat-step>
+          <div *ngIf="currentMemberBiometric.length===0 && showBiometricPage && !completeMVC">
+            <app-fingerprint-modal (closeFingerPrint)="hideBiometric()" (generateMVCAfterFP)="generateMVCAfterFP()"
+              [currentMember]="currentMember" [completedCapturing]="completedCapturing"
+              [currentSchemeId]="currentSchemeId">
+            </app-fingerprint-modal>
+          </div>
+          <div *ngIf="currentMemberBiometric.length>0 && showBiometricPage && !completeMVC">
+            <app-verify-fingerprint (hideBiometric)="hideBiometric()" [member]="currentMember"
+              (generateMVCAfterFP)="generateMVCAfterFP()">
+            </app-verify-fingerprint>
+          </div>
+          <app-authentication-form [completeMVC]="completeMVC" [showBiometricPage]="showBiometricPage"
+            [completedCapturing]="completedCapturing" [currentSchemeId]="currentSchemeId" [departments]="departments"
+            [hospitalConfigs]="hospitalConfigs" [member]="member" (showBiometric)="showBiometric()"
+            (createMVC)="createMVC()" [currentMemberBiometric]="currentMemberBiometric" [allDepartments]="allDepartments">
+          </app-authentication-form>
+          <app-confirm-mvc-generation [optValidated]="optValidated" [completeMVC]="completeMVC"
+            [mcc_number]="mcc_number">
+          </app-confirm-mvc-generation>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+
+  </div>
+
+
+
+</section>

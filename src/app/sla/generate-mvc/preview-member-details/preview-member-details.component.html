@@ -1,0 +1,60 @@
+<div class="p-2 col-md-8" *ngIf="currentMember">
+  <h3 class="text-medi mb-3">Member Details</h3>
+  <table class="table table-hover table-sm bg-blue-pastelFilter-7">
+    <thead class="py-3">
+      <tr>
+        <th>Details</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>{{currentMember.first_name}} {{currentMember.last_name}}
+        </td>
+      </tr>
+      <tr>
+        <td>NHIF Number</td>
+        <td>
+          {{currentMember.nhif_no || 'N/A'}}
+        </td>
+      </tr>
+      <tr>
+        <td>DOB</td>
+        <td>{{dateOfBirth}}</td>
+      </tr>
+      <tr>
+        <td>Age</td>
+        <td>{{age}} year(s)</td>
+      </tr>
+      <tr>
+        <td>Mobile Number</td>
+        <td>
+          {{currentMember.mobile_phone_number | telFilter }}
+        </td>
+      </tr>
+      <tr>
+        <td>Relation</td>
+        <td>
+          {{currentMemberRelation || 'N/A'}}
+        </td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td *ngIf="currentMember.gender===0">Female</td>
+        <td *ngIf="currentMember.gender===1">Male</td>
+      </tr>
+      <tr>
+        <td>Biometric Status</td>
+        <td *ngIf="currentMemberBiometric.length===0" class="btn-danger"> False
+        </td>
+        <td *ngIf="currentMemberBiometric.length>0" class="btn-success">
+          True
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-dark btn-sm" mat-button matStepperPrevious>Back</button>
+  <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext>Next</button>
+</div>

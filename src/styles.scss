@@ -1,0 +1,88 @@
+
+@import '~@angular/material/theming';
+@include mat-core();
+$medbook-bliss-angular-primary: mat-palette($mat-indigo);
+$medbook-bliss-angular-accent: mat-palette($mat-pink, A200, A100, A400);
+$medbook-bliss-angular-warn: mat-palette($mat-red);
+$medbook-bliss-angular-theme: mat-light-theme($medbook-bliss-angular-primary, $medbook-bliss-angular-accent, $medbook-bliss-angular-warn);
+@include angular-material-theme($medbook-bliss-angular-theme);
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+*{font-family: 'Montserrat', sans-serif;}
+html, body { height: 100%; }
+body { margin: 0;}
+.mat-horizontal-content-container, .mat-horizontal-stepper-header-container{
+    background:  rgb(250, 250, 250) !important;
+    overflow: inherit !important;
+}
+section{background: inherit; height: calc(100vh - 30px); padding-top: 63px; overflow-y: overlay; overflow-x: hidden
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(218, 218, 218); 
+    border-radius: 5px;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(172, 172, 172); 
+    border-radius: 10px;
+  }
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c7c7c7; 
+  }
+.breadcrumb{background: inherit !important; font-size: 0.9em; margin-bottom: 0 !important;margin-top: .7% !important}
+.card-plain{
+    padding:3% !important;
+    background: #fff;
+    -moz-box-shadow: 0 0 10px #e9e9e9;
+   -webkit-box-shadow: 0 0 10px #e9e9e9;
+   box-shadow: 0 0 10px #e9e9e9;
+   border-radius: 6px;
+}
+.alert-error{    margin-top: 10px;
+    color: #691515;
+    background-color: #fff0f0;
+    border-left: 4px solid #ff8080;
+    height: 50px;
+    margin-left: 15px;
+    padding-top: 14px;
+    font-size: 0.9em;}
+.text-medi{color: #181b18;text-shadow: rgba(255, 222, 222, 0.5) 0px 3px 3px;}
+input[type=text],input[type=password]{border-radius: 2px;}
+input[type=text]:focus, input[type=password]:focus{border-radius: 2px; outline: none; border: solid 1px #388540; box-shadow: none;}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-stepper-horizontal-line{
+  border-top-style: none !important;
+}
+.fingerprint-field{
+  border: solid 1px silver;
+}
+.active-finger{
+  fill: #20c997 !important;
+}
+.palm{
+  svg{
+      margin:auto;
+      width: 191px;
+      height: 231px;
+      object-fit: cover;
+      .circles{
+          cursor: pointer;
+          > circle {
+              &:hover{
+                  fill: #20c997;
+              }
+          }
+      }
+  }
+}
+.capture-btn{
+  white-space:normal !important;
+}

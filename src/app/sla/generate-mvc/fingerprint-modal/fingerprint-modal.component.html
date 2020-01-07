@@ -1,0 +1,126 @@
+<div class="finger-print-modal" id="" aria-labelledby="fingerprintModal" aria-hidden="true">
+    <div class="ml-4">
+        <h4 class="text-medi text-muted mt-2" id="title">Enrollment</h4>
+    </div>
+    <div class="container-fluid">
+        <p class="col-md-12 text-info"><i class="fas fa-exclamation-circle"></i>
+            The index finger is preferred during enrollment.</p>
+        <br>
+        <div class="col-md-12 row">
+            <div class="col-md-4 palm mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="230" height="301.175" viewBox="0 0 330 401.175">
+                    <g id="left_palm" transform="translate(-530 -193)">
+                        <g id="icon" transform="translate(542.172 249.247)">
+                            <path id="Path_9" data-name="Path 9"
+                                d="M271.078,216.614c-19.343-11.606-30.313,1.55-51.444,11.407-18.164,8.479-38.408,8.612-40.183-2.027-2.862-17.183-2.239-25.384-2.239-48.741,0-18.561,5.856-60.625,10.48-92.409,5.564-38.249,7.5-60.639-11.274-62.4-18.018-1.7-18.919,8.466-25.768,60.413-5.246,39.825-13.553,67.846-17.7,67.024s2.014-36.91,3.524-73.7C139.163,10.347,135.638,0,119.078,0,104.809,0,101.7,9.314,99.841,76.179c-.967,34.777-4.756,70.986-7.7,70.986-4.425,0-7.936-33.956-7.26-70.76,1.285-68.813-10.824-63.62-18.111-63.62-7.181,0-19.727,2.027-19.33,67.647.252,38.368,0,71.489-7.247,71.489-3.233,0-8.453-30.922-8.453-61.023,0-50.344-9.658-50.344-17.329-50.344-7.644,0-11.672,9.274-12.069,59.605-.331,40.117,4.332,96.6,4.332,130.829,0,83.32,27.04,84.194,27.04,112.44H146.873c3.325-8,11.023-12.692,29.558-31.624,18.694-19.091,61.023-55.617,94.4-62.8C293.164,244.21,283.015,223.781,271.078,216.614Z"
+                                transform="translate(0 0)" fill="none" stroke="#707070" stroke-width="3" />
+                        </g>
+                        <g class="circles">
+                            <circle [ngClass]="{'active-finger': activeLeftFinger === '5' }"
+                                (click)="getFingerNo($event.target.id)" id="left-5" data-name="Ellipse 77" cx="17"
+                                cy="17" r="17" transform="translate(530 239)" />
+                            <circle [ngClass]="{'active-finger': activeLeftFinger === '4' }"
+                                (click)="getFingerNo($event.target.id)" id="left-4" data-name="Ellipse 78" cx="17"
+                                cy="17" r="17" transform="translate(585 211)" />
+                            <circle [ngClass]="{'active-finger': activeLeftFinger === '3' }"
+                                (click)="getFingerNo($event.target.id)" id="left-3" data-name="Ellipse 79" cx="17"
+                                cy="17" r="17" transform="translate(643 193)" />
+                            <circle [ngClass]="{'active-finger': activeLeftFinger === '2' }"
+                                (click)="getFingerNo($event.target.id)" id="left-2" data-name="Ellipse 80" cx="17"
+                                cy="17" r="17" transform="translate(709 215)" />
+                            <circle [ngClass]="{'active-finger': activeLeftFinger === '1' }"
+                                (click)="getFingerNo($event.target.id)" id="left-1" data-name="Ellipse 81" cx="17"
+                                cy="17" r="17" transform="translate(826 434)" />
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <form class="col-md-8 row">
+                <div class="col-md-12 row">
+                    <label for="">Left Hand Finger(s)</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <div class="input-group fingerprint-field">
+                        <img src="{{leftFpBMP}}" alt="" height="120" width="104" align="center">
+                    </div>
+                    <span (click)="captureFingerprint('left')"
+                        class="col-md-12 btn mt-2 btn-secondary btn-sm text-center"
+                        style="white-space:normal !important; word-wrap: break-word; word-break: normal;"
+                        [ngClass]="{'disabled': !activeLeftFinger || fpCount[0] > 2 || textLeft === 'Place Your finger on the Machine', 'disabled-btn': !activeLeftFinger || fpCount[0] > 2 }">
+                        {{textLeft}}</span>
+                </div>
+                <div class="col-md-3 form-group" *ngFor="let fp of leftFps">
+                    <label for=""></label>
+                    <div class="input-group fingerprint-field">
+                        <img *ngIf="!fp" src="{{fpBMP}}" alt="" height="100" width="87" align="center">
+                        <img *ngIf="fp" src="data:image/bmp;base64,{{fp.BMPBase64}}" alt="" height="100" width="87"
+                            align="center">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br><br>
+        <div class="col-md-12 row">
+            <div class="col-md-4 palm mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="230" height="301.175" viewBox="0 0 317.615 386.175">
+                    <g id="right_palm" transform="translate(-1167 -250)">
+                        <g id="icon" transform="translate(1199.498 304.136)">
+                            <path id="Path_9" data-name="Path 9"
+                                d="M14.825,208.484c18.617-11.17,29.175,1.492,49.513,10.979,17.482,8.161,36.966,8.288,38.675-1.951,2.754-16.538,2.155-24.432,2.155-46.912,0-17.865-5.636-58.35-10.086-88.94C89.726,44.846,87.864,23.3,105.933,21.6c17.342-1.632,18.209,8.148,24.8,58.146,5.05,38.33,13.045,65.3,17.036,64.509s-1.938-35.525-3.392-70.936C141.79,9.959,145.182,0,161.121,0c13.733,0,16.73,8.964,18.515,73.32.931,33.472,4.578,68.322,7.409,68.322,4.259,0,7.638-32.682,6.988-68.1C192.8,7.307,204.45,12.305,211.463,12.305c6.911,0,18.987,1.951,18.6,65.108-.242,36.928,0,68.806,6.975,68.806,3.111,0,8.135-29.762,8.135-58.733,0-48.455,9.3-48.455,16.679-48.455,7.358,0,11.234,8.926,11.616,57.368.319,38.611-4.17,92.97-4.17,125.919,0,80.193-26.025,81.035-26.025,108.221H134.369c-3.2-7.7-10.609-12.216-28.448-30.437-17.992-18.375-58.733-53.53-90.853-60.441C-6.432,235.045,3.336,215.383,14.825,208.484Z"
+                                transform="translate(-2.328 0)" fill="none" stroke="#707070" stroke-width="3" />
+                        </g>
+                        <g class="circles">
+                            <circle [ngClass]="{'active-finger': activeRightFinger === '5' }"
+                                (click)="getFingerNo($event.target.id)" id="right-5" data-name="Ellipse 77" cx="16.362"
+                                cy="16.362" r="16.362" transform="translate(1451.891 294.274)" />
+                            <circle [ngClass]="{'active-finger': activeRightFinger === '4' }"
+                                (click)="getFingerNo($event.target.id)" id="right-4" data-name="Ellipse 78" cx="16.362"
+                                cy="16.362" r="16.362" transform="translate(1398.955 267.324)" />
+                            <circle [ngClass]="{'active-finger': activeRightFinger === '3' }"
+                                (click)="getFingerNo($event.target.id)" id="right-3" data-name="Ellipse 79" cx="16.362"
+                                cy="16.362" r="16.362" transform="translate(1343.132 250)" />
+                            <circle [ngClass]="{'active-finger': activeRightFinger === '2' }"
+                                (click)="getFingerNo($event.target.id)" id="right-2" data-name="Ellipse 80" cx="16.362"
+                                cy="16.362" r="16.362" transform="translate(1279.609 271.174)" />
+                            <circle [ngClass]="{'active-finger': activeRightFinger === '1' }"
+                                (click)="getFingerNo($event.target.id)" id="right-1" data-name="Ellipse 81" cx="16.362"
+                                cy="16.362" r="16.362" transform="translate(1167 481.955)" />
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <form class="col-md-8 row">
+                <div class="col-md-12 row">
+                    <label for="">Right Hand Finger(s)</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <div class="input-group fingerprint-field">
+                        <img src="{{rightFpBMP}}" alt="" height="120" width="104" align="center">
+                    </div>
+                    <span (click)="captureFingerprint('right')"
+                        class="col-md-12 btn mt-2 btn-secondary btn-sm text-center capture-btn"
+                        [ngClass]="{'disabled': !activeRightFinger || fpCount[1] > 2 || textRight === 'Place Your finger on the Machine' || textLeft !== 'Captured', 'disabled-btn': !activeRightFinger || fpCount[1] > 2 }">
+                        {{textRight}}</span>
+                </div>
+                <div class="col-md-3 form-group" *ngFor="let fp of rightFps">
+                    <label for=""></label>
+                    <div class="input-group fingerprint-field">
+                        <img *ngIf="!fp" src="{{fpBMP}}" alt="" height="100" width="87" align="center">
+                        <img *ngIf="fp" src="data:image/bmp;base64,{{fp.BMPBase64}}" alt="" height="100" width="87"
+                            align="center">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="ml-auto m-4 p-4">
+                <button class="btn btn-success btn-sm  float-right" (click)="enrollPatient()"
+                    [disabled]="!completedCapturing || loading">
+                    <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading"
+                        style="margin-left: -10px" />
+                    Enroll
+                </button>
+                <button class="btn btn-dark btn-sm  float-right" (click)="closeFingerPrintModal()">Back</button>
+            </div>
+        </div>
