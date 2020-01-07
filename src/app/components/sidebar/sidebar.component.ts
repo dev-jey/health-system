@@ -21,7 +21,7 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
-    path: "/sla/generate/mcc",
+    path: "/sla/mvc/list",
     title: "Generate PreAuth",
     icon: "icon-pin",
     class: "" 

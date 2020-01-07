@@ -1,7 +1,8 @@
+<app-loader *ngIf="fetching"></app-loader>
 <div class="container-fluid">
   <form [formGroup]="searchForm" (submit)="searchMember($event)" novalidate>
     <div class="form-group row">
-      <div class=" col-md-8 m-3 card-plain">
+      <div class=" col-md-8 card-plain">
         <h3 class="text-medi">Search a member</h3>
         <br>
         <div class="row">
@@ -26,18 +27,14 @@
             <div class="form-group has-success">
               <input type="text" class=" form-control input" name="member_no" formControlName="member_no"
                 placeholder="Member No" />
-              <span class="small text-danger form-error-span"
-                *ngIf="searchForm.controls['member_no'].errors && searchFormSubmitted">
-                {{searchFormErrors.required}}
-              </span>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-5">
             <div class="form-group has-success">
-              <input type="text" class="form-control input" name="mobile_phone_number"
-                formControlName="mobile_phone_number" placeholder="Mobile No" />
+              <input type="text" class="form-control input" name="mobile_no"
+                formControlName="mobile_no" placeholder="Mobile No" />
             </div>
           </div>
           <div class="col-md-5">
@@ -47,39 +44,31 @@
             </div>
           </div>
         </div>
-        <div class="row guest-user-error-row" *ngIf="searchFormApiError.hasError">
-          <div class="col-md-9 guest-user-error alert-error">
-            {{searchFormApiError.message}}
-          </div>
-        </div>
         <div class="row pt-4">
           <button class="btn btn-success btn-sm ml-3" type="submit" [disabled]="loading">
-            <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading"
-              style="margin-left: -10px" />
-            <i class="fas fa-search" *ngIf="!loading"></i> {{ searchButtonText }}</button>
+            <i class="fas fa-search" *ngIf="!loading"></i> 
+            {{ searchButtonText }}
+            <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading" />
+          </button>
         </div>
       </div>
     </div>
   </form>
+  <br><br>
   <div class="col-md-8 px-3 pb-4" *ngIf="memberFound">
     <div class="">
       <h4 class="text-medi">Member Details</h4>
     </div>
-    <div class="card-body">
-
+    <div class="">
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
           <thead class="thead-success">
-            <th scope="col">Item</th>
-            <th scope="col">Description</th>
+            <th>Member No</th>
+            <th>Phone No</th>
           </thead>
           <tbody>
-            <tr style="">
-              <td>Member Name</td>
+            <tr>
               <td>{{member.first_name}} {{member.last_name}}</td>
-            </tr>
-            <tr style="">
-              <td>Phone Number</td>
               <td>{{member.mobile_phone_number | telFilter }}</td>
             </tr>
           </tbody>

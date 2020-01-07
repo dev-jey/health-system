@@ -1,0 +1,61 @@
+<section>
+  <nav aria-label="breadcrumb" class="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/sla/dashboard']">Dashboard</a></li>
+      <li class="breadcrumb-item active"><a>MVC List</a></li>
+    </ol>
+  </nav>
+  <div class="main-content">
+    <div class="dashboard-items">
+      <form [formGroup]="mvcForm" (submit)="searchMvcs($event)" novalidate class="mb-4">
+        <div class="form-group">
+          <div class=" col-md-8 card-plain">
+            <h3 class="text-medi">Search MVC List</h3>
+            <br>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group has-success">
+                  <input type="text" class="form-control input" name="mvc" placeholder="MVC" formControlName="mvc_no" />
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group has-success">
+                  <input type="text" class="form-control input" name="member_number" placeholder="Member No"
+                    formControlName="member_no" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1"
+                    placeholder="Enter from date" formControlName="start_date">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-5">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Enter end date"
+                    formControlName="end_date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row pt-4">
+              <button class="btn btn-success btn-sm ml-3" type="submit" [disabled]="loading">
+                <i class="fas fa-search" *ngIf="!loading"></i>
+                Search
+                <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <br>
+      <app-mvc-table [mccData]="mccData" *ngIf="mccData.length>0"></app-mvc-table>
+    </div>
+  </div>
+</section>

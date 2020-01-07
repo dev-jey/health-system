@@ -1,31 +1,36 @@
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
-
 import { AppComponent } from "./app.component";
-
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
+import { HttpInterceptorService } from './_services/shared/httpInterceptor.service';
+import { SlaModule } from './sla/sla.module';
+import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
-    FormsModule,
     HttpClientModule,
     ComponentsModule,
     AuthenticationModule,
     NgbModule,
+    SlaModule,
+    AdminLayoutModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   declarations: [AppComponent, PageNotFoundComponent],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

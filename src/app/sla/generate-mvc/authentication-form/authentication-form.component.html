@@ -1,5 +1,5 @@
 <form [formGroup]="departmentForm" novalidate>
-    <div class="col-md-8 m-3 card-plain" *ngIf="!completeMVC && !showBiometricPage && !completedCapturing">
+    <div class="col-md-8 card-plain" *ngIf="!completeMVC && !showBiometricPage && !completedCapturing">
       <h3 class="text-medi">Authenticate</h3>
       <div class="row">
         <div class="col-md-5 mb-3">
@@ -19,8 +19,8 @@
         </div>
         <div class="col-md-5 mb-3">
           <ng-select placeholder="Select Sub-Department" appearance="outline" labelForId="sub_dept_id"
-            [searchable]="true" [clearable]="false" formControlName="sub_dept_id"
-            [readonly]="!currentDepartment" (change)="onSelectSubDept()">
+            [searchable]="true" [clearable]="false" formControlName="sub_dept_id" (clear)= "clearSubDepartments"
+            [readonly]="!currentDepartment || subDepartments.length===0" (change)="onSelectSubDept()">
             <ng-option *ngFor="let subdepartment of subDepartments" [value]="subdepartment.id">
               {{subdepartment.name}}
             </ng-option>
@@ -45,9 +45,8 @@
         <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext
           (click)="generateOTP(member.mobile_phone_number)" *ngIf="deptSelected && !showOptForm"
           [disabled]="loading">
-          <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading"
-            style="margin-left: -10px" />
           {{verifyButtonText}}
+          <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading"/>
         </button>
         <button class="btn btn-success btn-sm mr-4" type="button"
           *ngIf="deptSelected && hospitalConfigs.biometric && optValidated" (click)="showBiometric.emit()">
@@ -60,9 +59,8 @@
         <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext
           (click)="generateOTP(member.mobile_phone_number)"
           *ngIf="deptSelected && !showOptForm && !hospitalConfigs.biometric" [disabled]="loading">
-          <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading"
-            style="margin-left: -10px" />
           {{verifyButtonText}}
+          <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading"/>
         </button>
         <button class="btn btn-success btn-sm mr-4" type="button"
           *ngIf="deptSelected && hospitalConfigs.biometric" (click)="showBiometric.emit()">

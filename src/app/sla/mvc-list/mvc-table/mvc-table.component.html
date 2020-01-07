@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 ">
+      <table class="table table-hover table-responsive-sm text-center">
+        <thead>
+          <th>MVC</th>
+          <th>Date/Time</th>
+          <th>Member Number</th>
+          <th>Create Claim</th>
+          <th>Create Preauth</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mvc of mccData | paginate: { itemsPerPage: 10, currentPage: page }">
+            <td>
+              {{mvc.id}}
+            </td>
+            <td>
+              {{mvc.created_at}}
+            </td>
+            <td>
+              {{mvc.member_no}}
+            </td>
+          <td><button class="btn btn-dark btn-sm" routerLink="/sla/create/preauth/{{mvc.id}}">Preauth</button></td>
+            <td><button class="btn btn-dark btn-sm" routerLink="/sla/create/claim/{{mvc.id}}">Claim</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="float-right">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+      </div>
+    </div>
+
+  </div>
+</div>

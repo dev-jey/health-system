@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ServiceProviderService } from 'src/app/_services/ServiceProvider/service-provider.service';
-import Swal from 'sweetalert2'
+import { ServiceProviderService } from '../../_services/ServiceProvider/service-provider.service';
 import * as moment from 'moment';
 import { Router } from "@angular/router"
+import { AlertService } from '../../_services/shared/alert.service';
 
 @Component({
   selector: "app-generate-mvc",
@@ -38,9 +38,13 @@ export class GenerateMvcComponent implements OnInit {
   completeMVC: boolean;
   showBiometricPage: Boolean;
   completedCapturing: boolean;
+  fetching: boolean;
 
 
-  constructor(private serviceProvider: ServiceProviderService, private router: Router) { }
+  constructor(
+    public serviceProvider: ServiceProviderService,
+    private router: Router,
+    private alert: AlertService) { }
 
   ngOnInit() {
     if (localStorage.getItem('mediclaimUser')) {
@@ -59,14 +63,32 @@ export class GenerateMvcComponent implements OnInit {
    * Set member/dependent details after selecting dependent
    */
   setDependentDetails = (data) => {
-    const { currentMember, currentMemberRelation, currentMemberBiometric, age, dateOfBirth } = data;
+    const { currentMember, currentMemberRelation, currentMemberBiometric, dateOfBirth } = data;
     this.currentMember = currentMember;
-    this.age = age;
     this.dateOfBirth = dateOfBirth;
     this.currentMemberRelation = currentMemberRelation;
     this.currentMemberBiometric = currentMemberBiometric;
 
   }
+
+  /**
+   * Set department data from authentication form
+   */
+
+  setDepartmentData = (data) => {
+    const { department_id, sub_department_id } = data;
+    this.memberMVCdata.department_id = department_id;
+    this.memberMVCdata.sub_department_id = sub_department_id;
+  }
+
+  /**
+   * Set nhif data if at all filled by user
+   */
+  setNhifData = (data) => {
+    const { nhif } = data;
+    this.memberMVCdata.nhif = nhif;
+  }
+
 
   /**
    * Set Member information from the search component
@@ -117,37 +139,40 @@ export class GenerateMvcComponent implements OnInit {
    * Create MVC 
    */
   createMVC = () => {
-    this.memberMVCdata.member_no = this.currentMember.bls_member.member_id;
-    this.memberMVCdata.service_provider_id = JSON.parse(localStorage.getItem('mediclaimUser')).bls_serviceprovider.id;
-    this.memberMVCdata.user_id = this.currentMember.bls_member.user_id;
-    this.memberMVCdata.hospital_id = this.currentMember.hospital;
-    this.memberMVCdata.scheme_id = this.currentSchemeId.toString();
-    this.memberMVCdata.member_no = this.currentMember.bls_member.member_id;
+    this.memberMVCdata = {
+      ...this.memberMVCdata,
+      member_no: this.currentMember.bls_member.member_id,
+      service_provider_id: JSON.parse(localStorage.getItem('mediclaimUser')).bls_serviceprovider.id,
+      user_id: this.currentMember.bls_member.user_id,
+      hospital_id: this.currentMember.hospital,
+      scheme_id: this.currentSchemeId.toString()
+    }
     return new Promise((resolve) => {
+      this.fetching = true;
       this.serviceProvider.createMVC(this.memberMVCdata).subscribe(
         (data) => {
           if (data.error) {
-            Swal.fire({
-              title: 'MVC Exists!', text: 'MVC cannot be generated. Kindly contact 0730604000 for further assistance', icon: 'error'
-            }).then(() => this.router.navigate(['sla/mcc']));
+            this.alert.fire('MVC Exists!', 'MVC cannot be generated. Kindly contact 0730604000 for further assistance', 'error'
+            ).then(
+              () => {
+                  this.router.navigate(['sla/mvc/list']);
+              });
+            this.fetching = false;
             resolve(false);
             return;
           }
           this.mcc_number = data.id;
-          Swal.fire({
-            title: 'Success!', text: `
-        MVC Number ${this.mcc_number} has been generated for ${this.currentMember.first_name} 
-       ${this.currentMember.last_name} in ${data.department.name} department 
-       ${moment(data.created_at).format("DD/MM/YYYY")} at ${moment(data.created_at).format("h:mma")}
-        `, icon: 'success'
-          }).then(() => { this.completeMVC = true; });
+          this.alert.fire('Success!', `
+                              MVC Number ${this.mcc_number} has been generated for ${this.currentMember.first_name} 
+                            ${this.currentMember.last_name} in ${data.department.name} department 
+                            ${moment(data.created_at).format("DD/MM/YYYY")} at ${moment(data.created_at).format("h:mma")}
+                            `, 'success').then(() => { this.completeMVC = true; });
           this.optValidated = true;
+          this.fetching = false;
           resolve(true);
         }, (error) => {
-          console.log(error)
-          Swal.fire({
-            title: 'Error!', text: 'MVC cannot be generated. Kindly contact 0730604000 for further assistance', icon: 'error'
-          })
+          this.alert.fire('Error!', 'MVC cannot be generated. Kindly contact 0730604000 for further assistance', 'error');
+          this.fetching = false;
           resolve(false)
         })
 

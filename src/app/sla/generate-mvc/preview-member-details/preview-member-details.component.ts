@@ -9,7 +9,6 @@ import { ServiceProviderService } from '../../../_services/ServiceProvider/servi
 export class PreviewMemberDetailsComponent implements OnInit {
   @Input() currentMember;
   @Input() dateOfBirth;
-  @Input() age;
   @Input() currentMemberRelation;
   @Input() currentMemberBiometric;
 

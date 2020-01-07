@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import Swal from 'sweetalert2';
 import { ServiceProviderService } from '../../../_services/ServiceProvider/service-provider.service';
+import { AlertService } from 'src/app/_services/shared/alert.service';
 
 
 @Component({
@@ -22,8 +22,9 @@ export class AuthenticationFormComponent implements OnInit {
   @Input() member;
   @Output() showBiometric = new EventEmitter();
   @Output() createMVC = new EventEmitter();
+  @Output() setDepartmentData = new EventEmitter();
+  @Output() setNhifData = new EventEmitter();
   currentDepartment: any;
-  memberMVCdata: any = {};
   verifyButtonText: String = 'Verify'
   subDepartments: any;
   deptSelected: boolean;
@@ -31,7 +32,12 @@ export class AuthenticationFormComponent implements OnInit {
   dsend: string;
   showOptForm: boolean;
   optValidated: boolean;
-  constructor(private fb: FormBuilder, private serviceProvider: ServiceProviderService) { }
+  clearSubDepartments: boolean;
+  constructor(
+    private fb: FormBuilder,
+    private serviceProvider: ServiceProviderService,
+    private alert: AlertService
+  ) { }
 
 
   /**
@@ -49,13 +55,21 @@ export class AuthenticationFormComponent implements OnInit {
    * Set subdepartments on select department
    */
   onSelectDept = () => {
+    this.clearSubDepartments = true;
     this.currentDepartment = this.departmentForm.value.department_id;
-    this.memberMVCdata.department_id = this.currentDepartment;
     this.allDepartments.forEach(dept => {
       if (dept.id === this.currentDepartment) {
         this.subDepartments = dept.sub_departments;
       }
     });
+
+    if (this.currentDepartment === 6) {
+      this.allDepartments.forEach(dept => {
+        if (dept.name.toLowerCase() === 'inpatient') {
+          this.subDepartments = dept.sub_departments
+        }
+      });
+    }
   }
 
   /**
@@ -63,7 +77,10 @@ export class AuthenticationFormComponent implements OnInit {
    */
   onSelectSubDept = () => {
     this.deptSelected = true;
-    this.memberMVCdata.sub_department_id = this.departmentForm.value.sub_dept_id;
+    this.setDepartmentData.emit({
+      department_id: this.currentDepartment,
+      sub_department_id: this.departmentForm.value.sub_dept_id
+    })
   };
 
 
@@ -81,14 +98,9 @@ export class AuthenticationFormComponent implements OnInit {
     this.serviceProvider.generateOTP(mobileNo, this.dsend).subscribe((data) => {
       this.showOptForm = true;
       this.verifyButtonText = 'Verify';
-      Swal.fire({
-        title: 'Success!', text: `OTP has been sent to ${mobileNo}. Kindly request customer to provide OTP for verification`
-        , icon: 'success'
-      })
+      this.alert.fire('Success!', `OTP has been sent to ${mobileNo}. Kindly request customer to provide OTP for verification`, 'success')
     }, (error) => {
-      Swal.fire({
-        title: 'Error!', text: 'OPT number has not been sent successfully. Please try again', icon: 'error', showConfirmButton: false
-      })
+      this.alert.fire('Error!', 'OPT number has not been sent successfully. Please try again', 'error', false)
     })
   }
 
@@ -101,17 +113,14 @@ export class AuthenticationFormComponent implements OnInit {
     this.serviceProvider.validateOTP(mobileNo, otp_no).subscribe((data) => {
       this.loading = false;
       if (data === 0) {
-        Swal.fire({
-          title: 'Error!', text: 'Error validating the OTP. The provided OTP does not exist in the system', icon: 'error'
-        })
+        this.alert.fire('Error!', 'Error validating the OTP. The provided OTP does not exist in the system', 'error')
       } else {
         if (!this.hospitalConfigs.biometric) {
           this.createMVC.emit();
         } else {
           this.optValidated = true;
-          Swal.fire({
-            title: 'Success!', text: 'Enroll biometric data to continue', icon: 'success'
-          }).then(() => this.showBiometric.emit())
+          this.alert.fire('Success!', 'Enroll biometric data to continue', 'success'
+          ).then(() => this.showBiometric.emit())
         }
       }
     });
@@ -121,7 +130,9 @@ export class AuthenticationFormComponent implements OnInit {
    * Set nhif input on member's data
    */
   setNHIF = () => {
-    this.memberMVCdata.nhif = this.departmentForm.value.nhif_no;
+    this.setNhifData.emit({
+      nhif: this.departmentForm.value.nhif_no
+    })
   };
 
   /**
@@ -130,10 +141,8 @@ export class AuthenticationFormComponent implements OnInit {
   resendOTP = (mobileNo) => {
     this.loading = true;
     this.serviceProvider.resendOTP(mobileNo).subscribe((data) => {
-      Swal.fire({
-        title: 'Success!', text: `OTP has been resent to ${mobileNo}. Kindly request customer to provide OTP for verification`
-        , icon: 'success'
-      })
+      this.alert.fire('Success!', `OTP has been resent to ${mobileNo}. Kindly request customer to provide OTP for verification`
+        , 'success');
     })
   }
 

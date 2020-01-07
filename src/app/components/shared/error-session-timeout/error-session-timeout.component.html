@@ -1,0 +1,23 @@
+<img src="../../../../favicon.ico" alt="" class="mx-auto d-block error-page-image">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="error-template">
+        <h1>
+          Oops!</h1>
+        <h2>
+          Error 401: Session Time-out</h2>
+        <div class="error-details text-muted col-md-5 mx-auto">
+          Your Medbook session has been active for far too long
+          We'd like to be sure that it's still you using the system
+          Please Login again.
+        </div>
+        <div class="error-actions">
+          <a class="btn btn-success mb-4 btn-sm" (click)="auth.logout()"><i class="fas fa-sign-in-alt"></i>
+            Login </a><a routerLink="/contact" class="btn btn-dark mb-4 btn-sm"><i class="fas fa-envelope"></i> Contact
+             </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

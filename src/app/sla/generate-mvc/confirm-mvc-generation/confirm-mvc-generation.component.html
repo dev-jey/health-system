@@ -32,7 +32,7 @@
           </tr>
           <tr>
             <td>DOB</td>
-            <td>{{currentMember.date_of_birth }}</td>
+            <td>{{dateOfBirth }}</td>
           </tr>
           <tr>
             <td>Age</td>
@@ -41,7 +41,7 @@
           <tr>
             <td>Mobile Number</td>
             <td *ngIf="currentMember.mobile_phone_number">
-              {{currentMember.mobile_phone_number}}
+              {{currentMember.mobile_phone_number | telFilter}}
             </td>
             <td *ngIf="!currentMember.mobile_phone_number">N/A</td>
           </tr>
@@ -60,8 +60,8 @@
     </div>
   </form>
   <div class="row ml-1">
-    <a class="btn btn-success btn-sm" routerLink="sla/mcc">Generate Pre-Auth</a>
-    <a class="btn btn-info btn-sm" routerLink="sla/mcc">Generate Claim</a>
+    <a class="btn btn-success btn-sm" routerLink="sla/mvc/list">Generate Pre-Auth</a>
+    <a class="btn btn-info btn-sm" routerLink="sla/mvc/list">Generate Claim</a>
     <a routerLink="/sla/mcc" class="btn btn-dark btn-sm">Cancel</a>
   </div>
 </div>

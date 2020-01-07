@@ -1,5 +1,5 @@
 <div class="p-2 col-md-8" *ngIf="currentMember">
-  <h3 class="text-medi mb-3">Member Details</h3>
+  <h3 class="text-medi mb-3">Member Details</h3><br>
   <table class="table table-hover table-sm bg-blue-pastelFilter-7">
     <thead class="py-3">
       <tr>
@@ -26,7 +26,7 @@
       </tr>
       <tr>
         <td>Age</td>
-        <td>{{age}} year(s)</td>
+        <td>{{dateOfBirth | calculateAge}} year(s)</td>
       </tr>
       <tr>
         <td>Mobile Number</td>

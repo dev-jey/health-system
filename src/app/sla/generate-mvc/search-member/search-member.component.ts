@@ -1,7 +1,7 @@
-import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ApiError } from 'src/app/_models/ApiError';
-import Swal from 'sweetalert2';
+import { AlertService } from 'src/app/_services/shared/alert.service';
 
 @Component({
   selector: 'app-search-member',
@@ -32,22 +32,24 @@ export class SearchMemberComponent implements OnInit {
   allDepartments: any;
   hospitalConfigs: any;
   departments: Array<any> = [];
+  fetching: boolean;
 
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private alert: AlertService) { }
 
   ngOnInit() {
     this.initForms()
     this.searchFormApiError = { hasError: false, message: '' };
     this.searchFormSubmitted = false;
+    this.getDepartments();
   }
 
 
   initForms() {
     this.searchForm = this.fb.group({
       scheme_id: [null, Validators.required],
-      member_no: [null, Validators.required],
-      mobile_phone_number: [null],
+      member_no: [null],
+      mobile_no: [null],
       national_id: [null]
     });
   }
@@ -61,21 +63,54 @@ export class SearchMemberComponent implements OnInit {
     this.initScheme.emit(this.currentSchemeId)
   }
 
-  searchMember = (e) => {
+
+  /**
+   * Check if user has entered at least one of the search parameters
+   */
+  validateFields = () => {
+    return new Promise<Boolean>((resolve) => {
+      const { member_no, mobile_no, national_id, scheme_id } = this.searchForm.value;
+      if (scheme_id && !member_no && !mobile_no && !national_id) {
+        this.alert.fire('Error!', 'Enter a member number, mobile number or national Id to search', 'error');
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    })
+  }
+
+
+  /**
+   * Set Search parameters to submit to the backend
+   */
+  setSearchParameters = (data) => {
+    const { scheme_id, member_no, mobile_no, national_id } = data;
+    let searchParams: any = {};
+    searchParams.scheme_id = scheme_id;
+    if(member_no) searchParams.member_no = member_no;
+    if(mobile_no) searchParams.mobile_phone_number = mobile_no;
+    if(national_id) searchParams.national_id = national_id;
+    return searchParams; 
+  }
+
+  /**
+   * Send a request to search the member in the backend
+   */
+  searchMember = async (e) => {
     e.preventDefault();
+    if (!await this.validateFields()) return;
     this.memberFound = false;
     this.searchFormSubmitted = true;
-    if (this.searchForm.invalid) {
-      return;
-    }
-    this.searchButtonText = "Loading"
+    if (this.searchForm.invalid) return;
+    this.searchButtonText = "Loading";
+    const searchParams = this.setSearchParameters(this.searchForm.value);
     this.loading = true;
     this.searchFormApiError = { hasError: false, message: '' };
-    this.serviceProvider.searchMember(this.searchForm.value).subscribe(async (data) => {
+    this.serviceProvider.searchMember(searchParams).subscribe(async (data) => {
       this.loading = false;
       if (!data || data && data.length === 0) {
-        this.searchFormApiError = { hasError: true, message: 'Member not found' };
         this.searchButtonText = 'Search';
+        this.alert.fire('Error!', 'Member not found', 'error');
       } else {
         this.memberFound = true;
         this.member = data;
@@ -97,19 +132,16 @@ export class SearchMemberComponent implements OnInit {
     }, (error) => {
       this.loading = false;
       this.searchButtonText = "Search";
-      this.searchFormApiError = { hasError: true, message: 'An error occured in your request' };
+      this.alert.fire('Error!', 'An error occurred in your request', 'error')
     })
   }
-  
 
 
-  getDepartmentsAndSetConfigs = async() => {
-    const  foundDepartments = await this.getDepartments();
-    if(foundDepartments){
-      this.getSchemeDepartments(this.currentSchemeId);
-    }
+
+  getDepartmentsAndSetConfigs = async () => {
+    await this.getSchemeDepartments(this.currentSchemeId);
     this.setHospitalConfigs.emit({
-      allDepartments:this.allDepartments,
+      allDepartments: this.allDepartments,
       hospitalConfigs: this.hospitalConfigs,
       departments: this.departments
     });
@@ -118,12 +150,14 @@ export class SearchMemberComponent implements OnInit {
    * Get all departments from the backend
    */
   getDepartments = () => {
-    return new Promise<boolean>((resolve)=>{
+    return new Promise<boolean>((resolve) => {
+      this.fetching = true;
       this.serviceProvider.getDepartments().subscribe(data => {
         this.allDepartments = data;
+        this.fetching = false;
         resolve(true);
       }, error => {
-        Swal.fire('An error occurred','error')
+        this.fetching = false;
         resolve(false);
       });
     });
