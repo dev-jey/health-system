@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { ServiceProviderService } from 'src/app/_services/ServiceProvider/service-provider.service';
-import Swal from 'sweetalert2';
+import { AlertService } from '../../../_services/shared/alert.service';
 
 
 
@@ -28,7 +28,11 @@ export class FingerprintModalComponent implements OnInit {
   textRight: string = 'Begin Capture';
   loading: boolean;
   notMatched: boolean;
-  constructor(private serviceProvider: ServiceProviderService, private ref: ChangeDetectorRef) { }
+  constructor(
+    private serviceProvider: ServiceProviderService,
+    private ref: ChangeDetectorRef,
+    private alert: AlertService
+  ) { }
 
   ngOnInit() {
     this.leftFpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
@@ -49,8 +53,8 @@ export class FingerprintModalComponent implements OnInit {
   enrollPatient() {
     const fpRequest = {
       scheme_id: parseInt(this.currentSchemeId),
-      left_hand_fingers:this.leftFps,
-      right_hand_fingers:this.rightFps,
+      left_hand_fingers: this.leftFps,
+      right_hand_fingers: this.rightFps,
       user_id: this.currentMember.id,
       left_finger: this.activeLeftFinger,
       right_finger: this.activeRightFinger
@@ -60,11 +64,11 @@ export class FingerprintModalComponent implements OnInit {
       .recordFingerprint(fpRequest)
       .subscribe((fp: any) => {
         this.loading = false;
-        Swal.fire({ text: 'Fingerprints Recorded successfully', icon: 'success', confirmButtonColor:"#28a745", confirmButtonText:"Generate MVC" }).then(()=>
-        this.generateMVCBiometric());
-      },(error)=>{
+        this.alert.fire('Success!', 'Fingerprints Recorded successfully', 'success', true, "Generate MVC").then(() =>
+          this.generateMVCBiometric());
+      }, (error) => {
         this.loading = false;
-        Swal.fire({ text: 'An error occurred while saving fingerprints', icon: 'error' });
+        this.alert.fire('Error!', 'An error occurred while saving fingerprints', 'error');
       })
   }
 
@@ -100,7 +104,8 @@ export class FingerprintModalComponent implements OnInit {
               resolve(true);
             }
           } else {
-            Swal.fire({ text: 'An error occurred while processing fingerprints', showConfirmButton: false, timer: 1500, icon: 'error' }); return;
+            this.alert.fire('Error!', 'An error occurred while processing fingerprints', 'error', false, 'Retry', null, 1500);
+            return;
           }
         }
       }
@@ -117,7 +122,8 @@ export class FingerprintModalComponent implements OnInit {
         if (!matched) {
           this.notMatched = true;
           this.textLeft = 'Try Again'
-          Swal.fire({ text: 'Fingerprints dont match', showConfirmButton: false, timer: 1500, icon: 'error' }); return;
+          this.alert.fire('Error!', 'Fingerprints dont match', 'error', false, '', '', 1500);
+          return;
         }
       }
       this.notMatched = false;
@@ -137,7 +143,8 @@ export class FingerprintModalComponent implements OnInit {
         if (!matched) {
           this.notMatched = true;
           this.textRight = 'Try Again'
-          Swal.fire({ text: 'Fingerprints dont match', showConfirmButton: false, timer: 1500, icon: 'error' }); return;
+          this.alert.fire('Error!', 'Fingerprints dont match', 'error', false, '', '', 1500);
+          return;
         }
       }
       this.notMatched = false;
@@ -150,34 +157,28 @@ export class FingerprintModalComponent implements OnInit {
     const uri = 'https://localhost:8443/SGIFPCapture';
     const xmlhttp = new XMLHttpRequest();
     const text = 'Place Your finger on the Machine';
-    if (hand === 'left') {
-      this.textLeft = text;
-    } else {
+    hand === 'left' ? this.textLeft = text :
       this.textRight = text;
-    }
     xmlhttp.onreadystatechange = async () => {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
         const res = JSON.parse(xmlhttp.responseText);
         if (res.ErrorCode !== 0) {
           const message = 'Fingerprint not captured';
           const error = 'Try Again'
-          if (hand === 'left') {
-            this.textLeft = error;
-          } else {
+          hand === 'left' ? this.textLeft = error :
             this.textRight = error;
-          }
-          Swal.fire({ text: message, showConfirmButton: false, timer: 1500, icon: 'error' });
+          this.alert.fire('Error!', message, 'error', false, null, null, 1500);
           return;
         }
         if (hand === 'left') {
           this.captureLeft(res)
           if (this.fpCount[0] === 2 && !this.notMatched) {
-            Swal.fire({ text: 'You can capture fingerprints from the right hand', icon: 'success' });
+            this.alert.fire('Success!', 'You can capture fingerprints from the right hand', 'success');
           }
         } else {
           this.captureRight(res);
           if (this.fpCount[1] === 2 && !this.notMatched) {
-            Swal.fire({ text: 'Biometric enrollment complete', icon: 'success' }).then(() => {
+            this.alert.fire('Success!', 'Biometric enrollment complete', 'success').then(() => {
               this.completedCapturing = true
             });
           }

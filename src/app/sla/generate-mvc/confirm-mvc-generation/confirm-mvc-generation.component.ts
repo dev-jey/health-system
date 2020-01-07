@@ -9,6 +9,8 @@ export class ConfirmMvcGenerationComponent implements OnInit {
   @Input() optValidated: boolean;
   @Input() mcc_number;
   @Input() completeMVC: boolean;
+  @Input() currentMember;
+  @Input() dateOfBirth
   constructor() { }
 
   ngOnInit() {

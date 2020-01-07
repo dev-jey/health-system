@@ -1826,7 +1826,7 @@
   .form-control {
     display: block;
     width: 100%;
-    height: calc(2.25rem + 2px);
+    /* height: calc(2.25rem + 2px); */
     padding: 0.5rem 0.7rem;
     font-size: 0.875rem;
     line-height: 1.428571;
@@ -5148,14 +5148,14 @@
   
   .badge-primary {
     color: #ffffff;
-    background-color: #28a745;
+    background-color: #137095;
   }
   
   .badge-primary[href]:hover,
   .badge-primary[href]:focus {
     color: #ffffff;
     text-decoration: none;
-    background-color: #d725bb;
+    background-color: #4c25d7;
   }
   
   .badge-secondary {
@@ -12346,7 +12346,13 @@
   .has-success .input-group-append .input-group-text,
   .has-success .input-group-prepend .input-group-text,
   .has-success .form-control {
-    border-color: #ccc;
+    border-color: rgb(211, 211, 211);
+  }
+
+  .has-success .input-group-append .input-group-text::placeholder,
+  .has-success .input-group-prepend .input-group-text::placeholder,
+  .has-success .form-control::placeholder{
+    color: rgb(168, 168, 168)
   }
   
   .has-success .form-control:focus,
@@ -14044,8 +14050,8 @@
   }
   
   p {
-    color: rgba(255, 255, 255, 0.8);
     margin-bottom: 5px;
+    color: rgb(26, 26, 26);
   }
   
   p.description {
@@ -17712,6 +17718,12 @@
   .card-plain:not(.card-subcategories).card-body {
     padding-left: 0;
     padding-right: 0;
+  }
+  .btn-dark{
+    background: rgb(126, 126, 126);
+  }
+  .btn-dark:hover{
+    background: rgb(104, 104, 104);
   }
   
   /*# sourceMappingURL=dashboard-free.css.map */

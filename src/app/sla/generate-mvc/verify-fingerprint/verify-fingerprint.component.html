@@ -70,24 +70,19 @@
                 <div class="col-md-12 row mb-2 mt-2">
                   <p class="text-info">* Scan any of the highlighted fingers</p>
                 </div>
-                <div class="col-4 row">
+                <div class="">
                   <div class="input-group fingerprint-field">
                     <img src="{{fpBMP}}" alt="" height="120" width="104" align="center">
                   </div>
                 </div>
                 <div class="col-12 row">
                   <button class="btn btn-secondary btn-sm text-center capture-btn" (click)="captureBiometric()"
-                    [disabled]="text==='Place Your finger on the Machine'">{{text}}
+                    [disabled]="text==='Capturing'">{{text}}
                   </button>
+                  <button (click)="hideBiometric.emit()" class="btn btn-darker btn-sm float-right mr-4">cancel</button>
                 </div>
               </div>
             </form>
           </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="ml-auto m-4 p-4">
-          <button (click)="hideBiometric.emit()" class="btn btn-dark btn-sm float-right mr-4">cancel</button>
         </div>
       </div>

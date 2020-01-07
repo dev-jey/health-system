@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
-import Swal from 'sweetalert2';
+import { AlertService } from 'src/app/_services/shared/alert.service';
 
 @Component({
   selector: 'app-verify-fingerprint',
@@ -16,7 +16,10 @@ export class VerifyFingerprintComponent implements OnInit {
   activeLeftFinger: string | number;
   activeRightFinger: string | number;
 
-  constructor(private ref: ChangeDetectorRef) {
+  constructor(
+    private ref: ChangeDetectorRef,
+    private alert: AlertService
+  ) {
     this.fpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
   }
 
@@ -39,12 +42,13 @@ export class VerifyFingerprintComponent implements OnInit {
               if (res.MatchingScore > 1) {
                 resolve(true);
               } else {
-                if(this.member.biometrics.indexOf(record) === (this.member.biometrics.length - 1)){
-                resolve(false)
+                if (this.member.biometrics.indexOf(record) === (this.member.biometrics.length - 1)) {
+                  resolve(false)
                 }
               }
             } else {
-              Swal.fire({ text: 'An error occurred while processing fingerprints', showConfirmButton: false, timer: 1500, icon: 'error' }); return;
+              this.alert.fire('Error!', 'An error occurred while processing fingerprints', 'error', false, null, null, 1500);
+              return;
             }
           }
         }
@@ -55,13 +59,13 @@ export class VerifyFingerprintComponent implements OnInit {
   async captureBiometric() {
     const uri = 'https://localhost:8443/SGIFPCapture';
     const xmlhttp = new XMLHttpRequest();
-    this.text = 'Place Your finger on the Machine';
+    this.text = 'Capturing';
     xmlhttp.onreadystatechange = async () => {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
         const res = JSON.parse(xmlhttp.responseText);
         if (res.ErrorCode !== 0) {
           const message = 'Fingerprint not captured';
-          Swal.fire({ text: message, showConfirmButton: false, timer: 1500, icon: 'error' });
+          this.alert.fire('Error!', message, 'error', false, null, null, 1500);
           this.text = "Capture";
           return;
         }
@@ -69,12 +73,12 @@ export class VerifyFingerprintComponent implements OnInit {
         this.matched = await this.compareBiometrics(xmlhttp);
         if (this.matched) {
           this.text = "Capture";
-          Swal.fire({ text: 'Member Successfully Verified', icon: 'success', confirmButtonText:"Generate MVC",confirmButtonColor:"#28a745" }).then(()=>{
+          this.alert.fire('Success!', 'Member Successfully Verified', 'success', true, "Generate MVC").then(() => {
             this.generateMVCAfterFP.emit()
           });
         } else {
           this.text = "Try Again";
-          Swal.fire({ text: 'Try Again', showConfirmButton: false, timer: 1500, icon: 'error' });
+          this.alert.fire('Error!', this.text, 'error', false, null, null, 1500);
         }
         this.ref.detectChanges();
       } else if (xmlhttp.status === 404) {

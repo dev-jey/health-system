@@ -3,7 +3,7 @@ import { ROUTES } from "../sidebar/sidebar.component";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { AuthenticationService } from "src/app/_services/authentication.service";
+import { AuthenticationService } from "src/app/_services/authentication/authentication.service";
 
 @Component({
   selector: "app-navbar",

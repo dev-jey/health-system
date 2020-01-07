@@ -1,12 +1,11 @@
 <section>
-  <div class="main-content">
     <nav aria-label="breadcrumb" class="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/sla/dashboard']">Dashboard</a></li>
         <li class="breadcrumb-item active"><a>Generate MVC</a></li>
       </ol>
     </nav>
-
+  <div class="main-content">
     <div class="dashboard-items">
       <mat-horizontal-stepper linear>
         <mat-step>
@@ -20,7 +19,7 @@
           </app-select-dependent>
         </mat-step>
         <mat-step>
-          <app-preview-member-details [currentMember]="currentMember" [dateOfBirth]="dateOfBirth" [age]="age"
+          <app-preview-member-details [currentMember]="currentMember" [dateOfBirth]="dateOfBirth"
             [currentMemberRelation]="currentMemberRelation" [currentMemberBiometric]="currentMemberBiometric">
           </app-preview-member-details>
         </mat-step>
@@ -39,10 +38,11 @@
           <app-authentication-form [completeMVC]="completeMVC" [showBiometricPage]="showBiometricPage"
             [completedCapturing]="completedCapturing" [currentSchemeId]="currentSchemeId" [departments]="departments"
             [hospitalConfigs]="hospitalConfigs" [member]="member" (showBiometric)="showBiometric()"
-            (createMVC)="createMVC()" [currentMemberBiometric]="currentMemberBiometric" [allDepartments]="allDepartments">
+            (setDepartmentData)="setDepartmentData($event)" (setNhifData)="setNhifData($event)" (createMVC)="createMVC()"
+            [currentMemberBiometric]="currentMemberBiometric" [allDepartments]="allDepartments">
           </app-authentication-form>
           <app-confirm-mvc-generation [optValidated]="optValidated" [completeMVC]="completeMVC"
-            [mcc_number]="mcc_number">
+            [mcc_number]="mcc_number" [currentMember]="currentMember" [dateOfBirth]="dateOfBirth">
           </app-confirm-mvc-generation>
         </mat-step>
       </mat-horizontal-stepper>

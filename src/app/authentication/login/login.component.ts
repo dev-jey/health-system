@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
-import { AuthenticationService } from "src/app/_services/authentication.service";
-
+import { AuthenticationService } from "src/app/_services/authentication/authentication.service";
 import { ApiError } from "../../_models/ApiError";
 import { tap } from "rxjs/operators";
 import { Router } from "@angular/router";
