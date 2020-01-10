@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthenticationService } from "src/app/_services/authentication/authentication.service";
-import { ApiError } from "../../_models/ApiError";
+import { ApiError } from "../../_models/authentication/ApiError";
 import { tap } from "rxjs/operators";
 import { Router } from "@angular/router";
-import { AuthUser } from "src/app/_models/AuthUser";
+import { AuthUser } from "src/app/_models/authentication/AuthUser";
 
 @Component({
   selector: "app-authentication-login",
@@ -99,10 +99,7 @@ export class LoginComponent implements OnInit {
                     id: user.roles[0].role_id,
                     name: user.roles[0].role.name
                   },
-                  hospital: {
-                    id: user.bls_serviceprovider.facility_id,
-                    name: user.bls_serviceprovider.hospital.name
-                  }
+                  hospital: user.bls_serviceprovider.hospital
                 };
 
                 //save user to local storage
@@ -136,8 +133,6 @@ export class LoginComponent implements OnInit {
           },
           error => {
             //reinitialize variables
-            console.log("User credentials error");
-            console.log(error);
             this.loginFormSubmitted = false;
             this.loginFormSpinner = false;
             this.loginFormApiError = {

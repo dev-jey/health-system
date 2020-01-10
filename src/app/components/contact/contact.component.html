@@ -1,0 +1,94 @@
+<main class="container-fluid">
+  <div class="row" style="height: 100vh">
+    <div class="col-md-8 d-none d-md-block">
+      <iframe class="mt-0 ml-0"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1994.4064200987045!2d36.81243176513295!3d-1.286343454246452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10cfc6a1eb1d%3A0xe6aac9fa61063490!2sMinet%20ICDC%20House%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1573478799961!5m2!1sen!2ske"
+        width="100%" frameborder="0" style="border:0; height: 100%;" allowfullscreen="true"></iframe>
+    </div>
+    <div class="col-md-3 my-auto mx-4">
+      <h1 class="mt-4 pt-4"><b>Contact Us</b></h1>
+      <br>
+      <p class="caption"><strong>Address:</strong>&nbsp;The Arch Place</p>
+      <p class="caption"><strong>Email:</strong> &nbsp;<a href="mailto:enquiry@makl.co.ke">enquiry@makl.co.ke</a><br>
+        <strong>Customer Care:</strong>&nbsp; <a href="tel:+254 730 604 000">+254 730 604 000</a></p>
+      <div id="contact-page" class="">
+        <div class="">
+          <p class="caption text-muted pt-4 text-left">Have a question? Don't hesitate to send us a message.<br> Our
+            team
+            will be happy to help you.
+          </p>
+          <form [formGroup]="contactForm" (submit)="sendMessage($event)" novalidate>
+            <div class="form-group row">
+              <div class=" col-xl-12 animated fadeIn">
+                <div class="">
+                  <div class="form-group has-success">
+                    <label for="name" class="input-label">Name</label>
+                    <input type="text" class=" form-control input" name="name" formControlName="name" />
+                    <span class="small text-danger form-error-span"
+                      *ngIf="contactForm.controls['name'].errors && contactFormSubmitted">
+                      {{contactFormErrors.required}}
+                    </span>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="form-group has-success">
+                    <label for="email" class="input-label">Email</label>
+                    <input type="text" class="form-control input" name="email" formControlName="email" />
+                    <span class="small text-danger form-error-span"
+                      *ngIf="contactForm.get('email').hasError('required') && contactFormSubmitted">
+                      {{contactFormErrors.required}}
+                    </span>
+                    <span class="small text-danger form-error-span"
+                    *ngIf="contactForm.get('email').hasError('email') && contactFormSubmitted">
+                    {{contactFormErrors.email}}
+                  </span>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="form-group has-success">
+                    <label for="mobile" class="input-label">Phone</label>
+                    <input type="number" class="form-control input" name="mobile" formControlName="mobile" />
+                    <span class="small text-danger form-error-span"
+                      *ngIf="contactForm.controls['mobile'].errors && contactFormSubmitted">
+                      {{contactFormErrors.required}}
+                    </span>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="form-group has-success">
+                    <label for="subject" class="input-label">Subject</label>
+                    <input type="text" class="form-control input" name="subject" formControlName="subject" />
+                    <span class="small text-danger form-error-span"
+                      *ngIf="contactForm.controls['subject'].errors && contactFormSubmitted">
+                      {{contactFormErrors.required}}
+                    </span>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="form-group has-success">
+                    <label for="message" class="input-label">Message</label>
+                    <textarea type="text" class="form-control input" name="message"
+                      formControlName="message"></textarea>
+                    <span class="small text-danger form-error-span"
+                      *ngIf="contactForm.controls['message'].errors && contactFormSubmitted">
+                      {{contactFormErrors.required}}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <button class="btn btn-success btn-sm" type="submit" [disabled]="contactButtonText === 'Sending'">
+                    {{contactButtonText}}
+                    <!-- <img src="assets/images/ajax-loader.gif" width="20" height="20"/> -->
+                  </button>
+                  <a routerLink="/" class="btn btn-dark btn-sm">
+                    Back
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

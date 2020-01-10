@@ -1,24 +1,37 @@
 <div class="logo">
-  <a routerLink="sla/dashboard" class="simple-text logo-mini">
+  <a routerLink="/sla/dashboard" class="simple-text logo-mini">
     <div class="logo-img">
-      <img src="../../../favicon.ico" class="bg-white" />
+      <i class="fas fa-university fa-2x"></i>
     </div>
   </a>
-  <a routerLink="sla/dashboard" class="simple-text logo-normal">
-    {{ this.userData.hospital.name.substring(0,15) }}
+  <a routerLink="/sla/dashboard" class="simple-text logo-normal">
+    {{ this.userDataHospital }}
   </a>
 </div>
 <div class="sidebar-wrapper">
   <ul class="nav">
-    <li
-      routerLinkActive="active"
-      *ngFor="let menuItem of menuItems"
-      class="{{ menuItem.class }} nav-item"
-    >
-      <a [routerLink]="[menuItem.path]">
-        <i class="tim-icons  {{ menuItem.icon }}"></i>
-        <p class="side-menu-items">{{ menuItem.title }}</p>
+    <li *ngFor="let menuItem of menuItems; let i=index;" [routerLinkActive]="[menuItem.path ? 'active': null]"
+      class="{{ menuItem.class }} nav-item">
+      <a [routerLink]="[menuItem.path]" *ngIf="menuItem.path" class="menu-itm ">
+        <span class="side-menu-items">
+          {{ menuItem.title }}
+          <!-- <i class="fas  {{ menuItem.icon }} fa-sm menu-icon"></i> -->
+        </span>
       </a>
+      <a *ngIf="menuItem.children" (click)="showMenuChildren.emit({index:i})" class="menu-itm-drop menu-itm">
+        <span class="side-menu-drop">
+          {{ menuItem.title }}
+          <i class="fas  {{ menuItem.icon }} fa-sm menu-icon float-right"></i>
+        </span>
+    <li class="sub-menu  animated fadeIn fast" *ngIf="menuItem.children === currentChildren.children">
+      <hr class="seperator">
+      <a routerLinkActive="active-sub" *ngFor="let child of currentChildren.children" [routerLink]="[child.path]"
+        [state]="{ data: {currentChildren: currentChildren, menuItem: menuItem} }"
+        (click)="showMenuChildren.emit({index:i})">
+        {{child.title}}
+      </a>
+    </li>
+    </a>
     </li>
   </ul>
 </div>

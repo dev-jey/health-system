@@ -14,7 +14,6 @@ export class MvcTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.mccData)
   }
 
 }

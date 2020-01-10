@@ -15,10 +15,13 @@ export class AlertService {
     return Swal.fire({
       title, text, icon, showConfirmButton, confirmButtonColor, confirmButtonText, timer,
       showClass: {
-        popup: 'animated fadeInDown'
+        popup: 'animated fadeIn faster'
+      },
+      hideClass:{
+        popup: 'animated fadeOut faster'
       },
       customClass: {
-        confirmButton: icon === 'error' ? 'btn btn-danger' : 'btn btn-success',
+        confirmButton: icon === 'error' ? 'btn btn-danger' : icon === 'info' ? 'btn btn-info': 'btn btn-success',
         cancelButton: 'btn btn-dark'
       },
       buttonsStyling: false

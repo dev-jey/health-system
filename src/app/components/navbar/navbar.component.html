@@ -7,7 +7,7 @@
           <span class=" navbar-toggler-bar bar2"> </span>
           <span class=" navbar-toggler-bar bar3"> </span>
         </button>
-      </div><img src="../../../assets/images/MediClaimLogo.png" alt="" width="150">
+      </div><a routerLink="/sla/dashboard"><img src="../../../assets/images/MediClaimLogo.png" alt="" width="150" class="animated pulse"></a>
     </div>
     <button
       aria-label="Toggle navigation"
@@ -24,6 +24,7 @@
     </button>
     <div class=" navbar-collapse" [ngbCollapse]="isCollapsed" id="navigation">
       <ul class=" navbar-nav ml-auto">
+        <b class="text-dark text-muted d-none d-lg-inline d-xl-inline my-auto">{{username}}</b>
         <li class=" nav-item" ngbDropdown>
           <a
             class=" nav-link"
@@ -31,7 +32,6 @@
             href="javascript:void(0)"
             ngbDropdownToggle
           >
-          <b class="text-dark text-muted d-none d-lg-inline d-xl-inline">{{username}}</b>&nbsp;&nbsp;
             <div class=" photo">
               <img alt="Profile Photo" src="../../../assets/images/profile.png" />
             </div>

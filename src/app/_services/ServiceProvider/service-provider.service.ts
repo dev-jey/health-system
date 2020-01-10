@@ -41,4 +41,73 @@ export class ServiceProviderService {
   getPreauthDetails(mvc): Observable<any> {
     return this.http.makeMediclaimRequest(`payment/mcc/${mvc}`, 'GET');
   }
+  getInvestigations(): Observable<any> {
+    return this.http.makeMediclaimRequest(`investigations`, 'GET');
+  }
+  getFile(id): Observable<any> {
+    return this.http.makeMediclaimRequest(`mccfile/${id}`, 'GET')
+  }
+  uploadFile(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`mccfile`, 'POST', payload);
+  }
+  deleteFile(id): Observable<any> {
+    return this.http.makeMediclaimRequest(`mccfile/${id}`, 'DELETE')
+  }
+  addConsultation(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`consultation`, 'POST', payload);
+  }
+  addDiagnosis(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`mccdiagnosis`, 'POST', payload);
+  }
+  addInvestigation(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`mccinvestigation`, 'POST', payload);
+  }
+  addPrescription(payload): Observable<any> {
+    return this.http.makeMediclaimRequest('mccprescription', 'POST', payload);
+  }
+  createPreauth(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`preauths`, 'POST', payload);
+  }
+  editPreauth(id, payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`preauths/${id}`, 'PUT', payload);
+  }
+  createClaim(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`claims`, 'POST', payload);
+  }
+  editClaim(id, payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`claims/${id}`, 'PUT', payload);
+  }
+  searchPreauths(payload): Observable<any> {
+    return this.http.makeMediclaimRequest('preauths/search', 'POST', payload);
+  }
+  searchClaims(payload): Observable<any> {
+    return this.http.makeMediclaimRequest('claims/search', 'POST', payload);
+  }
+  getSchemeRules(): Observable<any> {
+    return this.http.makeMediclaimRequest('schemerules', 'GET');
+  }
+  deleteSchemeRule(id): Observable<any> {
+    return this.http.makeMediclaimRequest(`schemerules/${id}`, 'DELETE');
+  }
+  getHospitalContracts(hospitalId): Observable<any> {
+    return this.http.makeMediclaimRequest(`schemerules/hospitalcontract/sla/${hospitalId}`, 'GET');
+  }
+  getDashboardMvcData(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`dashboards/index`, 'POST', payload);
+  }
+  getDashboardPreauthData(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`dashboards/preauths`, 'POST', payload);
+  }
+  getDashboardClaimData(payload): Observable<any> {
+    return this.http.makeMediclaimRequest(`dashboards/claims`, 'POST', payload);
+  }
+  getDashboardsData(): Observable<any> {
+    return this.http.makeMediclaimRequest(`dashboards`, 'GET');
+  }
+  getSchemes(): Observable<any> {
+    return this.http.makeMediclaimRequest('schemes', 'GET');
+  }
+  getMemberHistory(payload): Observable<any> {
+    return this.http.makeMediclaimRequest('user_category/history', 'POST', payload);
+  }
 }

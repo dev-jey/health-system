@@ -5,6 +5,7 @@ import { ErrorSessionTimeoutComponent } from './components/shared/error-session-
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthGuard } from './_services/authentication/auth.guard';
 import { InternalServerErrorComponent } from './components/shared/internal-server-error/internal-server-error.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: "error/500",
     component: InternalServerErrorComponent
+  },
+  {
+    path: "contact",
+    component: ContactComponent
   },
   {
     path: "**",

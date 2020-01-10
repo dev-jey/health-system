@@ -8,7 +8,7 @@ color: rgb(100, 100, 100);
 border-radius: 4px; 
 cursor: pointer;
 }
-::ng-deep .mat-horizontal-stepper-header{
+::ng-deep .generate-mvc .mat-horizontal-stepper-header{
     pointer-events: none !important;
     display: none !important;
 }

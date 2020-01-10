@@ -1,0 +1,90 @@
+<div class="mt-4">
+  <div class="card-plain col-md-12">
+    <div class="row col-md-12">
+      <h4 class="text-medi">Consultations</h4>
+      <button class="btn btn-sm btn-info float-right ml-auto" (click)="addConsultation($event)">Add</button>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xl-12 col-12 mt-3">
+        <form [formGroup]="consultationForm" novalidate>
+          <div formArrayName="consultations">
+            <div class="col-md-12">
+            </div>
+            <table class="table table-hover table-responsive-sm text-left layout-table">
+              <thead>
+                <tr>
+                  <th>Consultation</th>
+                  <th>Qualification</th>
+                  <th>Unit</th>
+                  <th>Unit Price</th>
+                  <th>Amount</th>
+                  <th class="text-center">File</th>
+                  <th *ngIf="creatingOrEditing" class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="creatingOrEditing">
+                <tr *ngFor="let row of consultations.controls; let i = index" class="animated fadeIn faster"
+                  class="animated fadeIn faster" [formGroupName]="i">
+                  <td>
+                    <input type="text" id="description" class="table-inputs" name="description"
+                      formControlName="description" (change)="checkInputChanges()" />
+                  </td>
+                  <td>
+                    <input type="text" id="qualification" class=" table-inputs" name="qualification"
+                      formControlName="qualification" (change)="checkInputChanges()" />
+                  </td>
+                  <td>
+                    <input type="number" onkeydown="return event.keyCode !== 69" class=" table-inputs" name="units"
+                      formControlName="units" />
+                  </td>
+                  <td>
+                    <input type="number" onkeydown="return event.keyCode !== 69" class=" table-inputs" name="unit_price"
+                      formControlName="unit_price" />
+                  </td>
+                  <td>
+                    <input type="number" class=" table-inputs" name="amount" [value]="unit_price*units" />
+                  </td>
+                  <td>
+                    <div class="col-md-12">
+                      <input type="file" class="table-inputs custom-file-input mx-auto" name="consultationFile"
+                        (change)="convertFileToBase64.emit($event)"
+                        accept="application/pdf,image/x-png,image/gif,image/jpeg" maxsize="6000">
+                      <label class="custom-file-label" for="customFile">{{docFile.filename}}</label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <i class="fas fa-trash delete-icon"
+                  (click)="deductSubTotalAmount.emit({index: i, _type: 'consultation'});deleteItem.emit({index:i, array:consultations.controls})"></i>
+                  </td>
+                </tr>
+                <tr class="animated fadeIn faster" *ngIf="consultations.length">
+                  <td>
+                    <b>Total</b>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td *ngIf="creatingOrEditing">
+                  </td>
+                  <td class="text-center">
+                    <b class="total-amount">Ksh {{totalAmount}}</b>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="mx-auto my-auto text-center" style="padding: 20px" *ngIf="!consultations.length">
+          <i class="fas fa-clipboard fa-4x animated tada" style="color:rgb(230, 230, 230)"></i><br><br>
+          No Records!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

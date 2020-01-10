@@ -1,16 +1,20 @@
-<div class="container-fluid">
+<div class="container-fluid animated fadeIn faster">
   <div class="row">
-    <div class="col-md-8 ">
-      <table class="table table-hover table-responsive-sm text-center">
-        <thead>
-          <th>MVC</th>
-          <th>Date/Time</th>
-          <th>Member Number</th>
-          <th>Create Claim</th>
-          <th>Create Preauth</th>
+    <div class="col-xl-12">
+      <table class="table table-hover table-responsive-xl text-left">
+        <thead class="table-header">
+          <tr>
+            <th>MVC</th>
+            <th>Date/Time</th>
+            <th>Member Number</th>
+            <th>Scheme</th>
+            <th>Department</th>
+            <th></th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let mvc of mccData | paginate: { itemsPerPage: 10, currentPage: page }">
+          <tr *ngFor="let mvc of mccData | paginate: { itemsPerPage: 30, currentPage: page }">
             <td>
               {{mvc.id}}
             </td>
@@ -20,8 +24,26 @@
             <td>
               {{mvc.member_no}}
             </td>
-          <td><button class="btn btn-dark btn-sm" routerLink="/sla/create/preauth/{{mvc.id}}">Preauth</button></td>
-            <td><button class="btn btn-dark btn-sm" routerLink="/sla/create/claim/{{mvc.id}}">Claim</button></td>
+            <td>{{mvc.scheme_name}}</td>
+            <td>{{mvc.dep_name}}</td>
+            <td>
+              <a class="btn btn-success btn-sm float-right mr-2 claim-preauth-btn" routerLink="/sla/create/preauth/{{mvc.id}}" *ngIf="(!(mvc | uidLock) && !(mvc | preauthLock) && !(mvc | hospitalConfigs) || !(mvc | preauthUnlock)) &&
+                !mvc.preauth && !mvc.claim && !mvc.unlock_preauth && !mvc.unlock_uid" target="_blank">Create
+                Preauth</a>
+              <a class="btn btn-success btn-sm float-right mr-2 claim-preauth-btn" routerLink="/sla/view/preauth/{{mvc.id}}" *ngIf="mvc.preauth !== null"
+                target="_blank">View Preauth</a>
+              <a class="btn btn-success btn-sm float-right mr-2 claim-preauth-btn" routerLink="/sla/edit/preauth/{{mvc.id}}"
+                *ngIf="mvc.preauth && !mvc.claim && mvc.preauth_status == 6" target="_blank">Edit
+                Preauth</a>
+              <a class="btn btn-info btn-sm float-right mr-2 claim-preauth-btn" routerLink="/sla/create/claim/{{mvc.id}}"
+                *ngIf="!(mvc | uidLock) && !(mvc | claimLock)
+               && !mvc.claim && !mvc.unlock_claim && mvc.preauth_status == 1 && !mvc.unlock_uid || 
+               !mvc.unlock_uid && !mvc.claim && !mvc.preauth && !(mvc | uidLock) && !(mvc | claimLock) || !(mvc | claimUnlock)" target="_blank">Create Claim</a>
+              <a class="btn btn-info btn-sm float-right mr-2 claim-preauth-btn" routerLink="/sla/view/claim/{{mvc.id}}" *ngIf="mvc.claim"
+                target="_blank">View Claim</a>
+              <a class="btn btn-info btn-sm float-right mr-2 claim-preauth-btn" routerLink="/sla/edit/claim/{{mvc.id}}"
+                *ngIf="mvc.claim && mvc.claim_status == 6" target="_blank">Edit Claim</a>
+            </td>
           </tr>
         </tbody>
       </table>

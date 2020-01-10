@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ApiError } from 'src/app/_models/ApiError';
+import { ApiError } from 'src/app/_models/authentication/ApiError';
 import { AlertService } from 'src/app/_services/shared/alert.service';
 
 @Component({
@@ -71,7 +71,7 @@ export class SearchMemberComponent implements OnInit {
     return new Promise<Boolean>((resolve) => {
       const { member_no, mobile_no, national_id, scheme_id } = this.searchForm.value;
       if (scheme_id && !member_no && !mobile_no && !national_id) {
-        this.alert.fire('Error!', 'Enter a member number, mobile number or national Id to search', 'error');
+        this.alert.fire('Attention!', 'Enter a member number, mobile number or national Id to search', 'info');
         resolve(false);
       } else {
         resolve(true);

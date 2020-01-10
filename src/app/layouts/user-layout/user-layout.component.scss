@@ -4,15 +4,42 @@
 }
 
 .bg-image {
-  background-image: url("../../../assets/images/IMG_8126.JPG");
+  // background-color:rgba(0,0,0,0.5) !important;
   background-size: cover;
   background-position: center center;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("../../../assets/images/background.JPG");
 }
-
 .guest-user-contact-us-link{
   font-size: 12px;
   text-align: right;
+  color: #fff !important;
 }
 .login-form-row{
   padding-bottom: 20px;
+}
+.login-form{
+  min-width: 400px;
+  border-radius: 5px;
+  background-color: rgba(0,0,0,0.6) !important;
+}
+@media screen and (max-width: 576px){
+.login-form{
+  min-width: 0;
+}
+}
+.brand_logo_container {
+  position: absolute;
+  height: 170px;
+  width: 170px;
+  top: -75px;
+  border-radius: 50%;
+  background: #fff;
+  padding: 10px;
+  text-align: center;
+}
+.brand_logo {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 2px solid white;
 }

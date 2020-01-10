@@ -34,22 +34,29 @@ export class MvcListComponent implements OnInit {
     });
   }
 
-  validateDates = (from_date, to_date) => {
-    if (!from_date && !to_date) {
-      return this.alert.fire('Error!', 'Enter a start date and end date', 'error');
-    }
-    if (from_date && !to_date) {
-      return this.alert.fire('Error!', 'Enter an end date', 'error');
-    }
-    if (!from_date && to_date) {
-      return this.alert.fire('Error!', 'Enter a start date', 'error');
-    }
+  clearFields() {
+    this.mvcForm.reset();
   }
 
-  searchMvcs = (e) => {
+  validateDates = (from_date, to_date) => {
+    return new Promise<Boolean>((resolve) => {
+      if (from_date && !to_date) {
+        this.alert.fire('Error!', 'Enter an end date', 'error');
+        resolve(false);
+      }
+      if (!from_date && to_date) {
+        this.alert.fire('Error!', 'Enter a start date', 'error');
+        resolve(false);
+      }
+      resolve(true);
+    })
+  }
+
+  searchMvcs = async (e) => {
     e.preventDefault();
     const { member_no, mvc_no, start_date, end_date } = this.mvcForm.value;
-    this.validateDates(start_date, end_date);
+    const validated = await this.validateDates(start_date, end_date);
+    if (!validated) return;
     this.searchParameters.hospital_id = JSON.parse(localStorage.getItem('mediclaimUser')).hospital.id;
     this.searchParameters.start_date = moment(start_date);
     this.searchParameters.end_date = moment(end_date);
@@ -60,7 +67,7 @@ export class MvcListComponent implements OnInit {
       this.loading = false;
       if (data.length === 0) {
         this.mccData = [];
-        return this.alert.fire('Error!', 'No MVC records found', 'error');
+        return this.alert.fire('Attention!', 'No MVC records found', 'info');
       }
       this.mccData = data;
     }, (error) => {

@@ -1,11 +1,17 @@
-.dashboard-comming-soon-row {
-  margin-top: 100px;
-  color: #31708f;
-  background-color: #d9edf7;
-  border-left: 4px solid #31708f;
-  height: 50px;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding-top: 14px;
-  font-size: 0.9em;
+.card-img{
+  background-image:linear-gradient(
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.5)
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  height: 100%;
+}
+.styled-hr{
+  width: 100%;
+  background-color: rgb(233, 231, 231);
+  height: 3px;
+  box-shadow: inset 0px 0px 10px rgb(196, 196, 196);
+  border-radius: 20px;
 }

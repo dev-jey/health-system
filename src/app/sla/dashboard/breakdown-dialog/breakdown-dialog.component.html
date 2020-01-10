@@ -1,0 +1,20 @@
+<div>
+  <h4>{{data._type}} Breakdown</h4>
+  <hr>
+  <form [formGroup]="breakDownForm" novalidate>
+    <ng-select appendTo="body" appearance="outline" labelForId="months" [searchable]="true" [clearable]="false"
+      (change)="onChangeYear()" formControlName="month" placeholder="Select month">
+      <ng-option *ngFor="let month of months" [value]="month">
+        {{month.name}}
+      </ng-option>
+    </ng-select>
+    <br>
+    <ng-select appendTo="body" appearance="outline" labelForId="years" [searchable]="true" [clearable]="false"
+      (change)="onChangeYear()" formControlName="year" placeholder="Select year">
+      <ng-option *ngFor="let year of years" [value]="year">
+        {{year}}
+      </ng-option>
+    </ng-select>
+  </form>
+  <button class="btn btn-info btn-sm float-right mt-4" (click)="onNoClick()">Close</button>
+</div>

@@ -1,0 +1,225 @@
+<app-loader *ngIf="loading">
+</app-loader>
+<div class="main-content mt-3">
+  <div class="row">
+    <div class="col-xl-8 mx-auto mb-4">
+      <div class="card-plain animated fadeInUp faster">
+        <h4 class="pb-3">MVC</h4>
+        <div class="row">
+          <form [formGroup]="graphMvcForm" (submit)="graphMVCFilter($event)" novalidate class="col-xl-12 row">
+            <div class="col-sm-5 mx-auto pb-2">
+              <ng-select appearance="outline" labelForId="scheme_id" [searchable]="true" [clearable]="false"
+                placeholder="Select a Scheme" [multiple]="true" formControlName="scheme" [items]="schemes"
+                bindLabel="scheme_name" bindValue="id">
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                  <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <span class="ng-value-label">{{item.scheme_name}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </div>
+                  <div class="ng-value" *ngIf="items.length > 1">
+                    <span class="ng-value-label">{{items.length - 1}} more...</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <span class="small text-danger form-error-span"
+                *ngIf="graphMvcForm.controls['scheme'].errors && graphMvcFormSubmitted">
+                {{graphFormErrors.required}}
+              </span>
+            </div>
+            <div class="col-sm-5 mx-auto pb-2">
+              <ng-select appearance="outline" labelForId="department_id" [searchable]="true" [clearable]="false"
+                placeholder="Select a Department" [multiple]="true" formControlName="department" [items]="departments"
+                bindLabel="name" bindValue="id">
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                  <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <span class="ng-value-label">{{item.name}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </div>
+                  <div class="ng-value" *ngIf="items.length > 1">
+                    <span class="ng-value-label">{{items.length - 1}} more...</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <span class="small text-danger form-error-span"
+                *ngIf="graphMvcForm.controls['department'].errors && graphMvcFormSubmitted">
+                {{graphFormErrors.required}}
+              </span>
+            </div>
+            <div class="col-sm-2 pb-2">
+              <button class="btn btn-sm d-block mx-auto  btn-info py-2 my-auto">Search</button>
+            </div>
+          </form>
+          <div class="col-12 my-auto graph-card py-3">
+            <canvas id="mvc-chart" style="margin-top: 4%;" width="400" height="100" class="animated fadeIn"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card-plain animated fadeInUp faster">
+        <h4 class="text-medi pb-3">&nbsp;MVC Legend</h4>
+        <hr>
+        <ul class="list-group" style="font-size: 12px">
+          <li class="list-group-item  list-group-item-success legend-item"><i class="fas fa-th-list"></i>&nbsp;MVC</li>
+          <li class="list-group-item  list-group-item-info legend-item"><i class="fas fa-th-list"></i>&nbsp;Claim</li>
+          <li class="list-group-item  list-group-item-warning legend-item"><i class="fas fa-th-list"></i>&nbsp;Preauth
+          </li>
+          <br>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="d-md-none">
+  <div class="row mt-4 pt-2">
+    <div class="col-xl-8 mx-auto mb-4">
+      <div class="card-plain animated fadeInUp faster">
+        <h4 class="pb-3">CLAIMS</h4>
+        <div class="row">
+          <form [formGroup]="graphClaimForm" (submit)="graphClaimFilter($event)" novalidate class="col-xl-12 row">
+            <div class="col-sm-5 mx-auto pb-2">
+              <ng-select appearance="outline" labelForId="scheme_id" [searchable]="true" [clearable]="false"
+                placeholder="Select a Scheme" [multiple]="true" formControlName="scheme" [items]="schemes"
+                bindLabel="scheme_name" bindValue="id">
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                  <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <span class="ng-value-label">{{item.scheme_name}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </div>
+                  <div class="ng-value" *ngIf="items.length > 1">
+                    <span class="ng-value-label">{{items.length - 1}} more...</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <span class="small text-danger form-error-span"
+                *ngIf="graphClaimForm.controls['scheme'].errors && graphClaimFormSubmitted">
+                {{graphFormErrors.required}}
+              </span>
+            </div>
+            <div class="col-sm-5 mx-auto pb-2">
+              <ng-select appearance="outline" labelForId="department_id" [searchable]="true" [clearable]="false"
+                placeholder="Select a Department" [multiple]="true" formControlName="department" [items]="departments"
+                bindLabel="name" bindValue="id">
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                  <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <span class="ng-value-label">{{item.name}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </div>
+                  <div class="ng-value" *ngIf="items.length > 1">
+                    <span class="ng-value-label">{{items.length - 1}} more...</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <span class="small text-danger form-error-span"
+                *ngIf="graphClaimForm.controls['department'].errors && graphClaimFormSubmitted">
+                {{graphFormErrors.required}}
+              </span>
+            </div>
+            <div class="col-sm-2 pb-2">
+              <button class="btn btn-sm d-block mx-auto  btn-info py-2 my-auto">Search</button>
+            </div>
+          </form>
+          <div class="col-12 my-auto graph-card py-4">
+            <canvas id="claim-chart" style="margin-top: 4%;" width="400" height="100">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card-plain animated fadeInUp faster">
+        <h4 class="text-medi pb-2">&nbsp;Claims Legend</h4>
+        <hr>
+        <ul class="list-group" style="font-size: 12px">
+          <li class="list-group-item  list-group-item-success legend-item"><i class="fas fa-th-list"></i>&nbsp;Pending
+          </li>
+          <li class="list-group-item  list-group-item-info legend-item"><i class="fas fa-th-list"></i>&nbsp;Approved
+          </li>
+          <li class="list-group-item  list-group-item-warning legend-item"><i
+              class="fas fa-th-list"></i>&nbsp;Incomplete</li>
+          <li class="list-group-item  list-group-item-primary legend-item"><i class="fas fa-th-list"></i>&nbsp;Rejected
+          </li>
+          <li class="list-group-item  list-group-item-dark legend-item"><i class="fas fa-th-list"></i>&nbsp;Fraud</li>
+          <br>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="d-md-none">
+
+  <div class="row  mt-4 pt-2">
+    <div class="col-xl-8 mx-auto mb-4">
+      <div class="card-plain animated fadeInUp faster">
+        <h4 class="pb-3">PREAUTHS</h4>
+        <div class="row">
+          <form [formGroup]="graphPreauthForm" (submit)="graphPreauthFilter($event)" novalidate class="col-xl-12 row">
+            <div class="col-sm-5 mx-auto pb-2">
+              <ng-select appearance="outline" labelForId="scheme_id" [searchable]="true" [clearable]="false"
+                placeholder="Select a Scheme" [multiple]="true" formControlName="scheme" [items]="schemes"
+                bindLabel="scheme_name" bindValue="id">
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                  <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <span class="ng-value-label">{{item.scheme_name}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </div>
+                  <div class="ng-value" *ngIf="items.length > 1">
+                    <span class="ng-value-label">{{items.length - 1}} more...</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <span class="small text-danger form-error-span"
+                *ngIf="graphPreauthForm.controls['scheme'].errors && graphPreauthFormSubmitted">
+                {{graphFormErrors.required}}
+              </span>
+            </div>
+            <div class="col-sm-5 mx-auto pb-2">
+              <ng-select appearance="outline" labelForId="department_id" [searchable]="true" [clearable]="false"
+                placeholder="Select a Department" [multiple]="true" formControlName="department" [items]="departments"
+                bindLabel="name" bindValue="id">
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                  <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <span class="ng-value-label">{{item.name}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </div>
+                  <div class="ng-value" *ngIf="items.length > 1">
+                    <span class="ng-value-label">{{items.length - 1}} more...</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <span class="small text-danger form-error-span"
+                *ngIf="graphPreauthForm.controls['department'].errors && graphPreauthFormSubmitted">
+                {{graphFormErrors.required}}
+              </span>
+            </div>
+            <div class="col-sm-2 pb-2">
+              <button class="btn btn-sm d-block mx-auto  btn-info py-2 my-auto">Search</button>
+            </div>
+          </form>
+          <div class="col-12 my-auto graph-card py-3">
+            <canvas id="preauth-chart" style="margin-top: 4%;" width="400" height="100"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card-plain animated fadeInUp faster">
+        <h4 class="text-medi pb-2">&nbsp;Preauths Legend</h4>
+        <hr>
+        <ul class="list-group" style="font-size: 12px">
+          <li class="list-group-item  list-group-item-success legend-item"><i class="fas fa-th-list"></i>&nbsp;Pending
+          </li>
+          <li class="list-group-item  list-group-item-info legend-item"><i class="fas fa-th-list"></i>&nbsp;Approved
+          </li>
+          <li class="list-group-item  list-group-item-warning legend-item"><i
+              class="fas fa-th-list"></i>&nbsp;Incomplete</li>
+          <li class="list-group-item  list-group-item-primary legend-item"><i class="fas fa-th-list"></i>&nbsp;Rejected
+          </li>
+          <li class="list-group-item  list-group-item-dark legend-item"><i class="fas fa-th-list"></i>&nbsp;Fraud</li>
+          <br>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

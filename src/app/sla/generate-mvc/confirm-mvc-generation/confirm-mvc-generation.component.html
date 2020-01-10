@@ -1,4 +1,4 @@
-<div *ngIf="optValidated && completeMVC" class="p-2 col-md-6 m-3">
+<div *ngIf="optValidated && completeMVC" class="p-2 col-md-8">
   <form>
     <div class="text-medi">
       <h2>Member Verification Code</h2>
@@ -36,7 +36,7 @@
           </tr>
           <tr>
             <td>Age</td>
-            <td>{{currentMember.age}} years</td>
+            <td>{{dateOfBirth | calculateAge}} years</td>
           </tr>
           <tr>
             <td>Mobile Number</td>
@@ -60,8 +60,7 @@
     </div>
   </form>
   <div class="row ml-1">
-    <a class="btn btn-success btn-sm" routerLink="sla/mvc/list">Generate Pre-Auth</a>
-    <a class="btn btn-info btn-sm" routerLink="sla/mvc/list">Generate Claim</a>
-    <a routerLink="/sla/mcc" class="btn btn-dark btn-sm">Cancel</a>
+    <a class="btn btn-success btn-sm" routerLink="/sla/mvc/list">Generate Pre-Auth</a>
+    <a class="btn btn-info btn-sm" routerLink="/sla/mvc/list">Generate Claim</a>
   </div>
 </div>

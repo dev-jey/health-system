@@ -1,19 +1,11 @@
 <app-loader *ngIf="fetching"></app-loader>
-<div class="container-fluid">
+<div class="container-fluid card-plain">
   <form [formGroup]="searchForm" (submit)="searchMember($event)" novalidate>
     <div class="form-group row">
-      <div class=" col-md-8 card-plain">
+      <div class=" col-xl-12 animated fadeIn">
         <h3 class="text-medi">Search a member</h3>
-        <br>
         <div class="row">
-          <div class="col-md-5 mb-3">
-            <!-- <select class="js-seslect" name="scheme_id" formControlName="scheme_id" (change)="onSelect()">
-                  <option value="null" disabled>Select a scheme</option>
-                  <option *ngFor="let scheme of schemes" [value]="scheme.scheme.id">
-                    {{scheme.scheme.scheme_name}}
-                  </option>
-                </select> -->
-
+          <div class="col-xl-3 col-lg-6 mb-3">
             <label for="invoiceNo" class="input-label">Select Scheme*</label>
             <ng-select appearance="outline" labelForId="scheme_id" [searchable]="true"
               [clearable]="false" formControlName="scheme_id" (change)="onSelect()">
@@ -25,23 +17,21 @@
               {{searchFormErrors.required}}
             </span>
           </div>
-          <div class="col-md-5">
+          <div class="col-xl-3 col-lg-6">
             <div class="form-group has-success">
-                <label for="invoiceNo" class="input-label">Member Number</label>
+                <label for="invoiceNo" class="input-label">Member No</label>
               <input type="text" class=" form-control input" name="member_no" formControlName="member_no" />
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
+          <div class="col-xl-3 col-lg-6">
             <div class="form-group has-success">
                 <label for="invoiceNo" class="input-label">Mobile No</label>
               <input type="text" class="form-control input" name="mobile_no" formControlName="mobile_no" />
             </div>
           </div>
-          <div class="col-md-5">
+          <div class="col-xl-3 col-lg-6">
             <div class="form-group has-success">
-                <label for="invoiceNo" class="input-label">National Id</label>
+                <label for="invoiceNo" class="input-label">National ID</label>
               <input type="text" class="form-control input" name="national_id"
                 formControlName="national_id" />
             </div>
@@ -49,7 +39,6 @@
         </div>
         <div class="row pt-4">
           <button class="btn btn-success btn-sm ml-3" type="submit" [disabled]="loading">
-            <i class="fas fa-search" *ngIf="!loading"></i>
             {{ searchButtonText }}
             <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading" />
           </button>
@@ -57,8 +46,10 @@
       </div>
     </div>
   </form>
-  <br><br>
-  <div class="col-md-8 px-3 pb-4" *ngIf="memberFound">
+  <div class="pb-4 animated fadeIn" *ngIf="memberFound">
+    <br>
+    <hr>
+    <br>
     <div class="">
       <h4 class="text-medi">Member Details</h4>
     </div>

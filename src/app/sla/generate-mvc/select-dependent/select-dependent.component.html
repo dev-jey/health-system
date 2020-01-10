@@ -1,39 +1,35 @@
-<div>
-    <div class="col-md-8">
-      <div class="">
-        <div class="card-header">
-          <h3 class="card-title"> Select a dependent</h3>
-          <p class="card-category text-muted"> Dependents</p>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead>
-                <th>Name</th>
-                <th>Relation</th>
-              </thead>
-              <tbody>
-                <tr style="cursor: pointer;" (click)="selectDependent(member)" [ngClass]="{
+<div class="col-md-12 card-plain">
+  <div class="">
+    <h3 class=""> Select a dependent</h3>
+    <p class="text-muted"> Dependents</p>
+  </div>
+  <div class="">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Relation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="cursor: pointer;" (click)="selectDependent(member)" [ngClass]="{
                   'selected-dependent':currentMember==member}">
-                  <td>{{member.first_name}} {{member.last_name}}</td>
-                  <td>{{memberRelation}}</td>
-                </tr>
-                <tr style="cursor: pointer;" *ngFor="let dependent of dependents"
-                  (click)="selectDependent(dependent)"
-                  [ngClass]="{'selected-dependent':currentMember==dependent}">
-                  <td>{{dependent.first_name}} {{dependent.last_name}}</td>
-                  <td>{{dependent.bls_member.relation}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <td>{{member.first_name}} {{member.last_name}}</td>
+            <td>{{memberRelation}}</td>
+          </tr>
+          <tr style="cursor: pointer;" *ngFor="let dependent of dependents" (click)="selectDependent(dependent)"
+            [ngClass]="{'selected-dependent':currentMember==dependent}">
+            <td>{{dependent.first_name}} {{dependent.last_name}}</td>
+            <td>{{dependent.bls_member.relation}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-          <div class="ml-2">
-            <button class="btn btn-dark btn-sm" mat-button matStepperPrevious>Back</button>
-            <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext
-              *ngIf="isSelected">Next</button>
-          </div>
-        </div>
-      </div>
+    <div class="">
+      <button class="btn btn-dark btn-sm" mat-button matStepperPrevious>Back</button>
+      <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext *ngIf="isSelected">Next</button>
     </div>
   </div>
+</div>

@@ -1,5 +1,92 @@
-<section class="row dashboard-comming-soon-row">
-  <div class="col-xl-12 col-lg-12 col-md-12 col-12 dashboard-comming-soon-div">
-    <span class="fa fa-bulb"></span> Dashboard coming soon!!!!
+
+  <app-loader *ngIf="loading">
+  </app-loader>
+<section *ngIf="!loading">
+  <div class="row mt-2 main-content">
+    <div class="col-xl-4  mt-4 mx-auto">
+      <div class="card-plain animated fadeIn">
+        <div>
+          <div class="d-flex flex-row">
+            <img src="../../../assets/images/document.png" alt="" width="40">
+            <h4 class="text-medi my-auto mx-auto">MVC</h4>
+            <button class="btn btn-info btn-sm ml-auto" (click)="openDialog('MVC')">view</button>
+          </div><br><br><br>
+        </div>
+        <div class="row total-area">
+          <span class="col-lg-12">{{month}} {{year}} Total: {{mvcTotal}}</span>
+        </div>
+        <hr class="styled-hr">
+        <div class="row">
+          <div class="col-lg-6">
+            <p class="text-left">Average MVC:
+              <span class="text-right ml-auto text-dark">{{mvcAvg}}</span></p>
+          </div>
+          <div class="col-lg-6">
+            <a class="btn btn-success btn-sm float-right" routerLink="/sla/mvc/list">Details</a>
+          </div>
+        </div>
+      </div>
+      <br class="d-md-none">
+      <br class="d-md-none">
+      <br class="d-md-none">
+      <hr class="d-md-none">
+    </div>
+    <div class="col-xl-4 mt-4 mx-auto">
+      <div class=" card-plain animated fadeIn">
+        <div>
+          <div class="d-flex flex-row">
+            <img src="../../../assets/images/stack.png" alt="" width="40">
+            <h4 class="text-medi my-auto mx-auto">CLAIMS</h4>
+            <button class="btn btn-info btn-sm" (click)="openDialog('Claim')">view</button>
+          </div><br><br><br>
+        </div>
+        <div class="row total-area">
+          <span class="col-lg-12">{{month}} {{year}} Total: {{claimsTotal}}</span>
+        </div>
+        <hr class="styled-hr">
+        <div class="row">
+          <div class="col-lg-6">
+            <p class="text-left">Average Claims:
+              <span class="text-right ml-auto text-dark">{{claimsAvg}}</span></p>
+          </div>
+          <div class="col-lg-6">
+            <a class="btn btn-success btn-sm float-right" routerLink="/sla/view/claim">Details</a>
+          </div>
+        </div>
+      </div>
+      <br class="d-md-none">
+      <br class="d-md-none">
+      <br class="d-md-none">
+      <hr class="d-md-none">
+    </div>
+    <div class="col-xl-4 mt-4 mx-auto">
+      <div class="card-plain animated fadeIn">
+        <div>
+          <div class="d-flex flex-row">
+            <img src="../../../assets/images/compose.png" alt="" width="40">
+            <h4 class="text-medi my-auto mx-auto">PREAUTHS</h4>
+            <button class="btn btn-info btn-sm" (click)="openDialog('Preauth')">view</button>
+          </div><br><br><br>
+        </div>
+        <div class="row total-area">
+          <span class="col-lg-12">{{month}} {{year}} Total: {{preauthTotal}}</span>
+        </div>
+        <hr class="styled-hr">
+        <div class="row">
+          <div class="col-lg-6">
+            <p class="text-left">Average TAT:
+              <span class="text-right ml-auto text-dark">{{preauthAvg}}</span></p>
+          </div>
+          <div class="col-lg-6">
+            <a class="btn btn-success btn-sm float-right" routerLink="/sla/view/preauth">Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <br class="d-md-none">
+  <br class="d-md-none">
+  <br class="d-md-none">
+  <hr class="d-md-none">
+  <!-- <app-graphs-layout></app-graphs-layout> -->
 </section>

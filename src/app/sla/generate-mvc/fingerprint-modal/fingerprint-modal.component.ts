@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { ServiceProviderService } from 'src/app/_services/ServiceProvider/service-provider.service';
 import { AlertService } from '../../../_services/shared/alert.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -90,7 +91,7 @@ export class FingerprintModalComponent implements OnInit {
         resolve(true);
         return
       }
-      const uri = 'https://localhost:8443/SGIMatchScore';
+      const uri = `${environment.fingerprintUrl}SGIMatchScore`;
       let params = `template1=${data[0].ISOTemplateBase64}&template2=${data[i].ISOTemplateBase64}&licstr=&templateFormat='ISO'`
       xmlhttps.open('POST', uri, true);
       xmlhttps.send(params);
@@ -98,12 +99,15 @@ export class FingerprintModalComponent implements OnInit {
         if (xmlhttps.readyState === 4 && xmlhttps.status === 200) {
           const res = JSON.parse(xmlhttps.responseText);
           if (res.ErrorCode === 0) {
-            if (res.MatchingScore < 1) {
+            if (res.MatchingScore < 120) {
+              this.notMatched = true;
               resolve(false);
             } else {
+              this.notMatched = false;
               resolve(true);
             }
           } else {
+            this.notMatched = true;
             this.alert.fire('Error!', 'An error occurred while processing fingerprints', 'error', false, 'Retry', null, 1500);
             return;
           }
@@ -154,7 +158,7 @@ export class FingerprintModalComponent implements OnInit {
   }
 
   async captureFingerprint(hand) {
-    const uri = 'https://localhost:8443/SGIFPCapture';
+    const uri = `${environment.fingerprintUrl}SGIFPCapture`;
     const xmlhttp = new XMLHttpRequest();
     const text = 'Place Your finger on the Machine';
     hand === 'left' ? this.textLeft = text :

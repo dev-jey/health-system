@@ -13,14 +13,19 @@
   width:100%;
   color: #ffffff;
   border-radius: 0px;
-  border:1px solid #8ed597;
+  border:none;
   background-color: #3bb54b;
   text-transform: uppercase;
-  height: 35px;
+  cursor: pointer;
+  height: 34px;
 }
 .guest-form-button:hover, .guest-form-button:active, .guest-form-button:focus{
-  border:1px solid #8ed597;
+  border:1px none;
+  outline: none;
   background-color: #61ba6c !important;
+}
+.guest-form-button:disabled{
+  background-color: #82e98e !important;
 }
 .guest-user-input-row{
   margin-top:30px;
@@ -36,9 +41,9 @@
   margin-top: 5px;
 }
 .guest-user-error{
-  color: #a94442;
+  color: #ff0400;
   background-color: #f2dede;
-  border-left: 3px solid #ebccd1;
+  border-left: 3px solid #ff002b;
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 0.9em;

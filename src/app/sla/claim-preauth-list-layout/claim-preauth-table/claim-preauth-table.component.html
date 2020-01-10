@@ -1,0 +1,55 @@
+<div class="container-fluid animated fadeInUp faster">
+  <div class="row">
+    <div class="col-xl-12 ">
+      <table class="table table-hover table-responsive-xl text-center">
+        <thead class="table-header">
+          <tr>
+          <th>MVC No</th>
+          <th>Date/Time</th>
+          <th>Member Number</th>
+          <th>Status</th>
+          <th>Amount</th>
+          <th>Approved Amount</th>
+          <th>View</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mccData | paginate: { itemsPerPage: 30, currentPage: page }">
+            <td>
+              {{item.id}}
+            </td>
+            <td>
+              {{item.created_at}}
+            </td>
+            <td>
+              {{item.member_no}}
+            </td>
+          <td>
+            <span class="badge badge-warning" *ngIf="item.status === 0">Pending</span>
+          <span class="badge badge-success" *ngIf="item.status === 1">Approved</span>
+          <span class="badge badge-danger" *ngIf="item.status === 2">Rejected</span>
+          <span class="badge badge-dark" *ngIf="item.status === 3">Add to Batch</span>
+          <span class="badge badge-dark" *ngIf="item.status === 4">Awaiting Payment</span>
+          <span class="badge badge-info" *ngIf="item.status === 5">Paid</span>
+          <span class="badge badge-danger" *ngIf="item.status === 6">Incomplete</span>
+          <span class="badge badge-warning" *ngIf="item.status === 7">Hold</span>
+          <span class="badge badge-danger" *ngIf="item.status === 8">Fraud</span>
+          <span class="badge badge-info" *ngIf="item.status === 9">Discounted</span>
+          <span class="badge badge-info" *ngIf="item.status === 10">Discharge</span>
+        </td>
+          <td>{{item.preauth && item.preauth.total || 0}}</td>
+          <td>{{item.preauth && item.preauth.accepted_total || 0}}</td>
+            <td>
+              <a class="btn btn-dark btn-sm" routerLink="/sla/view/preauth/{{item.id}}"  *ngIf="_type.startsWith('preauth')">View</a>
+              <a class="btn btn-dark btn-sm" routerLink="/sla/view/claim/{{item.id}}"  *ngIf="_type.startsWith('claim')">View</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="float-right">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+      </div>
+    </div>
+
+  </div>
+</div>

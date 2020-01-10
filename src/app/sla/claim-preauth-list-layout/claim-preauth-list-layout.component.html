@@ -1,0 +1,93 @@
+<section>
+  <div class="main-content pt-4 mt-3">
+    <div class="dashboard-items">
+      <form [formGroup]="searchPreauthForm" (submit)="searchPreauth($event)" novalidate class="mb-4">
+        <div class="form-group">
+          <div class=" col-xl-12 card-plain animated fadeIn"  [ngClass]="{'col-xl-12':mccData.length>0}">
+            <h3 class="text-medi" *ngIf="_type === 'preauth'">Search Preauth List</h3>
+            <h3 class="text-medi" *ngIf="_type === 'claim'">Search Claim List</h3>
+            <br>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="department_id" class="input-label">Select a Department*</label>
+                <ng-select appearance="outline" labelForId="department_id" [searchable]="true" [clearable]="false"
+                  formControlName="department_id" (change)="onSelectDept();">
+                  <ng-option *ngFor="let department of allDepartments" [value]="department">
+                    {{department.name}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="sub_department_id" class="input-label">Select a sub-department*</label>
+                <ng-select appearance="outline" labelForId="sub_dept_id" [searchable]="true" [clearable]="false"
+                  formControlName="sub_dept_id">
+                  <ng-option *ngFor="let subdepartment of subDepartments" [value]="subdepartment.id">
+                    {{subdepartment.name}}
+                  </ng-option>
+                </ng-select>
+              </div>
+
+              <div class="col-md-3 mb-3"  [ngClass]="{'col-md-6': _type.startsWith('claim') }">
+                <label for="scheme_id" class="input-label">Select Scheme*</label>
+                <ng-select appearance="outline" labelForId="scheme_id" [searchable]="true" [clearable]="false"
+                  formControlName="scheme_id">
+                  <ng-option *ngFor="let scheme of schemes" [value]="scheme.scheme.id">
+                    {{scheme.scheme.scheme_name}}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="col-md-3 mb-3" *ngIf="_type.startsWith('preauth')">
+                <label for="status" class="input-label">Select Status*</label>
+                <ng-select appearance="outline" labelForId="status" [searchable]="true" [clearable]="false"
+                  formControlName="status">
+                  <ng-option *ngFor="let item of status" [value]="item">
+                    {{item}}</ng-option>
+                </ng-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group has-success">
+                  <label for="mvc_no" class="input-label">MVC Number</label>
+                  <input type="text" class="form-control input" name="mvc" formControlName="mvc_no" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group has-success">
+                  <label for="member_no" class="input-label">Member Number</label>
+                  <input type="text" class="form-control input" name="member_number" formControlName="member_no" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <mat-label>Start Date*</mat-label>
+                <mat-form-field class="date-picker" appearance="outline">
+                  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1"
+                    formControlName="start_date">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-3">
+                <mat-label>End Date*</mat-label>
+                <mat-form-field class="date-picker" appearance="outline">
+                  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="end_date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row pt-4">
+              <button class="btn btn-success btn-sm ml-3" type="submit" [disabled]="loading">
+                Search
+                <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <br>
+      <app-claim-preauth-table [mccData]="mccData" *ngIf="mccData.length>0" [_type]="_type"></app-claim-preauth-table>
+    </div>
+  </div>
+</section>

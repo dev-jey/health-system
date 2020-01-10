@@ -11,7 +11,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { HttpInterceptorService } from './_services/shared/httpInterceptor.service';
 import { SlaModule } from './sla/sla.module';
-import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 
 @NgModule({
   imports: [
@@ -21,7 +20,6 @@ import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
     AuthenticationModule,
     NgbModule,
     SlaModule,
-    AdminLayoutModule,
     RouterModule,
     AppRoutingModule,
   ],

@@ -1,0 +1,47 @@
+<div class="mt-4">
+  <div class="card-plain">
+    <h4 class="text-medi">Diagnosis</h4><hr>
+    <div class="row">
+      <div class="col-md-5 mt-4 pt-2" *ngIf="creatingOrEditing">
+        <div>
+          <form [formGroup]="diagnosisForm" (submit)="addDiagnosis($event)" novalidate>
+            <div class="col-12 form-group has-success">
+              <div>
+                <label for="diagnosis" class="input-label">Select a Diagnosis*</label>
+                <ng-select appearance="outline" labelForId="diagnosis" [searchable]="true" [clearable]="false"
+                appendTo="body"
+                  formControlName="diagnosis" (change)="setDiagnosis()" formControlName="diagnosis">
+                  <ng-option *ngFor="let diagnosis of investigations" [value]="diagnosis">
+                    {{diagnosis.name}}
+                  </ng-option>
+                </ng-select>
+                <span class="small text-danger form-error-span"
+                  *ngIf="diagnosisForm.controls['diagnosis'].errors && diagnosisFormSubmitted">
+                  {{diagnosisFormErrors.required}}
+                </span>
+              </div>
+              <button class="btn btn-sm btn-info my-4">Add &nbsp;<i class="fas fa-chevron-right"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-1" *ngIf="creatingOrEditing"></div>
+      <div class="col-md-6 pt-2" [ngClass]="{'col-md-12': !diagnosisList.length && viewing}">
+        <div class="mx-auto my-auto text-center" style="padding-top:20px" *ngIf="!diagnosisList.length">
+          <i class="fas fa-clipboard fa-4x" style="color:rgb(230, 230, 230)"></i><br><br>
+          No Records!
+        </div>
+        <div class="col-12 form-group has-success
+        mt-4 pt-4">
+          <div class="form-group has-success row h-10 mx-auto animated fadeIn"
+            *ngFor="let item of diagnosisList; let i=index">
+            <p id="diagnosis" class=" form-control input col-11" style="overflow: hidden;" name="diagnosis"
+              disabled="true">{{item.healthcondition.name}}</p>
+            <i class="fas fa-trash col-1 my-auto text-center delete-icon" *ngIf="creatingOrEditing"
+              (click)="deleteItem.emit({index:i, array:diagnosisList})"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

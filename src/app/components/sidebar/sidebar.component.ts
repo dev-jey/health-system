@@ -1,64 +1,24 @@
-import { Component, OnInit } from "@angular/core";
-import { AuthUser } from "src/app/_models/AuthUser";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { AuthUser } from "src/app/_models/authentication/AuthUser";
 
-declare interface RouteInfo {
-  path: string;
-  title: string;
-  icon: string;
-  class: string;
-}
-export const ROUTES: RouteInfo[] = [
-  {
-    path: "/sla/dashboard",
-    title: "Dashboard",
-    icon: "icon-chart-pie-36",
-    class: ""
-  },
-  {
-    path: "/sla/mvc/generate",
-    title: "Generate MVC",
-    icon: "icon-atom",
-    class: ""
-  },
-  {
-    path: "/sla/mvc/list",
-    title: "Generate PreAuth",
-    icon: "icon-pin",
-    class: "" 
-  },
-  {
-    path: "/sla/reports",
-    title: "Reports",
-    icon: "icon-pin",
-    class: "" 
-  },
-  {
-    path: "/sla/scheme-rules",
-    title: "Scheme Rules",
-    icon: "icon-pin",
-    class: "" 
-  },
-  {
-    path: "/sla/contract",
-    title: "Contract",
-    icon: "icon-pin",
-    class: "" 
-  }
-];
 
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
-  styleUrls: ["./sidebar.component.css"]
+  styleUrls: ["./sidebar.component.scss"]
 })
 export class SidebarComponent implements OnInit {
-  menuItems: any[];
-  userData: AuthUser;
-  constructor() {}
+  @Input() currentChildren;
+  @Input() currentItem;
+  @Input() menuItems;
+  @Output() showMenuChildren = new EventEmitter();
+  userDataHospital: String = 'N/A';
+  // showChildren: boolean;
+
+  constructor() { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
-    this.userData = JSON.parse(localStorage.getItem("mediclaimUser"));
+    this.userDataHospital = JSON.parse(localStorage.getItem("mediclaimUser")).hospital && JSON.parse(localStorage.getItem("mediclaimUser")).hospital.name.replace(/^(.{12}[^\s]*).*/, "$1") || 'N/A'
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {

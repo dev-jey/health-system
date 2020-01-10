@@ -1,94 +1,93 @@
 <form [formGroup]="departmentForm" novalidate>
-    <div class="col-md-8 card-plain" *ngIf="!completeMVC && !showBiometricPage && !completedCapturing">
-      <h3 class="text-medi">Authenticate</h3>
-      <div class="row">
-        <div class="col-md-5 mb-3">
-            <label for="department_id" class="input-label">Select a Department</label>
-          <ng-select appearance="outline" labelForId="department_id"
-            [searchable]="true" [clearable]="false" formControlName="department_id" (change)="onSelectDept();">
-            <ng-option *ngFor="let department of departments" [value]="department.id">
-              {{department.name}}
-            </ng-option>
-          </ng-select>
-          <!-- <select class="js-seslect" name="department_id" ngModel required #mySelectDepartment
+  <div class="col-md-12 card-plain" *ngIf="!completeMVC && !showBiometricPage && !completedCapturing">
+    <h3 class="text-medi">Authenticate</h3>
+    <div class="row mb-3">
+      <div class="col-md-4 mb-3">
+        <label for="department_id" class="input-label">Select a Department*</label>
+        <ng-select appearance="outline" labelForId="department_id" [searchable]="true" [clearable]="false"
+          formControlName="department_id" (change)="onSelectDept();">
+          <ng-option *ngFor="let department of departments" [value]="department.id">
+            {{department.name}}
+          </ng-option>
+        </ng-select>
+        <!-- <select class="js-seslect" name="department_id" ngModel required #mySelectDepartment
           (change)="onSelectDept(mySelectDepartment.value);">
           <option value="" name="" disabled>Select Department</option>
           <option *ngFor="let department of departments" [value]="department.id">
             {{department.name}}
           </option>
         </select> -->
-        </div>
-        <div class="col-md-5 mb-3">
-          <ng-select placeholder="Select Sub-Department" appearance="outline" labelForId="sub_dept_id"
-            [searchable]="true" [clearable]="false" formControlName="sub_dept_id" (clear)= "clearSubDepartments"
-            [readonly]="!currentDepartment || subDepartments.length===0" (change)="onSelectSubDept()">
-            <ng-option *ngFor="let subdepartment of subDepartments" [value]="subdepartment.id">
-              {{subdepartment.name}}
-            </ng-option>
-          </ng-select>
-          <!-- <select class="js-seslect" name="sub_dept_id" ngModel required [disabled]="!currentDepartment"
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="sub_department_id" class="input-label">Select a sub-department*</label>
+        <ng-select appearance="outline" labelForId="sub_dept_id" [searchable]="true" [clearable]="false"
+          formControlName="sub_dept_id" [readonly]="!currentDepartment || subDepartments.length===0 || disableSubDept"
+          (change)="onSelectSubDept()">
+          <ng-option *ngFor="let subdepartment of subDepartments" [value]="subdepartment.id">
+            {{subdepartment.name}}
+          </ng-option>
+        </ng-select>
+        <!-- <select class="js-seslect" name="sub_dept_id" ngModel required [disabled]="!currentDepartment"
           #mySelectSubDepartment (change)="onSelectSubDept(mySelectSubDepartment.value)">
           <option value="" name="" disabled>Select Sub-Department</option>
           <option *ngFor="let subdepartment of subDepartments" [value]="subdepartment.id">
             {{subdepartment.name}}
           </option>
         </select> -->
-        </div>
       </div>
-      <div class="mb-3">
-        <div class="form-group has-success">
-          <input type="text" class="col-md-12 form-control input nhif-input" formControlName="nhif_no"
-            name="nhif_no" placeholder="NHIF Number" (change)="setNHIF()">
-        </div>
-      </div>
-      <div *ngIf="currentMemberBiometric.length===0">
-        <button class="btn btn-dark btn-sm" mat-button matStepperPrevious>Back</button>
-        <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext
-          (click)="generateOTP(member.mobile_phone_number)" *ngIf="deptSelected && !showOptForm"
-          [disabled]="loading">
-          {{verifyButtonText}}
-          <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading"/>
-        </button>
-        <button class="btn btn-success btn-sm mr-4" type="button"
-          *ngIf="deptSelected && hospitalConfigs.biometric && optValidated" (click)="showBiometric.emit()">
-          <span *ngIf="currentMemberBiometric.length===0">Biometric Enrollment</span>
-        </button>
-      </div>
-
-      <div *ngIf="currentMemberBiometric.length>0">
-        <button class="btn btn-dark btn-sm" mat-button matStepperPrevious>Back</button>
-        <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext
-          (click)="generateOTP(member.mobile_phone_number)"
-          *ngIf="deptSelected && !showOptForm && !hospitalConfigs.biometric" [disabled]="loading">
-          {{verifyButtonText}}
-          <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading"/>
-        </button>
-        <button class="btn btn-success btn-sm mr-4" type="button"
-          *ngIf="deptSelected && hospitalConfigs.biometric" (click)="showBiometric.emit()">
-          <span>Biometric Verify</span>
-        </button>
-      </div>
-
-      <div layout="row" *ngIf="showOptForm">
-        <form #otpform="ngForm" (submit)="validateOTP(otpform, member.mobile_phone_number)" ngNativeValidate
-          *ngIf="!optValidated">
-          <div class="mt-4 pt-4">
-            <div class="form-group has-success">
-              <input type="text" class="col-md-5 form-control input" name="otp_no" ngModel
-                placeholder="OTP Number" required>
-            </div>
-          </div>
-          <div class="">
-            <div class="">
-              <button class="btn btn-success btn-sm" type="submit">
-                <span class="">Validate OTP</span>
-              </button>
-              <button class="btn btn-info btn-sm" type="button" (click)="resendOTP(member.mobile_phone_number)">
-                <span class="">Resend OTP</span>
-              </button>
-            </div>
-          </div>
-        </form>
+      <div class="form-group has-success col-md-4">
+        <label for="nhif_no" class="input-label">NHIF Number</label>
+        <input type="text" class="form-control input nhif-input" formControlName="nhif_no" name="nhif_no"
+          (change)="setNHIF()">
       </div>
     </div>
-  </form>
+    <div *ngIf="currentMemberBiometric.length===0">
+      <button class="btn btn-dark btn-sm" mat-button matStepperPrevious>Back</button>
+      <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext
+        (click)="generateOTP(member.mobile_phone_number)" *ngIf="deptSelected && !showOptForm" [disabled]="loading">
+        {{verifyButtonText}}
+        <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading" />
+      </button>
+      <button class="btn btn-success btn-sm mr-4" type="button"
+        *ngIf="deptSelected && hospitalConfigs.biometric && optValidated" (click)="showBiometric.emit()">
+        <span *ngIf="currentMemberBiometric.length===0">Biometric Enrollment</span>
+      </button>
+    </div>
+
+    <div *ngIf="currentMemberBiometric.length>0">
+      <button class="btn btn-dark btn-sm" mat-button matStepperPrevious>Back</button>
+      <button class="btn btn-success btn-sm mr-4" mat-button matStepperNext
+        (click)="generateOTP(member.mobile_phone_number)"
+        *ngIf="deptSelected && !showOptForm && !hospitalConfigs.biometric" [disabled]="loading">
+        {{verifyButtonText}}
+        <img src="assets/images/ajax-loader.gif" width="20" height="20" *ngIf="loading" />
+      </button>
+      <button class="btn btn-success btn-sm mr-4" type="button" *ngIf="deptSelected && hospitalConfigs.biometric"
+        (click)="showBiometric.emit()">
+        <span>Biometric Verify</span>
+      </button>
+    </div>
+
+    <div layout="row" *ngIf="showOptForm">
+      <hr>
+      <form #otpform="ngForm" (submit)="validateOTP(otpform, member.mobile_phone_number)" ngNativeValidate
+        *ngIf="!optValidated">
+        <div class="mt-4 pt-4 row">
+          <div class="col-md-4 form-group has-success">
+            <input type="text" class="form-control input" name="otp_no" ngModel placeholder="OTP Number" required>
+          </div>
+        </div>
+        <div class="">
+          <div class="">
+            <button class="btn btn-success btn-sm" type="submit">
+              <span class="">Validate OTP</span>
+            </button>
+            <button class="btn btn-info btn-sm" type="button" (click)="resendOTP(member.mobile_phone_number)">
+              <span class="">Resend OTP</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</form>

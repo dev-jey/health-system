@@ -1,4 +1,60 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import { Subscription } from 'rxjs';
+
+declare interface RouteInfo {
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
+  children?: Array<RouteSubInfo>
+}
+declare interface RouteSubInfo {
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
+}
+
+export const ROUTES: RouteInfo[] = [
+  {
+    path: "/sla/dashboard",
+    title: "Dashboard",
+    icon: "fa-angle-right ",
+    class: ""
+  },
+  {
+    path: "",
+    title: "Generate",
+    icon: "fa-angle-right",
+    class: "",
+    children: [
+      {
+        path: "/sla/mvc/generate",
+        title: "MVC",
+        icon: "fa-angle-right",
+        class: ""
+      },
+      {
+        path: "/sla/mvc/list",
+        title: "Preauth/Claim",
+        icon: "fa-angle-right",
+        class: ""
+      }
+    ]
+  },
+  {
+    path: "/sla/scheme-rules",
+    title: "Scheme Rules",
+    icon: "fa-angle-right",
+    class: ""
+  },
+  {
+    path: "/sla/contracts",
+    title: "Contracts",
+    icon: "fa-angle-right",
+    class: ""
+  }
+];
 
 @Component({
   selector: "app-admin-layout",
@@ -6,7 +62,35 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./admin-layout.component.scss"]
 })
 export class AdminLayoutComponent implements OnInit {
+  currentChildren: any = {};
+  sub: Subscription;
+  sharedData: any;
+  menuItems: Array<any> = [];
+  currentItem: any = {};
 
-  constructor() {}
-  ngOnInit() {}
+  constructor(private ref: ChangeDetectorRef) { }
+  ngOnInit() {
+    this.currentChildren = {}
+    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.menuItems.forEach(item => {
+      if (item.children) {
+        item.children.forEach(child => {
+          if (child.path === window.location.pathname) {
+            this.currentChildren = this.menuItems[this.menuItems.indexOf(item)]
+          }
+        })
+      }
+    })
+    this.ref.detectChanges();
+  }
+
+
+  showMenuChildren = (data) => {
+    const { index } = data;
+    if (this.currentChildren === this.menuItems[index]) {
+      this.currentChildren = {}
+    } else {
+      this.currentChildren = this.menuItems[index]
+    }
+  }
 }

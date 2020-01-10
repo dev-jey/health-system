@@ -1,13 +1,7 @@
 <section>
-    <nav aria-label="breadcrumb" class="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/sla/dashboard']">Dashboard</a></li>
-        <li class="breadcrumb-item active"><a>Generate MVC</a></li>
-      </ol>
-    </nav>
-  <div class="main-content">
+  <div class="main-content pt-4 mt-3">
     <div class="dashboard-items">
-      <mat-horizontal-stepper linear>
+      <mat-horizontal-stepper linear class="generate-mvc">
         <mat-step>
           <app-search-member [serviceProvider]="serviceProvider" [objList]="objList" [schemes]="schemes"
             (setHospitalConfigs)="setHospitalConfigs($event)" (setMemberDetails)=setMemberDetails($event)

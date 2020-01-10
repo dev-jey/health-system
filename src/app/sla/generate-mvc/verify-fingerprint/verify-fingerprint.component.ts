@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { AlertService } from 'src/app/_services/shared/alert.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-verify-fingerprint',
@@ -31,7 +32,7 @@ export class VerifyFingerprintComponent implements OnInit {
   compareBiometrics(xmlhttp): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
       this.member.biometrics.forEach(record => {
-        const uri = 'https://localhost:8443/SGIMatchScore';
+        const uri = `${environment.fingerprintUrl}SGIMatchScore`;
         const payload = `template1=${this.fpBMP}&template2=${record.ISOTemplateBase64}&lictsr=&templateFormat=ISO`;
         xmlhttp.open('POST', uri, true);
         xmlhttp.send(payload);
@@ -39,7 +40,7 @@ export class VerifyFingerprintComponent implements OnInit {
           if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             const res = JSON.parse(xmlhttp.responseText);
             if (res.ErrorCode === 0) {
-              if (res.MatchingScore > 1) {
+              if (res.MatchingScore > 120) {
                 resolve(true);
               } else {
                 if (this.member.biometrics.indexOf(record) === (this.member.biometrics.length - 1)) {
@@ -57,7 +58,7 @@ export class VerifyFingerprintComponent implements OnInit {
     });
   }
   async captureBiometric() {
-    const uri = 'https://localhost:8443/SGIFPCapture';
+    const uri = `${environment.fingerprintUrl}SGIFPCapture`;
     const xmlhttp = new XMLHttpRequest();
     this.text = 'Capturing';
     xmlhttp.onreadystatechange = async () => {

@@ -1,0 +1,41 @@
+<div class="mt-4">
+  <div class="card-plain col-md-12">
+    <h4 class="text-medi">Supporting Documents</h4><hr>
+    <div class="row">
+      <div class="col-md-4 mt-2 pt-2"  *ngIf="creatingOrEditing">
+        <form [formGroup]="docsForm" (submit)="addDocs($event)" novalidate>
+          <div class="custom-file mt-2 mb-2">
+            <input type="file" class="custom-file-input mx-auto" formControlName="file"
+              (change)="convertFileToBase64.emit($event);setUpload.emit({docsForm: docsForm})" multiple
+              accept="application/pdf,image/x-png,image/gif,image/jpeg" maxsize="6000" name="docFile">
+            <label class="custom-file-label" for="customFile">{{docFile.filename}}</label>
+            <span class="small text-danger form-error-span"
+              *ngIf="docsForm.controls['file'].errors && docsFormSubmitted">
+              {{docsFormErrors.required}}
+            </span>
+          </div>
+          <button class="btn btn-sm btn-info mt-2" [disabled]="loading">Save
+            &nbsp;<i class="fas fa-save" *ngIf="!loading"></i>
+            <img src="assets/images/ajax-loader.gif" width="25" height="25" *ngIf="loading"
+              style="margin-left: -10px" />
+          </button>
+        </form>
+      </div>
+      <div class="col-md-1"  *ngIf="creatingOrEditing"></div>
+      <div class="col-md-7 mt-2 pt-2" [ngClass]="{'col-md-12':viewing && !memberFiles.length}">
+        <div class="form-group has-success row h-10 mx-auto" *ngFor="let file of memberFiles">
+          <input type="text" id="doc" class=" form-control input col-9" name="doc" disabled="true"
+            value="{{file && file.name}}" />
+          <i class="fas fa-eye col-1 my-auto text-center save-icon" (click)="viewDoc(file.id)"></i>
+          <i class="fas fa-trash col-1 my-auto text-center delete-icon" (click)="deleteCurrentFile(file.id)"  *ngIf="creatingOrEditing"
+            [ngClass]="{'disabled animated infinite pulse':deleting}">
+          </i>
+        </div>
+        <div class="mx-auto my-auto text-center" style="padding: 20px" *ngIf="!memberFiles.length">
+          <i class="fas fa-clipboard fa-4x" style="color:rgb(230, 230, 230)"></i><br><br>
+          Add Files!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

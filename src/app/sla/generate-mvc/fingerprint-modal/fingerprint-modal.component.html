@@ -2,7 +2,7 @@
     <div class="ml-4">
         <h4 class="text-medi text-muted mt-2" id="title">Enrollment</h4>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid mt-4">
         <p class="col-md-12 text-info"><i class="fas fa-exclamation-circle"></i>
             The index finger is preferred during enrollment.</p>
         <br>
@@ -46,7 +46,7 @@
                     <span (click)="captureFingerprint('left')"
                         class="col-md-12 btn mt-2 btn-secondary btn-sm text-center"
                         style="white-space:normal !important; word-wrap: break-word; word-break: normal;"
-                        [ngClass]="{'disabled': !activeLeftFinger || fpCount[0] > 2 || textLeft === 'Place Your finger on the Machine', 'disabled-btn': !activeLeftFinger || fpCount[0] > 2 }">
+                        [ngClass]="{'disabled': !activeLeftFinger || fpCount[0] > 2 || textLeft === 'Place Your finger on the Machine' || textLeft === 'Captured', 'disabled-btn': !activeLeftFinger || fpCount[0] > 2 }">
                         {{textLeft}}</span>
                 </div>
                 <div class="col-md-3 form-group" *ngFor="let fp of leftFps">

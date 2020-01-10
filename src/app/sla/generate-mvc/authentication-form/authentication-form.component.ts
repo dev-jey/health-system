@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ServiceProviderService } from '../../../_services/ServiceProvider/service-provider.service';
 import { AlertService } from 'src/app/_services/shared/alert.service';
+import { telFilter } from 'src/app/_pipes/tel.pip';
 
 
 @Component({
@@ -32,10 +33,10 @@ export class AuthenticationFormComponent implements OnInit {
   dsend: string;
   showOptForm: boolean;
   optValidated: boolean;
-  clearSubDepartments: boolean;
   constructor(
     private fb: FormBuilder,
     private serviceProvider: ServiceProviderService,
+    private telFilter: telFilter,
     private alert: AlertService
   ) { }
 
@@ -55,7 +56,11 @@ export class AuthenticationFormComponent implements OnInit {
    * Set subdepartments on select department
    */
   onSelectDept = () => {
-    this.clearSubDepartments = true;
+    this.subDepartments = [];
+    this.deptSelected = false;
+    this.departmentForm.patchValue({
+      sub_dept_id: null
+    });
     this.currentDepartment = this.departmentForm.value.department_id;
     this.allDepartments.forEach(dept => {
       if (dept.id === this.currentDepartment) {
@@ -98,7 +103,8 @@ export class AuthenticationFormComponent implements OnInit {
     this.serviceProvider.generateOTP(mobileNo, this.dsend).subscribe((data) => {
       this.showOptForm = true;
       this.verifyButtonText = 'Verify';
-      this.alert.fire('Success!', `OTP has been sent to ${mobileNo}. Kindly request customer to provide OTP for verification`, 'success')
+      this.alert.fire('Success!', `OTP has been sent to ${this.telFilter.transform(mobileNo)}.
+       Kindly request customer to provide OTP for verification`, 'success')
     }, (error) => {
       this.alert.fire('Error!', 'OPT number has not been sent successfully. Please try again', 'error', false)
     })
@@ -141,7 +147,7 @@ export class AuthenticationFormComponent implements OnInit {
   resendOTP = (mobileNo) => {
     this.loading = true;
     this.serviceProvider.resendOTP(mobileNo).subscribe((data) => {
-      this.alert.fire('Success!', `OTP has been resent to ${mobileNo}. Kindly request customer to provide OTP for verification`
+      this.alert.fire('Success!', `OTP has been resent to ${this.telFilter.transform(mobileNo)}. Kindly request customer to provide OTP for verification`
         , 'success');
     })
   }
