@@ -40,23 +40,14 @@ export class ConsultationsComponent implements OnInit {
   ngOnInit() {
     this.memberData.consultation ? this.consultations = this.memberData.consultation : null;
     this.setFinalDataItems.emit({ consultations: this.consultations });
-    this.consultations.forEach(consultation=>{
-      this.consultationSubTotal = 0;
-      this.consultationSubTotal += consultation.amount;
-    })
     // this.calculateAmount({ consultationForm: null });
   }
-  onChange() {
-    this.consultations.forEach(consultation=>{
-      console.log(consultation)
-      this.consultationSubTotal = 0;
-      this.consultationSubTotal += consultation.amount;
-    })
+  onChange(consultation) {
     // this.setFinalDataItems.emit({ consultations: this.consultations });
+    consultation.amount = consultation.units * consultation.unit_price;
   }
   addConsultation() {
     this.consultations.push({ description: '', units: '', unit_price: '', amount:0, qualification: '', file: '' });
-    console.log(this.consultations)
   }
 
 }

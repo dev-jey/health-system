@@ -36,7 +36,7 @@ import { PreauthUnlockPipe } from '../_pipes/preauth/preauth-unlock.pipe';
 import { HospitalConfigsPipe } from '../_pipes/hospital-configs.pipe';
 import { ClaimLockPipe } from '../_pipes/claim/claim-lock.pipe';
 import { ClaimUnlockPipe } from '../_pipes/claim/claim-unlock.pipe';
-
+import { CalculateSubtotalPipe } from '../_pipes/calculate-subtotal.pipe';
 
 @NgModule({
   entryComponents:[BreakdownDialogComponent],
@@ -51,6 +51,7 @@ import { ClaimUnlockPipe } from '../_pipes/claim/claim-unlock.pipe';
     ClaimLockPipe,
     ClaimUnlockPipe,
     HospitalConfigsPipe,
+    CalculateSubtotalPipe,
     calculateAge,
     VerifyFingerprintComponent,
     SearchMemberComponent,

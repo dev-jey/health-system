@@ -15,6 +15,7 @@
             <table class="table table-hover table-responsive-sm text-left layout-table">
               <thead>
                 <tr>
+                  <th></th>
                   <th>Consultation</th>
                   <th>Qualification</th>
                   <th>Unit</th>
@@ -27,6 +28,7 @@
               <tbody *ngIf="creatingOrEditing">
                 <tr *ngFor="let consultation of consultations; let i = index" class="animated fadeIn faster"
                   class="animated fadeIn faster">
+                  <td>{{i+1}}</td>
                   <td>
                     <input type="text" id="description" class="table-inputs" name="description"
                       [(ngModel)]="consultation.description" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
@@ -63,8 +65,10 @@
                 </tr>
                 <tr class="animated fadeIn faster" *ngIf="consultations.length">
                   <td>
+
                     <b>Total</b>
                   </td>
+                  <td></td>
                   <td>
                   </td>
                   <td>
@@ -76,7 +80,7 @@
                   <td *ngIf="creatingOrEditing">
                   </td>
                   <td class="text-center">
-                    <b class="total-amount">Ksh {{consultationSubTotal}}</b>
+                    <b class="total-amount">Ksh {{consultations | calculateSubtotal}}</b>
                   </td>
                 </tr>
               </tbody>
