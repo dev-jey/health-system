@@ -2,13 +2,14 @@
   <div class="card-plain col-md-12">
     <div class="row col-md-12">
       <h4 class="text-medi">Consultations</h4>
-      <button class="btn btn-sm btn-info float-right ml-auto" (click)="addConsultation($event)">Add</button>
+      <button class="btn btn-sm btn-info float-right ml-auto" (click)="addConsultation($event)"
+        *ngIf="!consultations.length">Add</button>
     </div>
     <hr>
     <div class="row">
       <div class="col-xl-12 col-12 mt-3">
-        <form [formGroup]="consultationForm" novalidate>
-          <div formArrayName="consultations">
+        <form>
+          <div>
             <div class="col-md-12">
             </div>
             <table class="table table-hover table-responsive-sm text-left layout-table">
@@ -24,26 +25,26 @@
                 </tr>
               </thead>
               <tbody *ngIf="creatingOrEditing">
-                <tr *ngFor="let row of consultations.controls; let i = index" class="animated fadeIn faster"
-                  class="animated fadeIn faster" [formGroupName]="i">
+                <tr *ngFor="let consultation of consultations; let i = index" class="animated fadeIn faster"
+                  class="animated fadeIn faster">
                   <td>
                     <input type="text" id="description" class="table-inputs" name="description"
-                      formControlName="description" (change)="checkInputChanges()" />
+                      [(ngModel)]="consultation.description" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <input type="text" id="qualification" class=" table-inputs" name="qualification"
-                      formControlName="qualification" (change)="checkInputChanges()" />
+                      [(ngModel)]="consultation.qualification" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <input type="number" onkeydown="return event.keyCode !== 69" class=" table-inputs" name="units"
-                      formControlName="units" />
+                      [(ngModel)]="consultation.units" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <input type="number" onkeydown="return event.keyCode !== 69" class=" table-inputs" name="unit_price"
-                      formControlName="unit_price" />
+                      [(ngModel)]="consultation.unit_price" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input type="number" class=" table-inputs" name="amount" [value]="unit_price*units" />
+                    <input type="number" class=" table-inputs" name="amount" [(ngModel)]="consultation.amount" [value]="consultation.units*consultation.unit_price" disabled="true" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <div class="col-md-12">
@@ -54,8 +55,10 @@
                     </div>
                   </td>
                   <td class="text-center">
+                    <i class="fas fa-plus save-icon float-right mx-auto" (click)="addConsultation()"
+                      *ngIf="consultation.description && consultation.qualification && consultation.units && consultation.unit_price && consultations.length == i+1"></i>
                     <i class="fas fa-trash delete-icon"
-                  (click)="deductSubTotalAmount.emit({index: i, _type: 'consultation'});deleteItem.emit({index:i, array:consultations.controls})"></i>
+                      (click)="deductSubTotalAmount.emit({index: i, _type: 'consultation'});deleteItem.emit({index:i, array:consultations})"></i>
                   </td>
                 </tr>
                 <tr class="animated fadeIn faster" *ngIf="consultations.length">
@@ -73,7 +76,7 @@
                   <td *ngIf="creatingOrEditing">
                   </td>
                   <td class="text-center">
-                    <b class="total-amount">Ksh {{totalAmount}}</b>
+                    <b class="total-amount">Ksh {{consultationSubTotal}}</b>
                   </td>
                 </tr>
               </tbody>

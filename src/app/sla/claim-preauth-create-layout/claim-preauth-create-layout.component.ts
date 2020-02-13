@@ -177,7 +177,6 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
       this.consultations = consultations;
       this.consultationSubTotal = 0;
       this.consultations.forEach(consultation => {
-        console.log(consultation)
         this.consultationSubTotal += consultation.amount;
       });
     }
@@ -451,6 +450,8 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
    */
   calculateAmount(value) {
     const { consultationForm, serviceForm, prescriptionForm } = value;
+    console.log('{{{{{{{{{{{{{{{{{{', consultationForm)
+    if(!consultationForm && !serviceForm && !prescriptionForm) return;
     if (consultationForm) {
       this.consultationAmount = this.calculateSubTotals(consultationForm);
     }
@@ -460,9 +461,11 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
     if (prescriptionForm) {
       this.prescriptionAmount = this.calculateSubTotals(prescriptionForm)
     }
+    console.log('current', this.consultationAmount, 'Subtotal', this.consultationSubTotal)
     this.grandTotal = this.consultationSubTotal + this.consultationAmount
       + this.serviceAmount + this.serviceSubTotal
       + this.prescriptionAmount + this.prescriptionSubTotal;
+      console.log('Grand total: ', this.grandTotal)
   }
 
   /**
