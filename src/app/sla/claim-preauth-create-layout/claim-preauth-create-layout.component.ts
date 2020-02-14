@@ -80,15 +80,14 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
     this.serviceFile.filename = uploadInitialText;
     this.prescriptionFile.filename = uploadInitialText;
     this.docFile.filename = uploadInitialText;
-    console.log(this.memberData)
   }
+
 
   /**
    * 
    * Get member history
    */
   getHistory() {
-    console.log(this.memberData)
     const user = JSON.parse(localStorage.getItem("mediclaimUser"))
     const payload = {
       member_no: this.memberData.user.bls_member.member_id,
@@ -196,6 +195,10 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
       });
     }
     if (nhif_rebate) this.nhif_rebate = nhif_rebate;
+
+    this.grandTotal = this.consultationSubTotal + this.consultationAmount
+      + this.serviceAmount + this.serviceSubTotal
+      + this.prescriptionAmount + this.prescriptionSubTotal;
   }
 
   /**
@@ -434,41 +437,6 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
   }
 
   /**
-   * 
-   * Calculate totals helper function
-   */
-
-  calculateSubTotals(form) {
-    let { units, unit_price } = form.value;
-    if (!units) units = 0;
-    if (!unit_price) unit_price = 0;
-    return parseInt(units) * parseFloat(unit_price);
-  }
-
-  /**
-   * Calculate total amount for individual steps and the grand total
-   */
-  calculateAmount(value) {
-    const { consultationForm, serviceForm, prescriptionForm } = value;
-    console.log('{{{{{{{{{{{{{{{{{{', consultationForm)
-    if(!consultationForm && !serviceForm && !prescriptionForm) return;
-    if (consultationForm) {
-      this.consultationAmount = this.calculateSubTotals(consultationForm);
-    }
-    if (serviceForm) {
-      this.serviceAmount = this.calculateSubTotals(serviceForm)
-    }
-    if (prescriptionForm) {
-      this.prescriptionAmount = this.calculateSubTotals(prescriptionForm)
-    }
-    console.log('current', this.consultationAmount, 'Subtotal', this.consultationSubTotal)
-    this.grandTotal = this.consultationSubTotal + this.consultationAmount
-      + this.serviceAmount + this.serviceSubTotal
-      + this.prescriptionAmount + this.prescriptionSubTotal;
-      console.log('Grand total: ', this.grandTotal)
-  }
-
-  /**
    * Deduct total on delete item
    */
   deductSubTotalAmount(data) {
@@ -519,31 +487,12 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
    * Convert image to base64
    */
   convertFileToBase64(event: any): void {
-    if (typeof event === 'string') {
-      const fileUpload = { filename: 'File Upload' }
-      switch (event) {
-        case 'consultation':
-          this.consultationFile = fileUpload
-          break;
-
-        case 'service':
-          this.serviceFile = fileUpload
-          break;
-        case 'prescription':
-          this.prescriptionFile = fileUpload
-          break;
-
-        default:
-          break;
-      }
-      return;
-    }
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       let file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.setRequestFiles(event.target.name, file, reader);
+        return this.setRequestFiles(event.target.name, file, reader);
       };
     }
   }
@@ -568,6 +517,7 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
     switch (name) {
       case 'consultationFile':
         this.consultationFile = this.setFileStructure(file, reader);
+        return this.consultationFile
         break;
       case 'serviceFile':
         this.serviceFile = this.setFileStructure(file, reader);

@@ -22,44 +22,51 @@
                   <th>Unit Price</th>
                   <th>Amount</th>
                   <th class="text-center">File</th>
-                  <th *ngIf="creatingOrEditing" class="text-center">Action</th>
+                  <th class="text-center">Action</th>
                 </tr>
               </thead>
-              <tbody *ngIf="creatingOrEditing">
+              <tbody>
                 <tr *ngFor="let consultation of consultations; let i = index" class="animated fadeIn faster"
                   class="animated fadeIn faster">
-                  <td>{{i+1}}</td>
+                  <td class="text-center">{{i+1}}</td>
                   <td>
                     <input type="text" id="description" class="table-inputs" name="description"
-                      [(ngModel)]="consultation.description" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
+                      [(ngModel)]="consultation.description" (keyup)="onChange($event, consultation)"
+                      [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <input type="text" id="qualification" class=" table-inputs" name="qualification"
-                      [(ngModel)]="consultation.qualification" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
+                      [(ngModel)]="consultation.qualification" (keyup)="onChange($event, consultation)"
+                      [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <input type="number" onkeydown="return event.keyCode !== 69" class=" table-inputs" name="units"
-                      [(ngModel)]="consultation.units" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
+                      [(ngModel)]="consultation.units" (keyup)="onChange($event, consultation)"
+                      [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <input type="number" onkeydown="return event.keyCode !== 69" class=" table-inputs" name="unit_price"
-                      [(ngModel)]="consultation.unit_price" (change)="onChange(consultation)" [ngModelOptions]="{standalone: true}" />
+                      [(ngModel)]="consultation.unit_price" (keyup)="onChange($event, consultation)"
+                      [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input type="number" class=" table-inputs" name="amount" [(ngModel)]="consultation.amount" [value]="consultation.units*consultation.unit_price" disabled="true" [ngModelOptions]="{standalone: true}" />
+                    <input type="number" class=" table-inputs" name="amount" [(ngModel)]="consultation.amount"
+                      [value]="consultation.units*consultation.unit_price" disabled="true"
+                      [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <div class="col-md-12">
                       <input type="file" class="table-inputs custom-file-input mx-auto" name="consultationFile"
-                        (change)="convertFileToBase64.emit($event)"
+                        (change)="onChange($event, consultation)"
                         accept="application/pdf,image/x-png,image/gif,image/jpeg" maxsize="6000">
-                      <label class="custom-file-label" for="customFile">{{docFile.filename}}</label>
+                      <label class="custom-file-label"
+                        for="customFile">{{consultation.file ? consultation.file.filename: 'Upload file'}}</label>
                     </div>
                   </td>
-                  <td class="text-center">
-                    <i class="fas fa-plus save-icon float-right mx-auto" (click)="addConsultation()"
+                  <td class="text-center edit-icons" *ngIf="creatingOrEditing">
+                    <i class="fas fa-plus save-icon mx-auto px-4" (click)="addConsultation()"
                       *ngIf="consultation.description && consultation.qualification && consultation.units && consultation.unit_price && consultations.length == i+1"></i>
-                    <i class="fas fa-trash delete-icon"
+                    <i class="fas fa-trash delete-icon mx-auto px-4"
                       (click)="deductSubTotalAmount.emit({index: i, _type: 'consultation'});deleteItem.emit({index:i, array:consultations})"></i>
                   </td>
                 </tr>
@@ -80,7 +87,7 @@
                   <td *ngIf="creatingOrEditing">
                   </td>
                   <td class="text-center">
-                    <b class="total-amount">Ksh {{consultations | calculateSubtotal}}</b>
+                    <b class="total-amount">Ksh {{totalAmount}}</b>
                   </td>
                 </tr>
               </tbody>

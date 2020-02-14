@@ -229,6 +229,18 @@ mat-label,
   color: rgb(0, 10, 97);
   text-emphasis: bold;
 }
+.edit-icons{
+  position: relative;
+}
 .save-icon{
   cursor: pointer;color: #28a745;
+}
+
+.table-inputs{
+  border: solid 1px rgb(235, 235, 235);
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  background: rgb(253, 253, 253);
 }

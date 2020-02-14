@@ -37,6 +37,7 @@ import { HospitalConfigsPipe } from '../_pipes/hospital-configs.pipe';
 import { ClaimLockPipe } from '../_pipes/claim/claim-lock.pipe';
 import { ClaimUnlockPipe } from '../_pipes/claim/claim-unlock.pipe';
 import { CalculateSubtotalPipe } from '../_pipes/calculate-subtotal.pipe';
+import { ConvertFilesPipe } from '../_pipes/convert-files.pipe';
 
 @NgModule({
   entryComponents:[BreakdownDialogComponent],
@@ -53,6 +54,7 @@ import { CalculateSubtotalPipe } from '../_pipes/calculate-subtotal.pipe';
     HospitalConfigsPipe,
     CalculateSubtotalPipe,
     calculateAge,
+    ConvertFilesPipe,
     VerifyFingerprintComponent,
     SearchMemberComponent,
     SelectDependentComponent,
@@ -76,6 +78,6 @@ import { CalculateSubtotalPipe } from '../_pipes/calculate-subtotal.pipe';
     GraphsLayoutComponent,
   ],
   imports: [CommonModule, NgSelectModule, SlaRoutingModule, ComponentsModule, MaterialModule],
-  providers: [telFilter]
+  providers: [telFilter, ConvertFilesPipe]
 })
 export class SlaModule { }

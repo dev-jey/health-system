@@ -1,67 +1,13 @@
 <div class="mt-4">
   <div class="card-plain col-md-12">
-    <h4 class="text-medi">Services</h4><hr>
+    <div class="row col-md-12">
+      <h4 class="text-medi">Services</h4>
+      <button class="btn btn-sm btn-info float-right ml-auto" (click)="addService($event)"
+        *ngIf="!services.length">Add</button>
+    </div>
+    <hr>
     <div class="row">
-      <div class="col-xl-4 col-12 mt-2"  *ngIf="creatingOrEditing">
-        <form [formGroup]="serviceForm" (submit)="addService($event)" novalidate>
-          <!-- <div class="col-12 form-group has-success">
-            <label for="name" class="input-label">Service*</label>
-            <ng-select appearance="outline" labelForId="name" [searchable]="true" [clearable]="false"
-              formControlName="name" (change)="setService()">
-              <ng-option *ngFor="let service of serviceOptions" [value]="service.name">
-                {{service.name}}
-              </ng-option>
-            </ng-select>
-            <span class="small text-danger form-error-span"
-              *ngIf="serviceForm.controls['unit_price'].errors && serviceFormSubmitted">
-              {{serviceFormErrors.required}}
-            </span>
-          </div> -->
-          <div class="form-group has-success col-md-12">
-            <label for="units" class="input-label">Service*</label>
-            <input type="text" id="service" class=" form-control input" name="service" formControlName="name" />
-            <span class="small text-danger form-error-span"
-              *ngIf="serviceForm.controls['name'].errors && serviceFormSubmitted">
-              {{serviceFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="units" class="input-label">Units*</label>
-            <input type="number" onkeydown="return event.keyCode !== 69" class=" form-control input"
-              name="units" formControlName="units" (change)="checkFormChanges()" />
-            <span class="small text-danger form-error-span"
-              *ngIf="serviceForm.controls['unit_price'].errors && serviceFormSubmitted">
-              {{serviceFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="unit_price" class="input-label">Unit Price*</label>
-            <input type="number" onkeydown="return event.keyCode !== 69" class=" form-control input"
-              name="unit_price" formControlName="unit_price" (change)="checkFormChanges()" />
-            <span class="small text-danger form-error-span"
-              *ngIf="serviceForm.controls['unit_price'].errors && serviceFormSubmitted">
-              {{serviceFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="amount" class="input-label">Amount</label>
-            <p type="text" class=" form-control input" name="amount" disabled="true">{{amount}}</p>
-          </div>
-          <div class="col-md-12">
-            <div class="custom-file mt-4 mb-4">
-              <input type="file" class="custom-file-input mx-auto"
-                (change)="convertFileToBase64.emit($event)" name="serviceFile"
-                accept="application/pdf,image/x-png,image/gif,image/jpeg" maxsize="6000" >
-              <label class="custom-file-label" for="customFile">{{docFile.filename}}</label>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <button class="btn btn-sm btn-info float-right">Add &nbsp;<i class="fas fa-chevron-right"></i></button>
-          </div>
-        </form>
-      </div>
-      <div class="col-xl-1"  *ngIf="creatingOrEditing"></div>
-      <div class="col-xl-7 col-12 mt-3"  [ngClass]="{'col-xl-12': viewing }">
+      <div class="col-xl-12 col-12 mt-3" [ngClass]="{'col-xl-12': viewing }">
         <table class="table table-hover table-responsive-sm text-left layout-table">
           <thead class="text-left">
             <tr>
@@ -70,28 +16,42 @@
               <th>Unit Price</th>
               <th>Amount</th>
               <th class="text-center">File</th>
-              <th  class="text-center" *ngIf="creatingOrEditing">Action</th>
+              <th class="text-center" *ngIf="creatingOrEditing">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let row of services; let i = index" class="animated fadeIn faster">
+            <tr *ngFor="let service of services; let i = index" class="animated fadeIn faster">
               <td>
-                {{row.name}}
+                <input type="text" id="service" name="service" [(ngModel)]="service.name" class="table-inputs"
+                  (keyup)="onChange($event, service)" [ngModelOptions]="{standalone: true}" />
               </td>
               <td>
-                {{row.units}}
+                <input type="number" onkeydown="return event.keyCode !== 69" name="units"
+                  [(ngModel)]="service.units" class="table-inputs" (keyup)="onChange($event, service)"
+                  [ngModelOptions]="{standalone: true}" />
               </td>
               <td>
-                {{row.unit_price}}
+
+                <input type="number" onkeydown="return event.keyCode !== 69"
+                  name="unit_price" [(ngModel)]="service.unit_price" class="table-inputs"
+                  (keyup)="onChange($event, service)" [ngModelOptions]="{standalone: true}" />
               </td>
               <td>
-                {{row.amount}}
+                <input type="number" class=" table-inputs" name="amount" [(ngModel)]="service.amount"
+                  [value]="service.units*service.unit_price" disabled="true" [ngModelOptions]="{standalone: true}" />
               </td>
               <td class="text-center">
-                {{row.file && row.file.filename || 'N/A'}}
+                <div class="col-md-12">
+                  <input type="file" class="table-inputs custom-file-input mx-auto" name="serviceFile"
+                    (change)="onChange($event, service)" accept="application/pdf,image/x-png,image/gif,image/jpeg"
+                    maxsize="6000">
+                  <label class="custom-file-label"
+                    for="customFile">{{service.file ? service.file.filename: 'Upload file'}}</label>
+                </div>
               </td>
-              <td  class="text-center"   *ngIf="creatingOrEditing">
-                <i class="fas fa-pencil-alt save-icon pr-4" *ngIf="editing" (click)="editService(row);deductSubTotalAmount.emit({index: i, _type: 'service'});deleteItem.emit({index:i, array:services})"></i>
+              <td class="text-center" *ngIf="creatingOrEditing">
+                <i class="fas fa-pencil-alt save-icon pr-4" *ngIf="editing"
+                  (click)="editService(service);deductSubTotalAmount.emit({index: i, _type: 'service'});deleteItem.emit({index:i, array:services})"></i>
                 <i class="fas fa-trash delete-icon"
                   (click)="deductSubTotalAmount.emit({index: i, _type: 'service'});deleteItem.emit({index:i, array:services})"></i>
               </td>
@@ -107,9 +67,9 @@
               </td>
               <td>
               </td>
-              <td  *ngIf="creatingOrEditing">
+              <td *ngIf="creatingOrEditing">
               </td>
-              <td  class="text-center">
+              <td class="text-center">
                 <b class="total-amount">Ksh {{totalAmount}}</b>
               </td>
             </tr>

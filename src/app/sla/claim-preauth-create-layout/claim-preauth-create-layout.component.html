@@ -154,7 +154,7 @@
                   <div class="custom-file mt-4 mb-4" *ngIf="creatingOrEditing">
                     <input type="file" class="custom-file-input mx-auto" formControlName="file"
                       (change)="convertFileToBase64($event)" name="invoiceFile"
-                      accept="application/pdf,image/x-png,image/gif,image/jpeg" maxsize="6000" >
+                      accept="application/pdf,image/x-png,image/gif,image/jpeg" maxsize="6000">
                     <label class="custom-file-label" for="customFile">{{invoiceFile.filename}}</label>
                   </div>
                   <div *ngIf="viewing && memberData.invoice">
@@ -181,45 +181,43 @@
             </div>
           </div>
           <br><br>
-            <div>
-              <app-consultations (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
-                (convertFileToBase64)="convertFileToBase64($event)" [docFile]="consultationFile" [editing]="editing"
-                [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [amount]="consultationAmount"
-                (setFinalDataItems)="setFinalDataItems($event)" [memberData]="memberData" [_type]="_type"
-                [totalAmount]="consultationSubTotal" (calculateAmount)="calculateAmount($event)">
-              </app-consultations>
-            </div>
-            <div>
-              <app-diagnosis (deleteItem)="deleteItem($event)" (setFinalDataItems)="setFinalDataItems($event)"
-                [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
-                [memberData]="memberData" [investigations]="investigations"></app-diagnosis>
-            </div>
-            <div>
-              <app-service (deleteItem)="deleteItem($event)" [amount]="serviceAmount" [editing]="editing"
-                [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-                (setFinalDataItems)="setFinalDataItems($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
-                (convertFileToBase64)="convertFileToBase64($event)" [docFile]="serviceFile" [_type]="_type"
-                [totalAmount]="serviceSubTotal" [memberData]="memberData" (calculateAmount)="calculateAmount($event)">
-              </app-service>
-            </div>
-            <div>
-              <app-prescriptions (deleteItem)="deleteItem($event)" [amount]="prescriptionAmount"
-                (deductSubTotalAmount)="deductSubTotalAmount($event)" [editing]="editing"
-                [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-                (convertFileToBase64)="convertFileToBase64($event)" [docFile]="prescriptionFile"
-                [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
-                [memberData]="memberData" (calculateAmount)="calculateAmount($event)"></app-prescriptions>
-            </div>
-            <div *ngIf="(memberData.department && memberData.department.name.toLowerCase() === 'inpatient') || 
+          <div>
+            <app-consultations (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
+              (setFinalDataItems)="setFinalDataItems($event)" [memberData]="memberData" [_type]="_type"
+              [totalAmount]="consultationSubTotal">
+            </app-consultations>
+          </div>
+          <div>
+            <app-diagnosis (deleteItem)="deleteItem($event)" (setFinalDataItems)="setFinalDataItems($event)"
+              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
+              [memberData]="memberData" [investigations]="investigations"></app-diagnosis>
+          </div>
+          <div>
+            <app-service (deleteItem)="deleteItem($event)" [editing]="editing" [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing" (setFinalDataItems)="setFinalDataItems($event)"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)" [_type]="_type" [totalAmount]="serviceSubTotal"
+              [memberData]="memberData">
+            </app-service>
+          </div>
+          <div>
+            <app-prescriptions (deleteItem)="deleteItem($event)" [amount]="prescriptionAmount"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)" [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
+              (convertFileToBase64)="convertFileToBase64($event)" [docFile]="prescriptionFile"
+              [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
+              [memberData]="memberData"></app-prescriptions>
+          </div>
+          <div *ngIf="(memberData.department && memberData.department.name.toLowerCase() === 'inpatient') || 
               (memberData.department &&  memberData.department.name.toLowerCase() === 'maternity')">
-              <app-nhif-rebate (setFinalDataItems)="setFinalDataItems($event)" [_type]="_type" [editing]="editing"
-                [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [memberData]="memberData"></app-nhif-rebate>
-            </div>
-            <div>
-              <app-supporting-documents (convertFileToBase64)="convertFileToBase64($event)" [docFile]="docFile"
-                [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-                [memberData]="memberData" (deleteItem)="deleteItem($event)" [_type]="_type"></app-supporting-documents>
-            </div>
+            <app-nhif-rebate (setFinalDataItems)="setFinalDataItems($event)" [_type]="_type" [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [memberData]="memberData"></app-nhif-rebate>
+          </div>
+          <div>
+            <app-supporting-documents (convertFileToBase64)="convertFileToBase64($event)" [docFile]="docFile"
+              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [memberData]="memberData"
+              (deleteItem)="deleteItem($event)" [_type]="_type"></app-supporting-documents>
+          </div>
           <br><br>
         </mat-tab>
         <mat-tab label="History" *ngIf="creatingOrEditing">
@@ -236,37 +234,37 @@
             </thead>
             <tbody>
               <tr *ngFor="let history of memberHistory.mvc">
-                
+
                 <td>{{history.user.first_name}}
                   {{history.user.last_name}}
-              </td>
-              <td>{{history.claim.created_at.substr(0,10)}}<br>
+                </td>
+                <td>{{history.claim.created_at.substr(0,10)}}<br>
                   {{history.claim.created_at.substring(11,16) }}
-              </td>
-              <td>{{history.bls_serviceprovider.hospital.name}}</td>
-              <td>{{history.department.name}}</td>
-              <td>
+                </td>
+                <td>{{history.bls_serviceprovider.hospital.name}}</td>
+                <td>{{history.department.name}}</td>
+                <td>
                   <table>
-                      <tbody>
+                    <tbody>
                       <tr *ngFor="let diagnosis of memberHistory.diagnosis">
-                          <td>
-                              {{diagnosis.healthcondition.name}}
-                          </td>
+                        <td>
+                          {{diagnosis.healthcondition.name}}
+                        </td>
                       </tr>
-                      </tbody>
+                    </tbody>
                   </table>
-              </td>
-              <td>
+                </td>
+                <td>
                   <table>
-                      <tbody>
+                    <tbody>
                       <tr *ngFor="let investigation of memberHistory.investigations">
-                          <td>
-                              {{investigation.investigation.name}}
-                          </td>
+                        <td>
+                          {{investigation.investigation.name}}
+                        </td>
                       </tr>
-                      </tbody>
+                    </tbody>
                   </table>
-              </td>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -275,43 +273,41 @@
             No history!
           </div>
           <hr>
-            <div>
-              <app-consultations (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
-                (convertFileToBase64)="convertFileToBase64($event)" [docFile]="consultationFile" [_type]="_type"
-                [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-                [amount]="consultationAmount" (setFinalDataItems)="setFinalDataItems($event)" [memberData]="memberData"
-                [totalAmount]="consultationSubTotal" (calculateAmount)="calculateAmount($event)"></app-consultations>
-            </div>
-            <div>
-              <app-diagnosis (deleteItem)="deleteItem($event)" (setFinalDataItems)="setFinalDataItems($event)"
-                [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
-                [memberData]="memberData" [investigations]="investigations"></app-diagnosis>
-            </div>
-            <div>
-              <app-service (deleteItem)="deleteItem($event)" [amount]="serviceAmount" [editing]="editing"
-                [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-                (setFinalDataItems)="setFinalDataItems($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
-                (convertFileToBase64)="convertFileToBase64($event)" [docFile]="serviceFile" [_type]="_type"
-                [totalAmount]="serviceSubTotal" [memberData]="memberData" (calculateAmount)="calculateAmount($event)">
-              </app-service>
-            </div>
-            <div>
-              <app-prescriptions (deleteItem)="deleteItem($event)" [amount]="prescriptionAmount"
-                (deductSubTotalAmount)="deductSubTotalAmount($event)" [editing]="editing"
-                [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-                (convertFileToBase64)="convertFileToBase64($event)" [docFile]="prescriptionFile"
-                [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
-                [memberData]="memberData" (calculateAmount)="calculateAmount($event)"></app-prescriptions>
-            </div>
-            <div>
-              <app-nhif-rebate (setFinalDataItems)="setFinalDataItems($event)" [_type]="_type" [editing]="editing"
-                [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [memberData]="memberData"></app-nhif-rebate>
-            </div>
-            <div>
-              <app-supporting-documents (convertFileToBase64)="convertFileToBase64($event)" [docFile]="docFile"
-                [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
-                [memberData]="memberData" (deleteItem)="deleteItem($event)"></app-supporting-documents>
-            </div>
+          <div>
+            <app-consultations (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [_type]="_type" [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
+              (setFinalDataItems)="setFinalDataItems($event)" [memberData]="memberData">
+            </app-consultations>
+          </div>
+          <div>
+            <app-diagnosis (deleteItem)="deleteItem($event)" (setFinalDataItems)="setFinalDataItems($event)"
+              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
+              [memberData]="memberData" [investigations]="investigations"></app-diagnosis>
+          </div>
+          <div>
+            <app-service (deleteItem)="deleteItem($event)" [editing]="editing" [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing" (setFinalDataItems)="setFinalDataItems($event)"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)" [_type]="_type" [totalAmount]="serviceSubTotal"
+              [memberData]="memberData">
+            </app-service>
+          </div>
+          <div>
+            <app-prescriptions (deleteItem)="deleteItem($event)" [amount]="prescriptionAmount"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)" [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
+              (convertFileToBase64)="convertFileToBase64($event)" [docFile]="prescriptionFile"
+              [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
+              [memberData]="memberData"></app-prescriptions>
+          </div>
+          <div>
+            <app-nhif-rebate (setFinalDataItems)="setFinalDataItems($event)" [_type]="_type" [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [memberData]="memberData"></app-nhif-rebate>
+          </div>
+          <div>
+            <app-supporting-documents (convertFileToBase64)="convertFileToBase64($event)" [docFile]="docFile"
+              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
+              [memberData]="memberData" (deleteItem)="deleteItem($event)"></app-supporting-documents>
+          </div>
         </mat-tab>
       </mat-tab-group>
       <div class="container-fluid">
