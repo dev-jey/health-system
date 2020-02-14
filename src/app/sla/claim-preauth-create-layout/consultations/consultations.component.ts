@@ -1,6 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { AlertService } from 'src/app/_services/shared/alert.service';
 import { ConvertFilesPipe } from 'src/app/_pipes/convert-files.pipe';
 
 @Component({

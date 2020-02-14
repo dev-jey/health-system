@@ -1,88 +1,13 @@
 <div class="mt-4">
   <div class="card-plain col-md-12">
-    <h4 class="text-medi">Prescriptions</h4><hr>
+    <div class="row col-md-12">
+      <h4 class="text-medi">Prescriptions</h4>
+      <button class="btn btn-sm btn-info float-right ml-auto" (click)="addPrescription($event)"
+        *ngIf="!prescriptions.length">Add</button>
+    </div>
+    <hr>
     <div class="row">
-      <div class="col-xl-4 col-12 mt-2" *ngIf="creatingOrEditing">
-        <form [formGroup]="prescriptionForm" (submit)="addPrescription($event)" novalidate>
-          <div class="form-group has-success col-md-12">
-            <label for="drug" class="input-label">Drug*</label>
-            <input type="text" id="drug" class=" form-control input" name="drug" formControlName="drug" />
-            <span class="small text-danger form-error-span"
-              *ngIf="prescriptionForm.controls['drug'].errors && prescriptionFormSubmitted">
-              {{prescriptionFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="dosage" class="input-label">Dosage*</label>
-            <ng-select appearance="outline" labelForId="dosage" [searchable]="true" [clearable]="false"
-              formControlName="dosage" (change)="setDosage()">
-              <ng-option *ngFor="let dose of dosages" [value]="dose.name">
-                {{dose.name}}
-              </ng-option>
-            </ng-select>
-            <span class="small text-danger form-error-span"
-              *ngIf="prescriptionForm.controls['dosage'].errors && prescriptionFormSubmitted">
-              {{prescriptionFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="administration" class="input-label">Administration*</label>
-            <ng-select appearance="outline" labelForId="administration" [searchable]="true" [clearable]="false"
-              formControlName="administration" (change)="setAdministration()">
-              <ng-option *ngFor="let admin of administrations" [value]="admin.name">
-                {{admin.name}}
-              </ng-option>
-            </ng-select>
-            <span class="small text-danger form-error-span"
-              *ngIf="prescriptionForm.controls['administration'].errors && prescriptionFormSubmitted">
-              {{prescriptionFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="duration" class="input-label">Duration*(Days)</label>
-            <input type="number" onkeydown="return event.keyCode !== 69" id="duration" class=" form-control input"
-              name="duration" formControlName="duration" />
-            <span class="small text-danger form-error-span"
-              *ngIf="prescriptionForm.controls['duration'].errors && prescriptionFormSubmitted">
-              {{prescriptionFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="units" class="input-label">Units*</label>
-            <input type="number" onkeydown="return event.keyCode !== 69"  class=" form-control input"
-              name="units" formControlName="units" (change)="checkFormChanges()" />
-            <span class="small text-danger form-error-span"
-              *ngIf="prescriptionForm.controls['units'].errors && prescriptionFormSubmitted">
-              {{prescriptionFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="unit_price" class="input-label">Unit Price*</label>
-            <input type="number" onkeydown="return event.keyCode !== 69" class=" form-control input"
-              name="unit_price" formControlName="unit_price" (change)="checkFormChanges()" />
-            <span class="small text-danger form-error-span"
-              *ngIf="prescriptionForm.controls['unit_price'].errors && prescriptionFormSubmitted">
-              {{prescriptionFormErrors.required}}
-            </span>
-          </div>
-          <div class="form-group has-success col-md-12">
-            <label for="amount" class="input-label">Amount</label>
-            <p class=" form-control input" name="amount" disabled="true">{{amount}}</p>
-          </div>
-          <div class="col-md-12">
-            <div class="custom-file mt-4 mb-4">
-              <input type="file" class="custom-file-input mx-auto"
-                (change)="convertFileToBase64.emit($event)" name="prescriptionFile"
-                accept="application/pdf,image/x-png,image/gif,image/jpeg" maxsize="6000" >
-              <label class="custom-file-label" for="customFile">{{docFile.filename}}</label>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <button class="btn btn-sm btn-info float-right">Add &nbsp;<i class="fas fa-chevron-right"></i></button>
-          </div>
-        </form>
-      </div>
-      <div class="col-xl-8 col-12 mt-3 mx-auto" [ngClass]="{'col-xl-12': viewing }">
+      <div class="col-xl-12 col-12 mt-3 mx-auto">
         <table class="table table-hover table-responsive-md text-left layout-table prescription-table">
           <thead>
             <th>Drug</th>
@@ -96,34 +21,58 @@
             <th class="text-center" *ngIf="creatingOrEditing">Action</th>
           </thead>
           <tbody>
-            <tr class="animated fadeIn faster" *ngFor="let row of prescriptions; let i = index">
+            <tr class="animated fadeIn faster" *ngFor="let prescription of prescriptions; let i = index">
               <td>
-                {{row.drug}}
+                <input type="text" id="drug" class="table-inputs" name="drug" [(ngModel)]="prescription.drug" />
               </td>
               <td>
-                {{row.dosage}}
+                <ng-select appearance="outline" labelForId="dosage" [searchable]="true" [clearable]="false"
+                  [(ngModel)]="prescription.dosage" (change)="onChange($event, prescription)">
+                  <ng-option *ngFor="let dose of dosages" [value]="dose.name">
+                    {{dose.name}}
+                  </ng-option>
+                </ng-select>
               </td>
               <td>
-                {{row.administration}}
+                <ng-select appearance="outline" labelForId="administration" [searchable]="true" [clearable]="false"
+                  [(ngModel)]="prescription.administration" (change)="onChange($event, prescription)">
+                  <ng-option *ngFor="let admin of administrations" [value]="admin.name">
+                    {{admin.name}}
+                  </ng-option>
+                </ng-select>
               </td>
               <td>
-                {{row.duration}}
+                <input type="number" onkeydown="return event.keyCode !== 69" id="duration" class="table-inputs"
+                  name="duration" [(ngModel)]="prescription.duration" (keyup)="onChange($event, prescription)" />
               </td>
               <td>
-                {{row.units}}
+                <input type="number" onkeydown="return event.keyCode !== 69" class="table-inputs" name="units"
+                  [(ngModel)]="prescription.units" (keyup)="onChange($event, prescription)" />
               </td>
               <td>
-                {{row.unit_price}}
+                <input type="number" onkeydown="return event.keyCode !== 69" class="table-inputs"
+                  [ngModelOptions]="{standalone: true}" name="unit_price" [(ngModel)]="prescription.unit_price"
+                  (keyup)="onChange($event, prescription)" />
               </td>
               <td>
-                {{row.amount}}
+
+                <input type="number" class=" table-inputs" name="amount" [(ngModel)]="prescription.amount"
+                  [value]="prescription.units*prescription.unit_price" disabled="true"
+                  [ngModelOptions]="{standalone: true}" />
               </td>
-              <td class="text-center">
-                {{row.file && row.file.filename || 'N/A'}}
+              <td>
+                <div class="col-md-12">
+                  <input type="file" class="table-inputs custom-file-input mx-auto" name="prescriptionFile"
+                    (change)="onChange($event, prescription)" accept="application/pdf,image/x-png,image/gif,image/jpeg"
+                    maxsize="6000">
+                  <label class="custom-file-label"
+                    for="customFile">{{prescription.file ? prescription.file.filename: 'Upload file'}}</label>
+                </div>
               </td>
               <td class="text-center" *ngIf="creatingOrEditing">
-                <i class="fas fa-pencil-alt save-icon pr-4" *ngIf="editing" (click)="editPrescription(row);deductSubTotalAmount.emit({index: i, _type: 'prescription'});deleteItem.emit({index:i, array:prescriptions})"></i>
-               <i class="fas fa-trash delete-icon"
+                <i class="fas fa-pencil-alt save-icon pr-4" *ngIf="editing"
+                  (click)="editPrescription(row);deductSubTotalAmount.emit({index: i, _type: 'prescription'});deleteItem.emit({index:i, array:prescriptions})"></i>
+                <i class="fas fa-trash delete-icon"
                   (click)="deductSubTotalAmount.emit({index: i, _type: 'prescription'});deleteItem.emit({index:i, array:prescriptions})"></i>
               </td>
             </tr>
@@ -144,7 +93,7 @@
               </td>
               <td>
               </td>
-              <td  *ngIf="creatingOrEditing">
+              <td *ngIf="creatingOrEditing">
               </td>
               <td class="text-center">
                 <b class="total-amount">Ksh {{totalAmount}}</b>

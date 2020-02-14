@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AlertService } from 'src/app/_services/shared/alert.service';
 import { ConvertFilesPipe } from 'src/app/_pipes/convert-files.pipe';
 
 @Component({
@@ -20,7 +18,7 @@ export class ServiceComponent implements OnInit {
   services: Array<any> = [];
   @Input() totalAmount;
 
-  constructor( private alert: AlertService,  private ref: ChangeDetectorRef, private convertFiles: ConvertFilesPipe) { }
+  constructor( private ref: ChangeDetectorRef, private convertFiles: ConvertFilesPipe) { }
   ngOnInit() {
     if (this.memberData.investigation) {
       this.services = this.memberData.investigation;

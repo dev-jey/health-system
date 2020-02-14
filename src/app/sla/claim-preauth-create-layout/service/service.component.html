@@ -50,9 +50,9 @@
                 </div>
               </td>
               <td class="text-center" *ngIf="creatingOrEditing">
-                <i class="fas fa-pencil-alt save-icon pr-4" *ngIf="editing"
-                  (click)="editService(service);deductSubTotalAmount.emit({index: i, _type: 'service'});deleteItem.emit({index:i, array:services})"></i>
-                <i class="fas fa-trash delete-icon"
+                <i class="fas fa-plus save-icon mx-auto px-4" (click)="addConsultation()"
+                  *ngIf="service.name && consultation.units && consultation.unit_price && services.length == i+1"></i>
+                <i class="fas fa-trash delete-icon  mx-auto px-4"
                   (click)="deductSubTotalAmount.emit({index: i, _type: 'service'});deleteItem.emit({index:i, array:services})"></i>
               </td>
             </tr>

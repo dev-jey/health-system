@@ -201,10 +201,9 @@
             </app-service>
           </div>
           <div>
-            <app-prescriptions (deleteItem)="deleteItem($event)" [amount]="prescriptionAmount"
+            <app-prescriptions (deleteItem)="deleteItem($event)" 
               (deductSubTotalAmount)="deductSubTotalAmount($event)" [editing]="editing"
               [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-              (convertFileToBase64)="convertFileToBase64($event)" [docFile]="prescriptionFile"
               [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
               [memberData]="memberData"></app-prescriptions>
           </div>
@@ -292,10 +291,9 @@
             </app-service>
           </div>
           <div>
-            <app-prescriptions (deleteItem)="deleteItem($event)" [amount]="prescriptionAmount"
+            <app-prescriptions (deleteItem)="deleteItem($event)"
               (deductSubTotalAmount)="deductSubTotalAmount($event)" [editing]="editing"
               [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-              (convertFileToBase64)="convertFileToBase64($event)" [docFile]="prescriptionFile"
               [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
               [memberData]="memberData"></app-prescriptions>
           </div>
