@@ -17,7 +17,6 @@ export class PrescriptionsComponent implements OnInit {
   @Input() editing: boolean;
   @Input() viewing: boolean;
   prescriptions: Array<any> = [];
-
   dosages: Array<any> = [
     { "name": "2 times a day (BDS)" }, { "name": "3 times a day (TDS, TID)" },
     { "name": "4 times a day (QDS, QID)" }, { "name": "A sufficient quantity (QS)" },
@@ -59,6 +58,7 @@ export class PrescriptionsComponent implements OnInit {
    * @param prescription 
    */
   onChange(e, prescription) {
+    console.log(prescription)
     prescription.amount = prescription.units * prescription.unit_price;
     if (e.target.name === 'prescriptionFile') {
       this.convertFiles.transform(e).then((res) => {
@@ -66,6 +66,7 @@ export class PrescriptionsComponent implements OnInit {
         this.ref.detectChanges()
       });
     }
+    prescription.mcc_id = String(this.memberData.id);
     this.setFinalDataItems.emit({ prescriptions: this.prescriptions });
   }
 
@@ -73,6 +74,6 @@ export class PrescriptionsComponent implements OnInit {
    * Add a new row
    */
   addPrescription() {
-    this.prescriptions.push({ dosage: '', drug: '', administration: '', duration: '', units: '', unit_price: '', amount: 0, file: '' });
+    this.prescriptions.push({ drug: '', duration: '', units: '', unit_price: '', amount: 0, file: '' });
   }
 }

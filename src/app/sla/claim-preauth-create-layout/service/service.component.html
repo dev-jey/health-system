@@ -3,14 +3,15 @@
     <div class="row col-md-12">
       <h4 class="text-medi">Services</h4>
       <button class="btn btn-sm btn-info float-right ml-auto" (click)="addService($event)"
-        *ngIf="!services.length">Add</button>
+        *ngIf="!services.length && creatingOrEditing">Add</button>
     </div>
     <hr>
     <div class="row">
-      <div class="col-xl-12 col-12 mt-3" [ngClass]="{'col-xl-12': viewing }">
+      <div class="col-xl-12 col-12 mt-3">
         <table class="table table-hover table-responsive-sm text-left layout-table">
           <thead class="text-left">
             <tr>
+              <th></th>
               <th>Service</th>
               <th>Unit</th>
               <th>Unit Price</th>
@@ -21,18 +22,19 @@
           </thead>
           <tbody>
             <tr *ngFor="let service of services; let i = index" class="animated fadeIn faster">
+              <td class="text-center">{{i+1}}.</td>
               <td>
-                <input type="text" id="service" name="service" [(ngModel)]="service.name" class="table-inputs"
-                  (keyup)="onChange($event, service)" [ngModelOptions]="{standalone: true}" />
+                <input type="text" name="service" [(ngModel)]="service.investigation.name" class="table-inputs" placeholder="Investigation"
+                  (keyup)="onChange($event, service)" [ngModelOptions]="{standalone: true}" [disabled]="viewing" />
               </td>
               <td>
-                <input type="number" onkeydown="return event.keyCode !== 69" name="units"
+                <input type="number" onkeydown="return event.keyCode !== 69" name="units" [disabled]="viewing" placeholder="Units"
                   [(ngModel)]="service.units" class="table-inputs" (keyup)="onChange($event, service)"
                   [ngModelOptions]="{standalone: true}" />
               </td>
               <td>
 
-                <input type="number" onkeydown="return event.keyCode !== 69"
+                <input type="number" onkeydown="return event.keyCode !== 69" [disabled]="viewing" placeholder="Unit Price"
                   name="unit_price" [(ngModel)]="service.unit_price" class="table-inputs"
                   (keyup)="onChange($event, service)" [ngModelOptions]="{standalone: true}" />
               </td>
@@ -42,7 +44,7 @@
               </td>
               <td class="text-center">
                 <div class="col-md-12">
-                  <input type="file" class="table-inputs custom-file-input mx-auto" name="serviceFile"
+                  <input type="file" class="table-inputs custom-file-input" name="serviceFile" [disabled]="viewing"
                     (change)="onChange($event, service)" accept="application/pdf,image/x-png,image/gif,image/jpeg"
                     maxsize="6000">
                   <label class="custom-file-label"
@@ -50,9 +52,10 @@
                 </div>
               </td>
               <td class="text-center" *ngIf="creatingOrEditing">
-                <i class="fas fa-plus save-icon mx-auto px-4" (click)="addConsultation()"
-                  *ngIf="service.name && consultation.units && consultation.unit_price && services.length == i+1"></i>
-                <i class="fas fa-trash delete-icon  mx-auto px-4"
+                <i class="fas fa-plus save-icon" (click)="addService()"
+                  *ngIf="service.investigation.name && service.units && service.unit_price && services.length == i+1"></i>
+                  &nbsp; &nbsp; &nbsp; &nbsp;
+                <i class="fas fa-trash delete-icon "
                   (click)="deductSubTotalAmount.emit({index: i, _type: 'service'});deleteItem.emit({index:i, array:services})"></i>
               </td>
             </tr>
@@ -67,9 +70,10 @@
               </td>
               <td>
               </td>
+              <td></td>
               <td *ngIf="creatingOrEditing">
               </td>
-              <td class="text-center">
+              <td class="text-right">
                 <b class="total-amount">Ksh {{totalAmount}}</b>
               </td>
             </tr>

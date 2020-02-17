@@ -1,5 +1,11 @@
 <section>
-  <div class="main-content pt-4 mt-3">
+  <nav aria-label="breadcrumb" class="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/sla/dashboard']">Dashboard</a></li>
+      <li class="breadcrumb-item active">Generate MVC</li>
+    </ol>
+  </nav>
+  <div class="main-content">
     <div class="dashboard-items">
       <mat-horizontal-stepper linear class="generate-mvc">
         <mat-step>
@@ -32,8 +38,9 @@
           <app-authentication-form [completeMVC]="completeMVC" [showBiometricPage]="showBiometricPage"
             [completedCapturing]="completedCapturing" [currentSchemeId]="currentSchemeId" [departments]="departments"
             [hospitalConfigs]="hospitalConfigs" [member]="member" (showBiometric)="showBiometric()"
-            (setDepartmentData)="setDepartmentData($event)" (setNhifData)="setNhifData($event)" (createMVC)="createMVC()"
-            [currentMemberBiometric]="currentMemberBiometric" [allDepartments]="allDepartments">
+            (setDepartmentData)="setDepartmentData($event)" (setNhifData)="setNhifData($event)"
+            (createMVC)="createMVC()" [currentMemberBiometric]="currentMemberBiometric"
+            [allDepartments]="allDepartments">
           </app-authentication-form>
           <app-confirm-mvc-generation [optValidated]="optValidated" [completeMVC]="completeMVC"
             [mcc_number]="mcc_number" [currentMember]="currentMember" [dateOfBirth]="dateOfBirth">

@@ -7,7 +7,6 @@ import * as moment from 'moment';
 export class PreauthUnlockPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    console.log(value)
     let returnValue = false;
     if (moment(value.updated_at).add(value.preauth_time, 'minutes').diff(moment.now()) >= 0) {
       returnValue = false;

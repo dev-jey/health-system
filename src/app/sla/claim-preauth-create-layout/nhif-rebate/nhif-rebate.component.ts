@@ -22,6 +22,12 @@ export class NhifRebateComponent implements OnInit {
 
   ngOnInit() {
     this.initForms();
+    if (this.memberData.rebuild) {
+      console.log(this.memberData.rebuild)
+      this.nhifRebateForm.setValue({
+        nhif_rebate: this.memberData.rebuild
+      })
+    }
   }
 
   /**
@@ -33,7 +39,7 @@ export class NhifRebateComponent implements OnInit {
 
   initForms() {
     this.nhifRebateForm = this.fb.group({
-      nhif_rebate: [this.memberData.rebuild, Validators.required],
+      nhif_rebate: [null, Validators.required],
     });
   }
 

@@ -3,13 +3,14 @@
     <div class="row col-md-12">
       <h4 class="text-medi">Prescriptions</h4>
       <button class="btn btn-sm btn-info float-right ml-auto" (click)="addPrescription($event)"
-        *ngIf="!prescriptions.length">Add</button>
+        *ngIf="!prescriptions.length && creatingOrEditing">Add</button>
     </div>
     <hr>
     <div class="row">
       <div class="col-xl-12 col-12 mt-3 mx-auto">
         <table class="table table-hover table-responsive-md text-left layout-table prescription-table">
           <thead>
+            <th></th>
             <th>Drug</th>
             <th>Dosage</th>
             <th>Administration</th>
@@ -22,36 +23,37 @@
           </thead>
           <tbody>
             <tr class="animated fadeIn faster" *ngFor="let prescription of prescriptions; let i = index">
+              <td class="text-center">{{i+1}}.</td>
               <td>
-                <input type="text" id="drug" class="table-inputs" name="drug" [(ngModel)]="prescription.drug" />
+                <input type="text" id="drug" class="table-inputs" name="drug" [(ngModel)]="prescription.drug" [disabled]="viewing" placeholder="Drug" />
               </td>
               <td>
-                <ng-select appearance="outline" labelForId="dosage" [searchable]="true" [clearable]="false"
-                  [(ngModel)]="prescription.dosage" (change)="onChange($event, prescription)">
-                  <ng-option *ngFor="let dose of dosages" [value]="dose.name">
+                <ng-select appearance="outline" labelForId="dosage" [searchable]="true" [clearable]="false" appendTo="body"
+                  [(ngModel)]="prescription.dosage" placeholder="Select dosage">
+                  <ng-option *ngFor="let dose of dosages" [value]="dose.name" (change)="onChange($event, prescription)">
                     {{dose.name}}
                   </ng-option>
                 </ng-select>
               </td>
               <td>
-                <ng-select appearance="outline" labelForId="administration" [searchable]="true" [clearable]="false"
-                  [(ngModel)]="prescription.administration" (change)="onChange($event, prescription)">
-                  <ng-option *ngFor="let admin of administrations" [value]="admin.name">
+                <ng-select appearance="outline" labelForId="administration" [searchable]="true" [clearable]="false" appendTo="body"
+                  [(ngModel)]="prescription.administration" placeholder="Select administration">
+                  <ng-option *ngFor="let admin of administrations"  [value]="admin.name" (change)="onChange($event, prescription)">
                     {{admin.name}}
                   </ng-option>
                 </ng-select>
               </td>
               <td>
-                <input type="number" onkeydown="return event.keyCode !== 69" id="duration" class="table-inputs"
+                <input type="number" onkeydown="return event.keyCode !== 69" id="duration" class="table-inputs" placeholder="Duration"
                   name="duration" [(ngModel)]="prescription.duration" (keyup)="onChange($event, prescription)" />
               </td>
               <td>
-                <input type="number" onkeydown="return event.keyCode !== 69" class="table-inputs" name="units"
+                <input type="number" onkeydown="return event.keyCode !== 69" class="table-inputs" name="units" placeholder="Units"
                   [(ngModel)]="prescription.units" (keyup)="onChange($event, prescription)" />
               </td>
               <td>
                 <input type="number" onkeydown="return event.keyCode !== 69" class="table-inputs"
-                  [ngModelOptions]="{standalone: true}" name="unit_price" [(ngModel)]="prescription.unit_price"
+                  [ngModelOptions]="{standalone: true}" name="unit_price" [(ngModel)]="prescription.unit_price" placeholder="Unit Price"
                   (keyup)="onChange($event, prescription)" />
               </td>
               <td>
@@ -70,8 +72,9 @@
                 </div>
               </td>
               <td class="text-center" *ngIf="creatingOrEditing">
-                <i class="fas fa-pencil-alt save-icon pr-4" *ngIf="editing"
-                  (click)="editPrescription(row);deductSubTotalAmount.emit({index: i, _type: 'prescription'});deleteItem.emit({index:i, array:prescriptions})"></i>
+                <i class="fas fa-plus save-icon" (click)="addPrescription()"
+                  *ngIf="prescription.dosage && prescription.administration && prescription.duration && prescription.units && prescription.unit_price && prescriptions.length == i+1"></i>
+                  &nbsp; &nbsp; &nbsp; &nbsp;
                 <i class="fas fa-trash delete-icon"
                   (click)="deductSubTotalAmount.emit({index: i, _type: 'prescription'});deleteItem.emit({index:i, array:prescriptions})"></i>
               </td>
@@ -80,6 +83,8 @@
             <tr class="animated fadeIn faster" *ngIf="prescriptions.length">
               <td>
                 <b>Total</b>
+              </td>
+              <td>
               </td>
               <td>
               </td>

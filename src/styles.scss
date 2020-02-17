@@ -128,6 +128,7 @@ body {
 }
 .fingerprint-field {
   border: solid 1px silver;
+  width: 150px;
 }
 .active-finger {
   fill: #20c997 !important;
@@ -243,4 +244,9 @@ mat-label,
   margin: 0;
   padding: 10px;
   background: rgb(253, 253, 253);
+}
+ng-select.ng-touched .ng-select-container {
+  border: solid 1px rgb(209, 209, 209);
+  outline: none;
+  box-shadow: none;
 }

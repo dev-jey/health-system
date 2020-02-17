@@ -18,10 +18,10 @@ export class ServiceComponent implements OnInit {
   services: Array<any> = [];
   @Input() totalAmount;
 
-  constructor( private ref: ChangeDetectorRef, private convertFiles: ConvertFilesPipe) { }
+  constructor(private ref: ChangeDetectorRef, private convertFiles: ConvertFilesPipe) { }
   ngOnInit() {
-    if (this.memberData.investigation) {
-      this.services = this.memberData.investigation;
+    if (this.memberData.investigations) {
+      this.services = this.memberData.investigations;
     }
     this.setFinalDataItems.emit({ services: this.services });
     this.ref.detectChanges()
@@ -40,6 +40,7 @@ export class ServiceComponent implements OnInit {
         this.ref.detectChanges()
       });
     }
+    service.mcc_id = String(this.memberData.id);
     this.setFinalDataItems.emit({ services: this.services });
   }
 
@@ -47,6 +48,6 @@ export class ServiceComponent implements OnInit {
    * Add a new row
    */
   addService() {
-    this.services.push({ name: '', units: '', unit_price: '', amount: 0, file: '' });
+    this.services.push({ investigation: { name: '' }, units: '', unit_price: '', amount: 0, file: '' });
   }
 }

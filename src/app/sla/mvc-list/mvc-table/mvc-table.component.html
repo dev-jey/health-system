@@ -8,6 +8,7 @@
             <th>Date/Time</th>
             <th>Member Number</th>
             <th>Scheme</th>
+            <th>Patient Name</th>
             <th>Department</th>
             <th></th>
             <th></th>
@@ -19,12 +20,13 @@
               {{mvc.id}}
             </td>
             <td>
-              {{mvc.created_at}}
+              {{mvc.created_at | formatDate}}
             </td>
             <td>
               {{mvc.member_no}}
             </td>
             <td>{{mvc.scheme_name}}</td>
+            <td>{{mvc.first_name}} {{mvc.last_name}}</td>
             <td>{{mvc.dep_name}}</td>
             <td>
               <a class="btn btn-success btn-sm float-right mr-2 claim-preauth-btn" routerLink="/sla/create/preauth/{{mvc.id}}" *ngIf="(!(mvc | uidLock) && !(mvc | preauthLock) && !(mvc | hospitalConfigs) || !(mvc | preauthUnlock)) &&

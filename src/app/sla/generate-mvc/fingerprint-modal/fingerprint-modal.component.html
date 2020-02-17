@@ -1,11 +1,13 @@
-<div class="finger-print-modal" id="" aria-labelledby="fingerprintModal" aria-hidden="true">
+<div class="finger-print-modal card-plain" id="" aria-labelledby="fingerprintModal" aria-hidden="true">
     <div class="ml-4">
         <h4 class="text-medi text-muted mt-2" id="title">Enrollment</h4>
     </div>
+    <br><br><br><br><br><br>
     <div class="container-fluid mt-4">
         <p class="col-md-12 text-info"><i class="fas fa-exclamation-circle"></i>
             The index finger is preferred during enrollment.</p>
         <br>
+        <p class="text-right  ml-auto text-danger" style="margin-right: 8%;"><b>{{errorMessage}}</b></p>
         <div class="col-md-12 row">
             <div class="col-md-4 palm mx-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" width="230" height="301.175" viewBox="0 0 330 401.175">
@@ -43,11 +45,16 @@
                     <div class="input-group fingerprint-field">
                         <img src="{{leftFpBMP}}" alt="" height="120" width="104" align="center">
                     </div>
-                    <span (click)="captureFingerprint('left')"
-                        class="col-md-12 btn mt-2 btn-secondary btn-sm text-center"
-                        style="white-space:normal !important; word-wrap: break-word; word-break: normal;"
-                        [ngClass]="{'disabled': !activeLeftFinger || fpCount[0] > 2 || textLeft === 'Place Your finger on the Machine' || textLeft === 'Captured', 'disabled-btn': !activeLeftFinger || fpCount[0] > 2 }">
-                        {{textLeft}}</span>
+                    <div class="col-md-12 row mt-4">
+                        <span (click)="captureFingerprint('left')"
+                            class="col-md-6 btn btn-secondary btn-sm text-center  capture-btn"
+                            [ngClass]="{'disabled': !activeLeftFinger || fpCount[0] > 2 || textLeft === 'Capturing' || textLeft === 'Captured', 'disabled-btn': !activeLeftFinger || fpCount[0] > 2 }">
+                            {{textLeft}}
+                        </span>
+                        <button (click)="clearLeftFingerPrints()" class="col-md-4 btn btn-sm btn-dark">
+                            Clear
+                        </button>
+                    </div>
                 </div>
                 <div class="col-md-3 form-group" *ngFor="let fp of leftFps">
                     <label for=""></label>
@@ -98,10 +105,16 @@
                     <div class="input-group fingerprint-field">
                         <img src="{{rightFpBMP}}" alt="" height="120" width="104" align="center">
                     </div>
-                    <span (click)="captureFingerprint('right')"
-                        class="col-md-12 btn mt-2 btn-secondary btn-sm text-center capture-btn"
-                        [ngClass]="{'disabled': !activeRightFinger || fpCount[1] > 2 || textRight === 'Place Your finger on the Machine' || textLeft !== 'Captured', 'disabled-btn': !activeRightFinger || fpCount[1] > 2 }">
-                        {{textRight}}</span>
+                    <div class="row mt-4 col-md-12">
+                        <span (click)="captureFingerprint('right')"
+                            class="col-md-6 btn mt-2 btn-secondary btn-sm text-center capture-btn"
+                            [ngClass]="{'disabled': !activeRightFinger || fpCount[1] > 2 || textRight === 'Capturing' || textLeft !== 'Captured', 'disabled-btn': !activeRightFinger || fpCount[1] > 2 }">
+                            {{textRight}}
+                        </span>
+                        <button class="col-md-4 btn btn-sm btn-dark" (click)="clearRightFingerPrints()">
+                            Clear
+                        </button>
+                    </div>
                 </div>
                 <div class="col-md-3 form-group" *ngFor="let fp of rightFps">
                     <label for=""></label>

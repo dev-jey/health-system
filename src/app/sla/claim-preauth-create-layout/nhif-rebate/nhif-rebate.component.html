@@ -1,6 +1,6 @@
 <div class="card-plain mt-4">
   <h4 class="text-medi">NHIF Rebate</h4><hr>
-    <div class="row" *ngIf="creatingOrEditing">
+    <div class="row">
       <form class="form-group has-success col-md-4" [formGroup]="nhifRebateForm"
         novalidate>
         <label for="nhif_rebate" class="input-label">NHIF Rebate*</label>
@@ -8,7 +8,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon3">Ksh</span>
             </div>
-            <input type="number" onkeydown="return event.keyCode !== 69" id="nhif_rebate" class=" form-control input"
+            <input type="number" onkeydown="return event.keyCode !== 69" id="nhif_rebate" class=" form-control input" [disabled]="viewing"
               name="nhif_rebate" formControlName="nhif_rebate" formControlName="nhif_rebate"  (change)="addRebate($event)" />
           </div>
         <span class="small text-danger form-error-span"

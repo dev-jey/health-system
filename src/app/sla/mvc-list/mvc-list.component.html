@@ -1,5 +1,11 @@
 <section>
-  <div class="main-content pt-4 mt-3">
+  <nav aria-label="breadcrumb" class="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/sla/dashboard']">Dashboard</a></li>
+      <li class="breadcrumb-item active">Search</li>
+    </ol>
+  </nav>
+  <div class="main-content">
     <div class="dashboard-items">
       <form [formGroup]="mvcForm" (submit)="searchMvcs($event)" novalidate class="mb-4">
         <div class="form-group">

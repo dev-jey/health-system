@@ -25,10 +25,11 @@ export class FingerprintModalComponent implements OnInit {
   activeRightFinger: string | number;
   fpMatchStatus = [];
   filteredPatients: any;
-  textLeft: string = 'Begin Capture';
-  textRight: string = 'Begin Capture';
+  textLeft: string = 'Capture';
+  textRight: string = 'Capture';
   loading: boolean;
   notMatched: boolean;
+  errorMessage: string;
   constructor(
     private serviceProvider: ServiceProviderService,
     private ref: ChangeDetectorRef,
@@ -36,11 +37,8 @@ export class FingerprintModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.leftFpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
-    this.rightFpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
-    this.leftFps = new Array<any>(3);
-    this.rightFps = new Array<any>(3);
-    this.fpCount = [0, 0];
+    this.clearLeftFingerPrints()
+    this.clearRightFingerPrints()
   }
 
   closeFingerPrintModal() {
@@ -86,15 +84,13 @@ export class FingerprintModalComponent implements OnInit {
     let i;
     if (data.fpCount === 1) { i = 1 }
     if (data.fpCount === 2) { i = 2 }
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       if (data.fpCount < 1) {
         resolve(true);
         return
       }
       const uri = `${environment.fingerprintUrl}SGIMatchScore`;
       let params = `template1=${data[0].ISOTemplateBase64}&template2=${data[i].ISOTemplateBase64}&licstr=&templateFormat='ISO'`
-      xmlhttps.open('POST', uri, true);
-      xmlhttps.send(params);
       xmlhttps.onreadystatechange = () => {
         if (xmlhttps.readyState === 4 && xmlhttps.status === 200) {
           const res = JSON.parse(xmlhttps.responseText);
@@ -109,58 +105,116 @@ export class FingerprintModalComponent implements OnInit {
           } else {
             this.notMatched = true;
             this.alert.fire('Error!', 'An error occurred while processing fingerprints', 'error', false, 'Retry', null, 1500);
+            resolve(false);
             return;
           }
+        } else {
+          resolve(true);
         }
       }
+      xmlhttps.open('POST', uri, true);
+      xmlhttps.send(params);
+    })
+  }
+
+
+  async checkLeftFingerScoreMatch(data): Promise<boolean> {
+    const xmlhttps = new XMLHttpRequest();
+    let i;
+    if (data.fpCount === 1) { i = 1 }
+    if (data.fpCount === 2) { i = 2 }
+    return new Promise(async (resolve, reject) => {
+      if (data.fpCount < 1) {
+        resolve(true);
+        return
+      }
+      const uri = `${environment.fingerprintUrl}SGIMatchScore`;
+      let params = `template1=${this.leftFps[0].ISOTemplateBase64}&template2=${data[i].ISOTemplateBase64}&licstr=&templateFormat='ISO'`
+      xmlhttps.onreadystatechange = () => {
+        if (xmlhttps.readyState === 4 && xmlhttps.status === 200) {
+          const res = JSON.parse(xmlhttps.responseText);
+          if (res.ErrorCode === 0) {
+            if (res.MatchingScore < 120) {
+              this.notMatched = true;
+              resolve(false);
+            } else {
+              this.notMatched = false;
+              resolve(true);
+            }
+          } else {
+            this.notMatched = true;
+            this.alert.fire('Error!', 'An error occurred while processing fingerprints', 'error', false, 'Retry', null, 1500);
+            resolve(false);
+            return;
+          }
+        } else {
+          resolve(true);
+        }
+      }
+      xmlhttps.open('POST', uri, true);
+      xmlhttps.send(params);
     })
   }
 
   captureLeft = async (res) => {
+    this.errorMessage = '';
     this.textLeft = this.fpCount[0] === 2 ? 'Captured' : `Capture ${this.fpCount[0] + 2}`
     if (this.fpCount[0] <= 2) {
+      this.leftFpBMP = `data:image/bmp;base64,${res.BMPBase64}`;
       this.leftFps[this.fpCount[0]] = { finger: this.activeLeftFinger, ...res };
       if (this.fpCount[0] >= 1) {
         this.leftFps.fpCount = this.fpCount[0]
         const matched = await this.checkFingerScoreMatch(this.leftFps);
         if (!matched) {
           this.notMatched = true;
-          this.textLeft = 'Try Again'
-          this.alert.fire('Error!', 'Fingerprints dont match', 'error', false, '', '', 1500);
+          this.leftFps[this.fpCount[0]] = {}
+          this.textLeft = 'Try Again';
+          this.errorMessage = 'Fingerprints dont match';
           return;
         }
       }
       this.notMatched = false;
-      this.leftFpBMP = `data:image/bmp;base64,${res.BMPBase64}`;
       this.fpCount[0] += 1;
     }
   }
 
 
   captureRight = async (res) => {
+    this.errorMessage = '';
     this.textRight = this.fpCount[1] === 2 ? 'Captured' : `Capture ${this.fpCount[1] + 2}`
     if (this.fpCount[1] <= 2) {
+      this.rightFpBMP = `data:image/bmp;base64,${res.BMPBase64}`;
       this.rightFps[this.fpCount[1]] = { finger: this.activeRightFinger, ...res };
       if (this.fpCount[0] >= 1) {
         this.rightFps.fpCount = this.fpCount[1]
         const matched = await this.checkFingerScoreMatch(this.rightFps);
+        const matchesLeft = await this.checkLeftFingerScoreMatch(this.rightFps);
+        if (matchesLeft) {
+          this.notMatched = true;
+          this.rightFps[this.fpCount[1]] = {}
+          this.textRight = 'Try Again'
+          this.alert.fire('Error!', 'Left fingerprints already captured', 'error', false, '', '', 1500);
+          return;
+
+        }
         if (!matched) {
           this.notMatched = true;
           this.textRight = 'Try Again'
-          this.alert.fire('Error!', 'Fingerprints dont match', 'error', false, '', '', 1500);
+          this.rightFps[this.fpCount[1]] = {}
+          this.errorMessage = 'Fingerprints dont match';
           return;
         }
       }
       this.notMatched = false;
-      this.rightFpBMP = `data:image/bmp;base64,${res.BMPBase64}`;
       this.fpCount[1] += 1;
     }
   }
 
   async captureFingerprint(hand) {
+    this.errorMessage = '';
     const uri = `${environment.fingerprintUrl}SGIFPCapture`;
     const xmlhttp = new XMLHttpRequest();
-    const text = 'Place Your finger on the Machine';
+    const text = 'Capturing';
     hand === 'left' ? this.textLeft = text :
       this.textRight = text;
     xmlhttp.onreadystatechange = async () => {
@@ -203,5 +257,25 @@ export class FingerprintModalComponent implements OnInit {
     params += '&templateFormat=' + 'ISO';
     xmlhttp.open('POST', uri, true);
     xmlhttp.send(params);
+  }
+
+  /**
+   * Clear left finger prints
+   */
+  clearLeftFingerPrints() {
+    this.leftFpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
+    this.leftFps = new Array<any>(3);
+    this.fpCount[0] = 0;
+    this.textLeft = 'Capture';
+  }
+
+  /**
+   * Clear Right finger prints
+   */
+  clearRightFingerPrints() {
+    this.rightFpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
+    this.rightFps = new Array<any>(3);
+    this.fpCount[1] = 0;
+    this.textRight = 'Capture';
   }
 }

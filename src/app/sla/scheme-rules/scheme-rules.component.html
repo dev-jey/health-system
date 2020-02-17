@@ -1,7 +1,13 @@
 <section>
+  <nav aria-label="breadcrumb" class="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/sla/dashboard']">Dashboard</a></li>
+      <li class="breadcrumb-item active">Scheme Rules</li>
+    </ol>
+  </nav>
   <app-loader *ngIf="loading"></app-loader>
   <div class="container-fluid animated fadeIn faster">
-    <div class="row main-content pt-4 mt-3">
+    <div class="row main-content">
       <div class="col-xl-12 card-plain">
         <h3 class="text-medi pt-1">
           Scheme Rules

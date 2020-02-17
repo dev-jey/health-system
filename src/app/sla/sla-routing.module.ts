@@ -9,13 +9,14 @@ import { ContractsComponent } from './contracts/contracts.component';
 import { SchemeRulesComponent } from './scheme-rules/scheme-rules.component';
 import { ClaimPreauthCreateLayoutComponent } from './claim-preauth-create-layout/claim-preauth-create-layout.component';
 import { ClaimPreauthListLayoutComponent } from './claim-preauth-list-layout/claim-preauth-list-layout.component';
-
+import { FingerprintModalComponent } from './generate-mvc/fingerprint-modal/fingerprint-modal.component';
 
 const routes: Routes = [
   {
     path: "dashboard",
     component: AdminLayoutComponent,
-    children: [{ path: "", component: DashboardComponent }],
+    children: [{ path: "", component: FingerprintModalComponent
+  }],
     canActivate: [AuthGuard]
   },
   {

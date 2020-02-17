@@ -42,6 +42,7 @@ export class ConsultationsComponent implements OnInit {
         this.ref.detectChanges()
       });
     }
+    consultation.mcc_id = String(this.memberData.id);
     this.setFinalDataItems.emit({ consultations: this.consultations });
   }
 
