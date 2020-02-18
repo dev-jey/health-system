@@ -13,11 +13,12 @@ export class HttpService {
    * @param method
    * @param body
    */
-  makeMediclaimRequest(path: string, method: string, body?: any) {
+  makeMediclaimRequest(path: string, method: string, body?: any, responseType?: any) {
     return this.http.request(
       method,
       `${environment.mediclaim_baseurl}${path}`,
-      { headers: this.getMediclaimHeaders(), body: body }
+      { headers: this.getMediclaimHeaders(), body: body, responseType},
+        
     );
   }
 

@@ -31,11 +31,10 @@
           <i class="fas fa-clipboard fa-4x" style="color:rgb(230, 230, 230)"></i><br><br>
           No Records!
         </div>
-        <div class="col-12 form-group has-success
-        mt-4 pt-4">
+        <div class="col-12 form-group has-success" [ngClass]="{'mt-4 pt-4': creatingOrEditing}">
           <div class="form-group has-success row h-10 mx-auto animated fadeIn"
             *ngFor="let item of diagnosisList; let i=index">
-            <p id="diagnosis" class=" form-control input col-11" style="overflow: hidden;" name="diagnosis"
+            <p id="diagnosis" class=" form-control input col-10" style="overflow: hidden;" name="diagnosis"
               disabled="true">{{item.healthcondition.name}}</p>
             <i class="fas fa-trash col-1 my-auto text-center delete-icon" *ngIf="creatingOrEditing"
               (click)="deleteItem.emit({index:i, array:diagnosisList})"></i>

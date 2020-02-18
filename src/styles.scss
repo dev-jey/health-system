@@ -105,11 +105,15 @@ section {
   color: #181b18;
   text-shadow: rgba(255, 222, 222, 0.5) 0px 3px 3px;
 }
-input[type="text"],
+input[type="text"], input[type="number"],
 input[type="password"] {
   border-radius: 2px;
+  min-width: 120px !important;
 }
-input[type="text"]:focus,
+input[type="file"]{
+  width: 130px;
+}
+input[type="text"]:focus,  input[type="number"]:focus,
 input[type="password"]:focus {
   border-radius: 2px;
   outline: none;
@@ -248,7 +252,8 @@ mat-label,
   width: 100%;
   margin: 0;
   padding: 10px;
-  background: rgb(253, 253, 253);
+  font-size: 13px !important;
+  color: #000;
 }
 ng-select.ng-touched .ng-select-container {
   border: solid 1px rgb(209, 209, 209);

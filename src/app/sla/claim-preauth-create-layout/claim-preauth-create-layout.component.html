@@ -13,7 +13,7 @@
   </nav>
   <div class="main-content m-6">
     <app-loader *ngIf="loading"></app-loader>
-    <div class="dashboard-items" *ngIf="!loading">
+    <div class="dashboard-items" id="printDoc" *ngIf="!loading">
       <mat-tab-group class="">
         <mat-tab label="{{ _type==='create-preauth' && 'Generate Preauth'
        ||  _type==='create-claim' && 'Generate Claim'
@@ -201,9 +201,8 @@
             </app-service>
           </div>
           <div>
-            <app-prescriptions (deleteItem)="deleteItem($event)" 
-              (deductSubTotalAmount)="deductSubTotalAmount($event)" [editing]="editing"
-              [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
+            <app-prescriptions (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
               [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
               [memberData]="memberData"></app-prescriptions>
           </div>
@@ -291,9 +290,8 @@
             </app-service>
           </div>
           <div>
-            <app-prescriptions (deleteItem)="deleteItem($event)"
-              (deductSubTotalAmount)="deductSubTotalAmount($event)" [editing]="editing"
-              [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
+            <app-prescriptions (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
               [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
               [memberData]="memberData"></app-prescriptions>
           </div>

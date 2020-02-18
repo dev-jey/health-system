@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Inject, ChangeDetectorRef } from '@angular/core';
 import { ServiceProviderService } from 'src/app/_services/ServiceProvider/service-provider.service';
 import { AlertService } from 'src/app/_services/shared/alert.service';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
-import * as moment from 'moment';
+import * as moment from 'moment'; 
+import * as Bowser from "bowser";
 import { FileService } from 'src/app/_services/shared/file.service';
 
 
@@ -252,6 +253,38 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
     }
   }
 
+  downloadPdf(_type) {
+    this.serviceProvider.downloadPdf(this.memberData.id, _type).subscribe((data) => {
+      var file = new Blob([data], { type: 'application/pdf' });
+      let userAgent = Bowser.parse(window.navigator.userAgent);
+      let browser = Bowser.getParser(window.navigator.userAgent);
+      let userAgentDetails = JSON.stringify(userAgent, null, 4);
+      let browserDetails = JSON.stringify(browser.getBrowser(), null, 4);
+      if (JSON.parse(browserDetails).name.toLowerCase() === 'chrome' || JSON.parse(browserDetails).name.toLowerCase() === 'safari') {
+        var url = window.URL;
+        var downloadLink = document.createElement('a');
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.setAttribute('href', url.createObjectURL(file));
+        downloadLink.setAttribute('target', '_self');
+        downloadLink.setAttribute('download', _type === 'preauth' ? 'preauth.pdf':'claim.pdf');
+        downloadLink.click();
+      }
+      if (JSON.parse(browserDetails).name.toLowerCase() === 'firefox') {
+        var blobURL = window.URL.createObjectURL(file);
+        if (window.navigator.msSaveOrOpenBlob) {
+          // of course, IE needs special hand-holding....
+          window.navigator.msSaveOrOpenBlob(file, _type === 'preauth' ? 'preauth.pdf':'claim.pdf');
+        } else {
+          window.open(blobURL);
+        }
+
+      }
+    }, error => {
+      console.log(error)
+    })
+  }
+
   /**
    * Save Preauth after all details are entered
    */
@@ -267,6 +300,7 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
         this.alert.fire('Error', data.error, 'error')
       } else {
         this.savePreauthAndClaimDetails().then(() => {
+          this.downloadPdf('preauth');
           const message = `
         Preauth number ${data.id} for MVC number ${payload.mcc_id}
         Amounting to ${payload.total} has been sent on 
@@ -296,6 +330,7 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
         this.alert.fire('Error', data.error, 'error')
       } else {
         this.savePreauthAndClaimDetails().then(() => {
+          this.downloadPdf('claim');
           const message = `
         Claim number ${data.id} for MVC number ${payload.mcc_id}
         Amounting to ${payload.total} has been sent on 
@@ -326,6 +361,7 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
         this.alert.fire('Error', data.error, 'error')
       } else {
         this.savePreauthAndClaimDetails().then(() => {
+          this.downloadPdf('preauth');
           const message = `
         Preauth number ${data.id} for MVC number ${payload.mcc_id}
         Amounting to ${payload.total} has been sent on 
@@ -355,6 +391,7 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
         this.alert.fire('Error', data.error, 'error')
       } else {
         this.savePreauthAndClaimDetails().then(() => {
+          this.downloadPdf('claim');
           const message = `
         Claim number ${data.id} for MVC number ${payload.mcc_id}
         Amounting to ${payload.total} has been sent on 

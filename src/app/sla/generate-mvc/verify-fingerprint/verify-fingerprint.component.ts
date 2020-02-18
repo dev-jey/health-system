@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class VerifyFingerprintComponent implements OnInit {
   @Output() hideBiometric = new EventEmitter();
   @Output() generateMVCAfterFP = new EventEmitter();
-  @Input() member: any = {};
+  @Input() member: any;
   fpBMP: string;
   text: string = 'Capture'
   matched: boolean;
@@ -21,12 +21,12 @@ export class VerifyFingerprintComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private alert: AlertService
   ) {
-    this.fpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
   }
 
   ngOnInit() {
     this.activeLeftFinger = this.member.biometrics[0].finger_id;
     this.activeRightFinger = this.member.biometrics[3].finger_id;
+    this.fpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
   }
 
   compareBiometrics(xmlhttp): Promise<boolean> {
@@ -70,7 +70,7 @@ export class VerifyFingerprintComponent implements OnInit {
           this.text = "Capture";
           return;
         }
-        this.fpBMP = res.ISOTemplateBase64;
+        this.fpBMP = `data:image/png;base64,${res.ISOTemplateBase64}`;
         this.matched = await this.compareBiometrics(xmlhttp);
         if (this.matched) {
           this.text = "Capture";
@@ -78,8 +78,8 @@ export class VerifyFingerprintComponent implements OnInit {
             this.generateMVCAfterFP.emit()
           });
         } else {
-          this.text = "Try Again";
-          this.alert.fire('Error!', this.text, 'error', false, null, null, 1500);
+          this.text = "Fingerprints dont match. Try Again";
+          // this.alert.fire('Error!', this.text, 'error', false, null, null, 1500);
         }
         this.ref.detectChanges();
       } else if (xmlhttp.status === 404) {

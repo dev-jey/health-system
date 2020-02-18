@@ -45,8 +45,8 @@ export class PrescriptionsComponent implements OnInit {
 
   constructor(private ref: ChangeDetectorRef, private convertFiles: ConvertFilesPipe) { }
   ngOnInit() {
-    if (this.memberData.investigation) {
-      this.prescriptions = this.memberData.investigation;
+    if (this.memberData.prescriptions) {
+      this.prescriptions = this.memberData.prescriptions;
     }
     this.setFinalDataItems.emit({ prescriptions: this.prescriptions });
     this.ref.detectChanges()
@@ -58,7 +58,6 @@ export class PrescriptionsComponent implements OnInit {
    * @param prescription 
    */
   onChange(e, prescription) {
-    console.log(prescription)
     prescription.amount = prescription.units * prescription.unit_price;
     if (e.target.name === 'prescriptionFile') {
       this.convertFiles.transform(e).then((res) => {

@@ -9,6 +9,10 @@ export class ServiceProviderService {
 
   constructor(private http: HttpService) { }
 
+  downloadPdf(payload, _type): Observable<any> {
+    return this.http.makeMediclaimRequest(_type==='claim' ? `claims/sla/${payload}`: `preauths/sla/${payload}`, 'GET',null,'arraybuffer')
+  }
+
   searchMember(memberData: String): Observable<any> {
     return this.http.makeMediclaimRequest('payment/mcc/findpatientdetails', 'POST', { ...memberData });
   }

@@ -98,7 +98,7 @@
 .sub-menu > a {
   margin-left: 0px !important;
   padding-left: 49px !important;
-  background-color: rgba(238, 238, 238, 0.2);
+  background-color: rgba(139, 255, 85, 0.2);
   border-left: 2px solid #137095;
 }
 .sub-menu{
@@ -107,4 +107,8 @@
 .seperator{
   margin-bottom: 1px;
   box-shadow: 1px 1px 10px silver;
+}
+.sidebar-wrapper{
+  background-image: url('../../../assets/images/bg.svg');
+  background-size: cover;
 }

@@ -76,10 +76,10 @@
                   </div>
                 </div>
                 <div class="col-12 row">
-                  <button class="btn btn-secondary btn-sm text-center capture-btn" (click)="captureBiometric()"
+                  <button class="btn btn-info btn-sm text-center capture-btn" (click)="captureBiometric()"
                     [disabled]="text==='Capturing'">{{text}}
                   </button>
-                  <button (click)="hideBiometric.emit()" class="btn btn-darker btn-sm float-right mr-4">cancel</button>
+                  <button (click)="hideBiometric.emit()" class="btn btn-dark btn-sm float-right mr-4 capture-btn">cancel</button>
                 </div>
               </div>
             </form>

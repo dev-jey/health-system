@@ -1,9 +1,9 @@
 <main class="container-fluid">
-  <div class="row" style="height: 100vh">
-    <div class="col-md-8 d-none d-md-block">
-      <iframe class="mt-0 ml-0"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1994.4064200987045!2d36.81243176513295!3d-1.286343454246452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10cfc6a1eb1d%3A0xe6aac9fa61063490!2sMinet%20ICDC%20House%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1573478799961!5m2!1sen!2ske"
-        width="100%" frameborder="0" style="border:0; height: 100%;" allowfullscreen="true"></iframe>
+  <div class="row" style="height: 100vh;">
+    <div class="col-md-8 d-none d-md-block ml-0">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8115188463053!2d36.78773421526518!3d-1.287188435991463!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f11ebd8c6032f%3A0xe444bb68a474333b!2sThe%20Arch%20Place%2C%20Kilimani%2C%20Nairobi!5e0!3m2!1ssw!2ske!4v1582036865061!5m2!1ssw!2ske"
+        width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="true"></iframe>
     </div>
     <div class="col-md-3 my-auto mx-4">
       <h1 class="mt-4 pt-4"><b>Contact Us</b></h1>
@@ -39,9 +39,9 @@
                       {{contactFormErrors.required}}
                     </span>
                     <span class="small text-danger form-error-span"
-                    *ngIf="contactForm.get('email').hasError('email') && contactFormSubmitted">
-                    {{contactFormErrors.email}}
-                  </span>
+                      *ngIf="contactForm.get('email').hasError('email') && contactFormSubmitted">
+                      {{contactFormErrors.email}}
+                    </span>
                   </div>
                 </div>
                 <div class="">
