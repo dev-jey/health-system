@@ -312,11 +312,11 @@
         <div class="row">
           <div class="col-12">
             <div class="pb-4">
-              <b class="text-left grand-total pb-2" *ngIf="creatingOrEditing"> GRAND TOTAL: <span
+              <b class="text-left grand-total pb-2" *ngIf="creatingOrEditing"> GRAND TOTAL: Ksh <span
                   class="total-amount">{{grandTotal}}</span></b>
-              <b class="text-left grand-total pb-2" *ngIf="viewing"> REQUESTED TOTAL: <span
+              <b class="text-left grand-total pb-2" *ngIf="viewing"> REQUESTED TOTAL: Ksh <span
                   class="total-amount">{{grandTotal}}</span></b>
-              <b class="text-right float-right grand-total pb-2" *ngIf="viewing"> APPROVED TOTAL: <span
+              <b class="text-right float-right grand-total pb-2" *ngIf="viewing"> APPROVED TOTAL: Ksh<span
                   class="total-amount">
                   {{memberData.preauth && memberData.preauth.accepted_total || 0}}</span></b>
             </div>

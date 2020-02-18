@@ -18,7 +18,7 @@
           <!-- <i class="fas  {{ menuItem.icon }} fa-sm menu-icon"></i> -->
         </span>
       </a>
-      <a *ngIf="menuItem.children" (click)="showMenuChildren.emit({index:i})" class="menu-itm-drop menu-itm">
+      <a *ngIf="menuItem.children" (click)="showMenuChildren.emit({index:i})" class="menu-itm-drop">
         <span class="side-menu-drop">
           {{ menuItem.title }}
           <i class="fas  {{ menuItem.icon }} fa-sm menu-icon float-right"></i>

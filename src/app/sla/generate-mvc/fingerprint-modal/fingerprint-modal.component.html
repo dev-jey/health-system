@@ -2,12 +2,11 @@
     <div class="ml-4">
         <h4 class="text-medi text-muted mt-2" id="title">Enrollment</h4>
     </div>
-    <br><br><br><br><br><br>
     <div class="container-fluid mt-4">
         <p class="col-md-12 text-info"><i class="fas fa-exclamation-circle"></i>
             The index finger is preferred during enrollment.</p>
         <br>
-        <p class="text-right  ml-auto text-danger" style="margin-right: 8%;"><b>{{errorMessage}}</b></p>
+        <p class="text-right  ml-auto text-danger" style="margin-right: 8%;font-weight: bolder;"><b>{{errorMessage}}</b></p>
         <div class="col-md-12 row">
             <div class="col-md-4 palm mx-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" width="230" height="301.175" viewBox="0 0 330 401.175">
@@ -47,11 +46,11 @@
                     </div>
                     <div class="col-md-12 row mt-4">
                         <span (click)="captureFingerprint('left')"
-                            class="col-md-6 btn btn-secondary btn-sm text-center  capture-btn"
+                            class="btn btn-secondary btn-sm text-center  capture-btn"
                             [ngClass]="{'disabled': !activeLeftFinger || fpCount[0] > 2 || textLeft === 'Capturing' || textLeft === 'Captured', 'disabled-btn': !activeLeftFinger || fpCount[0] > 2 }">
                             {{textLeft}}
                         </span>
-                        <button (click)="clearLeftFingerPrints()" class="col-md-4 btn btn-sm btn-dark">
+                        <button (click)="clearLeftFingerPrints()" class="btn btn-sm btn-dark capture-btn">
                             Clear
                         </button>
                     </div>
@@ -60,7 +59,7 @@
                     <label for=""></label>
                     <div class="input-group fingerprint-field">
                         <img *ngIf="!fp" src="{{fpBMP}}" alt="" height="100" width="87" align="center">
-                        <img *ngIf="fp" src="data:image/bmp;base64,{{fp.BMPBase64}}" alt="" height="100" width="87"
+                        <img *ngIf="fp" src="data:image/png;base64,{{fp.BMPBase64}}" alt="" height="100" width="87"
                             align="center">
                     </div>
                 </div>
@@ -107,11 +106,11 @@
                     </div>
                     <div class="row mt-4 col-md-12">
                         <span (click)="captureFingerprint('right')"
-                            class="col-md-6 btn mt-2 btn-secondary btn-sm text-center capture-btn"
+                            class="btn mt-2 btn-secondary btn-sm text-center capture-btn"
                             [ngClass]="{'disabled': !activeRightFinger || fpCount[1] > 2 || textRight === 'Capturing' || textLeft !== 'Captured', 'disabled-btn': !activeRightFinger || fpCount[1] > 2 }">
                             {{textRight}}
                         </span>
-                        <button class="col-md-4 btn btn-sm btn-dark" (click)="clearRightFingerPrints()">
+                        <button class="btn btn-sm btn-dark capture-btn" (click)="clearRightFingerPrints()">
                             Clear
                         </button>
                     </div>
@@ -120,7 +119,7 @@
                     <label for=""></label>
                     <div class="input-group fingerprint-field">
                         <img *ngIf="!fp" src="{{fpBMP}}" alt="" height="100" width="87" align="center">
-                        <img *ngIf="fp" src="data:image/bmp;base64,{{fp.BMPBase64}}" alt="" height="100" width="87"
+                        <img *ngIf="fp" src="data:image/png;base64,{{fp.BMPBase64}}" alt="" height="100" width="87"
                             align="center">
                     </div>
                 </div>
@@ -137,3 +136,6 @@
                 <button class="btn btn-dark btn-sm  float-right" (click)="closeFingerPrintModal()">Back</button>
             </div>
         </div>
+    </div>
+    <br>
+</div>

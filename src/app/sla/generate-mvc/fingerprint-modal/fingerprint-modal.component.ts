@@ -108,10 +108,9 @@ export class FingerprintModalComponent implements OnInit {
             resolve(false);
             return;
           }
-        } else {
-          resolve(true);
         }
       }
+      xmlhttps.onerror = () => reject()
       xmlhttps.open('POST', uri, true);
       xmlhttps.send(params);
     })
@@ -120,14 +119,10 @@ export class FingerprintModalComponent implements OnInit {
 
   async checkLeftFingerScoreMatch(data): Promise<boolean> {
     const xmlhttps = new XMLHttpRequest();
-    let i;
+    let i = 0;
     if (data.fpCount === 1) { i = 1 }
     if (data.fpCount === 2) { i = 2 }
     return new Promise(async (resolve, reject) => {
-      if (data.fpCount < 1) {
-        resolve(true);
-        return
-      }
       const uri = `${environment.fingerprintUrl}SGIMatchScore`;
       let params = `template1=${this.leftFps[0].ISOTemplateBase64}&template2=${data[i].ISOTemplateBase64}&licstr=&templateFormat='ISO'`
       xmlhttps.onreadystatechange = () => {
@@ -147,8 +142,6 @@ export class FingerprintModalComponent implements OnInit {
             resolve(false);
             return;
           }
-        } else {
-          resolve(true);
         }
       }
       xmlhttps.open('POST', uri, true);
@@ -160,14 +153,13 @@ export class FingerprintModalComponent implements OnInit {
     this.errorMessage = '';
     this.textLeft = this.fpCount[0] === 2 ? 'Captured' : `Capture ${this.fpCount[0] + 2}`
     if (this.fpCount[0] <= 2) {
-      this.leftFpBMP = `data:image/bmp;base64,${res.BMPBase64}`;
+      this.leftFpBMP = `data:image/png;base64,${res.BMPBase64}`;
       this.leftFps[this.fpCount[0]] = { finger: this.activeLeftFinger, ...res };
       if (this.fpCount[0] >= 1) {
         this.leftFps.fpCount = this.fpCount[0]
         const matched = await this.checkFingerScoreMatch(this.leftFps);
         if (!matched) {
           this.notMatched = true;
-          this.leftFps[this.fpCount[0]] = {}
           this.textLeft = 'Try Again';
           this.errorMessage = 'Fingerprints dont match';
           return;
@@ -183,24 +175,22 @@ export class FingerprintModalComponent implements OnInit {
     this.errorMessage = '';
     this.textRight = this.fpCount[1] === 2 ? 'Captured' : `Capture ${this.fpCount[1] + 2}`
     if (this.fpCount[1] <= 2) {
-      this.rightFpBMP = `data:image/bmp;base64,${res.BMPBase64}`;
+      this.rightFpBMP = `data:image/png;base64,${res.BMPBase64}`;
       this.rightFps[this.fpCount[1]] = { finger: this.activeRightFinger, ...res };
       if (this.fpCount[0] >= 1) {
         this.rightFps.fpCount = this.fpCount[1]
-        const matched = await this.checkFingerScoreMatch(this.rightFps);
         const matchesLeft = await this.checkLeftFingerScoreMatch(this.rightFps);
         if (matchesLeft) {
           this.notMatched = true;
-          this.rightFps[this.fpCount[1]] = {}
           this.textRight = 'Try Again'
           this.alert.fire('Error!', 'Left fingerprints already captured', 'error', false, '', '', 1500);
           return;
 
         }
+        const matched = await this.checkFingerScoreMatch(this.rightFps);
         if (!matched) {
           this.notMatched = true;
           this.textRight = 'Try Again'
-          this.rightFps[this.fpCount[1]] = {}
           this.errorMessage = 'Fingerprints dont match';
           return;
         }
@@ -229,26 +219,27 @@ export class FingerprintModalComponent implements OnInit {
           return;
         }
         if (hand === 'left') {
-          this.captureLeft(res)
-          if (this.fpCount[0] === 2 && !this.notMatched) {
-            this.alert.fire('Success!', 'You can capture fingerprints from the right hand', 'success');
-          }
+          this.captureLeft(res).then(() => {
+            if (this.textLeft === "Captured" && !this.notMatched) {
+              this.alert.fire('Success!', 'You can capture fingerprints from the right hand', 'success');
+            }
+
+          })
         } else {
-          this.captureRight(res);
-          if (this.fpCount[1] === 2 && !this.notMatched) {
-            this.alert.fire('Success!', 'Biometric enrollment complete', 'success').then(() => {
-              this.completedCapturing = true
-            });
-          }
+          this.captureRight(res).then(() => {
+            if (!this.notMatched && this.textRight === 'Captured') {
+              this.alert.fire('Success!', 'Biometric enrollment complete', 'success').then(() => {
+                this.completedCapturing = true
+              });
+            }
+          })
         }
         this.ref.detectChanges();
       } else if (xmlhttp.status === 404) {
-        console.log(xmlhttp.status);
       }
     };
 
     xmlhttp.onerror = () => {
-      console.log(xmlhttp.status);
     };
 
     let params = 'Timeout=' + '10000';
@@ -267,6 +258,7 @@ export class FingerprintModalComponent implements OnInit {
     this.leftFps = new Array<any>(3);
     this.fpCount[0] = 0;
     this.textLeft = 'Capture';
+    this.completedCapturing = false;
   }
 
   /**
@@ -277,5 +269,6 @@ export class FingerprintModalComponent implements OnInit {
     this.rightFps = new Array<any>(3);
     this.fpCount[1] = 0;
     this.textRight = 'Capture';
+    this.completedCapturing = false;
   }
 }

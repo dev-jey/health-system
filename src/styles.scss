@@ -20,6 +20,8 @@ body {
 }
 body {
   margin: 0;
+  background-size: cover;
+  background-image: url('./assets/images/bg.svg');
 }
 .mat-horizontal-content-container,
 .mat-horizontal-stepper-header-container {
@@ -128,7 +130,8 @@ body {
 }
 .fingerprint-field {
   border: solid 1px silver;
-  width: 150px;
+  max-width: 150px;
+  min-width: 100px;
 }
 .active-finger {
   fill: #20c997 !important;
@@ -151,6 +154,8 @@ body {
 }
 .capture-btn {
   white-space: normal !important;
+  width: 150px;
+  min-width: 100px;
 }
 .error-template {
   padding: 40px 15px;

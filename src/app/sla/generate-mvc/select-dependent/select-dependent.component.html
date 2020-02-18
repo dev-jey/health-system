@@ -8,7 +8,6 @@
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th></th>
             <th>Name</th>
             <th>Relation</th>
           </tr>
@@ -16,13 +15,11 @@
         <tbody style="cursor: pointer;">
           <tr (click)="selectDependent(member)" [ngClass]="{
                   'selected-dependent':currentMember==member}">
-                  <td>1.</td>
             <td>{{member.first_name}} {{member.last_name}}</td>
             <td>{{memberRelation}}</td>
           </tr>
           <tr *ngFor="let dependent of dependents; let i=index" (click)="selectDependent(dependent)"
             [ngClass]="{'selected-dependent':currentMember==dependent}">
-            <td>{{i+2}}.</td>
             <td>{{dependent.first_name}} {{dependent.last_name}}</td>
             <td>{{dependent.bls_member.relation}}</td>
           </tr>

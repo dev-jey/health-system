@@ -12410,7 +12410,6 @@
   
   img {
     max-width: 100%;
-    border-radius: 0.2857rem;
   }
   
   .img-raised {
@@ -14962,7 +14961,8 @@
   
   .sidebar .nav li>a,
   .off-canvas-sidebar .nav li>a {
-    padding: 16px 0 !important;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+    padding: 15px 0 !important;
     color: #ffffff;
     display: block;
     text-decoration: none;

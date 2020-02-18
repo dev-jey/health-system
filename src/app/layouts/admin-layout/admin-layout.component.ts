@@ -19,14 +19,14 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/sla/dashboard",
     title: "Dashboard",
-    icon: "fa-angle-right ",
+    icon: "fa-stop",
     class: ""
   },
   {
     path: "",
     title: "Generate",
     icon: "fa-angle-right",
-    class: "",
+    class: "drop-down",
     children: [
       {
         path: "/sla/mvc/generate",
@@ -45,13 +45,13 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/sla/scheme-rules",
     title: "Scheme Rules",
-    icon: "fa-angle-right",
+    icon: "fa-stop",
     class: ""
   },
   {
     path: "/sla/contracts",
     title: "Contracts",
-    icon: "fa-angle-right",
+    icon: "fa-stop",
     class: ""
   }
 ];
