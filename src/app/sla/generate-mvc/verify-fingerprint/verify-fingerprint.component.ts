@@ -29,30 +29,30 @@ export class VerifyFingerprintComponent implements OnInit {
     this.fpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
   }
 
-  compareBiometrics(xmlhttp): Promise<boolean> {
-    return new Promise(async (resolve, reject) => {
+  compareBiometrics(): Promise<boolean> {
+    const xmlhttp = new XMLHttpRequest();
+    return new Promise((resolve, reject) => {
       this.member.biometrics.forEach(record => {
         const uri = `${environment.fingerprintUrl}SGIMatchScore`;
-        const payload = `template1=${this.fpBMP}&template2=${record.ISOTemplateBase64}&lictsr=&templateFormat=ISO`;
-        xmlhttp.open('POST', uri, true);
-        xmlhttp.send(payload);
+        const payload = `template1=${this.fpBMP.replace('data:image/png;base64,', '')}&template2=${record.TemplateBase64}&lictsr=&templateFormat=ISO`;
         xmlhttp.onreadystatechange = () => {
           if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             const res = JSON.parse(xmlhttp.responseText);
             if (res.ErrorCode === 0) {
               if (res.MatchingScore > 120) {
                 resolve(true);
+                return;
               } else {
-                if (this.member.biometrics.indexOf(record) === (this.member.biometrics.length - 1)) {
-                  resolve(false)
-                }
+                reject();
               }
-            } else {
-              this.alert.fire('Error!', 'An error occurred while processing fingerprints', 'error', false, null, null, 1500);
-              return;
             }
           }
         }
+        xmlhttp.onerror = () => {
+          reject()
+        }
+        xmlhttp.open('POST', uri, true);
+        xmlhttp.send(payload);
       })
 
     });
@@ -71,24 +71,18 @@ export class VerifyFingerprintComponent implements OnInit {
           return;
         }
         this.fpBMP = `data:image/png;base64,${res.ISOTemplateBase64}`;
-        this.matched = await this.compareBiometrics(xmlhttp);
-        if (this.matched) {
+        this.compareBiometrics().then((matched) => {
           this.text = "Capture";
           this.alert.fire('Success!', 'Member Successfully Verified', 'success', true, "Generate MVC").then(() => {
             this.generateMVCAfterFP.emit()
           });
-        } else {
+          this.ref.detectChanges();
+        }, () => {
+          this.fpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
           this.text = "Fingerprints dont match. Try Again";
-          // this.alert.fire('Error!', this.text, 'error', false, null, null, 1500);
-        }
-        this.ref.detectChanges();
-      } else if (xmlhttp.status === 404) {
-        console.log(xmlhttp.status);
+          this.alert.fire('Error!', this.text, 'error', false, null, null, 1500);
+        });
       }
-    };
-
-    xmlhttp.onerror = () => {
-      console.log(xmlhttp.status);
     };
 
     let params = 'Timeout=' + '10000';
