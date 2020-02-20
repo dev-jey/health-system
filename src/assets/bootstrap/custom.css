@@ -21166,5 +21166,8 @@
   .btn-dark:hover{
     background: rgb(104, 104, 104);
   }
+  .btn-dark:disabled{
+    background: rgb(70, 70, 70);
+  }
   
   /*# sourceMappingURL=dashboard-free.css.map */

@@ -50,7 +50,7 @@
                             [ngClass]="{'disabled': !activeLeftFinger || fpCount[0] > 2 || textLeft === 'Capturing' || textLeft === 'Captured', 'disabled-btn': !activeLeftFinger || fpCount[0] > 2 }">
                             {{textLeft}}
                         </span>
-                        <button (click)="clearLeftFingerPrints()" class="btn btn-sm btn-dark capture-btn">
+                        <button (click)="clearLeftFingerPrints()" class="btn btn-sm btn-dark capture-btn" [disabled]="textLeft === 'Capturing'">
                             Clear
                         </button>
                     </div>
@@ -110,7 +110,7 @@
                             [ngClass]="{'disabled': !activeRightFinger || fpCount[1] > 2 || textRight === 'Capturing' || textLeft !== 'Captured', 'disabled-btn': !activeRightFinger || fpCount[1] > 2 }">
                             {{textRight}}
                         </span>
-                        <button class="btn btn-sm btn-dark capture-btn" (click)="clearRightFingerPrints()">
+                        <button class="btn btn-sm btn-dark capture-btn" (click)="clearRightFingerPrints()" [disabled]="textRight === 'Capturing'">
                             Clear
                         </button>
                     </div>

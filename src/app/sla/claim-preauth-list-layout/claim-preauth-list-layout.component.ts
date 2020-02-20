@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AlertService } from 'src/app/_services/shared/alert.service';
 import { ServiceProviderService } from 'src/app/_services/ServiceProvider/service-provider.service';
 import * as moment from 'moment';
+import { SortByDatePipe } from 'src/app/_pipes/sort-by-date.pipe';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class ClaimPreauthListLayoutComponent implements OnInit {
     'Approved'
   ]
 
-  constructor(private fb: FormBuilder, private alert: AlertService, private serviceProvider: ServiceProviderService) {
+  constructor(private fb: FormBuilder, private alert: AlertService, private serviceProvider: ServiceProviderService, private sortByDate:SortByDatePipe) {
 
   }
 
@@ -135,7 +136,7 @@ export class ClaimPreauthListLayoutComponent implements OnInit {
             this.mccData = [];
             return this.alert.fire('Attention!', 'No Preauth records found', 'info');
           }
-          this.mccData = data;
+          this.mccData = this.sortByDate.transform(data);
         }, (error) => {
           this.loading = false;
         })
@@ -148,7 +149,7 @@ export class ClaimPreauthListLayoutComponent implements OnInit {
             this.mccData = [];
             return this.alert.fire('Attention!', 'No Claim records found', 'info');
           }
-          this.mccData = data;
+          this.mccData = this.sortByDate.transform(data);
         }, (error) => {
           this.loading = false;
         })

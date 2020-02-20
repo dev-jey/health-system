@@ -38,16 +38,19 @@ import { ClaimLockPipe } from '../_pipes/claim/claim-lock.pipe';
 import { ClaimUnlockPipe } from '../_pipes/claim/claim-unlock.pipe';
 import { ConvertFilesPipe } from '../_pipes/convert-files.pipe';
 import { FormatDatePipe } from '../_pipes/format-date.pipe';
+import { SortByDatePipe } from '../_pipes/sort-by-date.pipe';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 @NgModule({
   entryComponents:[BreakdownDialogComponent],
   declarations: [
     FingerprintModalComponent,
     DashboardComponent,
-    GenerateMvcComponent,
+    GenerateMvcComponent,HighchartsChartComponent,
     telFilter,
     UidLockPipe,
     PreauthLockPipe,
+    SortByDatePipe,
     PreauthUnlockPipe,
     ClaimLockPipe,
     ClaimUnlockPipe,
@@ -78,6 +81,6 @@ import { FormatDatePipe } from '../_pipes/format-date.pipe';
     GraphsLayoutComponent,
   ],
   imports: [CommonModule, NgSelectModule, SlaRoutingModule, ComponentsModule, MaterialModule],
-  providers: [telFilter, ConvertFilesPipe]
+  providers: [telFilter, ConvertFilesPipe, SortByDatePipe]
 })
 export class SlaModule { }

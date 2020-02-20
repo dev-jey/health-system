@@ -29,12 +29,12 @@ export class VerifyFingerprintComponent implements OnInit {
     this.fpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
   }
 
-  compareBiometrics(): Promise<boolean> {
+  compareBiometrics(res): Promise<boolean> {
     const xmlhttp = new XMLHttpRequest();
     return new Promise((resolve, reject) => {
       this.member.biometrics.forEach(record => {
         const uri = `${environment.fingerprintUrl}SGIMatchScore`;
-        const payload = `template1=${this.fpBMP.replace('data:image/png;base64,', '')}&template2=${record.TemplateBase64}&lictsr=&templateFormat=ISO`;
+        const payload = `template1=${res.ISOTemplateBase64}&template2=${record.TemplateBase64}&lictsr=&templateFormat=ISO`;
         xmlhttp.onreadystatechange = () => {
           if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             const res = JSON.parse(xmlhttp.responseText);
@@ -70,8 +70,9 @@ export class VerifyFingerprintComponent implements OnInit {
           this.text = "Capture";
           return;
         }
-        this.fpBMP = `data:image/png;base64,${res.ISOTemplateBase64}`;
-        this.compareBiometrics().then((matched) => {
+        this.fpBMP = `data:image/png;base64,${res.BMPBase64}`;
+        this.ref.detectChanges();
+        this.compareBiometrics(res).then((matched) => {
           this.text = "Capture";
           this.alert.fire('Success!', 'Member Successfully Verified', 'success', true, "Generate MVC").then(() => {
             this.generateMVCAfterFP.emit()
@@ -81,6 +82,7 @@ export class VerifyFingerprintComponent implements OnInit {
           this.fpBMP = 'https://www.husseygaybell.com/wp-content/uploads/2018/05/blank-white-image-1024x576.png';
           this.text = "Fingerprints dont match. Try Again";
           this.alert.fire('Error!', this.text, 'error', false, null, null, 1500);
+          this.ref.detectChanges();
         });
       }
     };
