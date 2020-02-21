@@ -9,13 +9,14 @@ import { ContractsComponent } from './contracts/contracts.component';
 import { SchemeRulesComponent } from './scheme-rules/scheme-rules.component';
 import { ClaimPreauthCreateLayoutComponent } from './claim-preauth-create-layout/claim-preauth-create-layout.component';
 import { ClaimPreauthListLayoutComponent } from './claim-preauth-list-layout/claim-preauth-list-layout.component';
-import { FingerprintModalComponent } from './generate-mvc/fingerprint-modal/fingerprint-modal.component';
+import { FillComponent } from './gradation/fill/fill.component';
+import { ViewComponent } from './gradation/view/view.component';
 
 const routes: Routes = [
   {
     path: "dashboard",
     component: AdminLayoutComponent,
-    children: [{ path: "", component: FingerprintModalComponent
+    children: [{ path: "", component: DashboardComponent
   }],
     canActivate: [AuthGuard]
   },
@@ -89,6 +90,16 @@ const routes: Routes = [
     path: "scheme-rules",
     component: AdminLayoutComponent,
     children: [{ path: "", component: SchemeRulesComponent }],
+    canActivate: [AuthGuard]
+  },{
+    path: "gradation/fill",
+    component: AdminLayoutComponent,
+    children: [{ path: "", component: FillComponent }],
+    canActivate: [AuthGuard]
+  },{
+    path: "gradation/view",
+    component: AdminLayoutComponent,
+    children: [{ path: "", component: ViewComponent }],
     canActivate: [AuthGuard]
   }
 ];

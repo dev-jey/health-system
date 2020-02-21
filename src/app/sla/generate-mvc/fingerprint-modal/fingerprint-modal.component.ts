@@ -95,7 +95,7 @@ export class FingerprintModalComponent implements OnInit {
         if (xmlhttps.readyState === 4 && xmlhttps.status === 200) {
           const res = JSON.parse(xmlhttps.responseText);
           if (res.ErrorCode === 0) {
-            if (res.MatchingScore < 120) {
+            if (res.MatchingScore < 100) {
               this.notMatched = true;
               resolve(false);
             } else {
@@ -129,7 +129,7 @@ export class FingerprintModalComponent implements OnInit {
         if (xmlhttps.readyState === 4 && xmlhttps.status === 200) {
           const res = JSON.parse(xmlhttps.responseText);
           if (res.ErrorCode === 0) {
-            if (res.MatchingScore < 120) {
+            if (res.MatchingScore < 100) {
               this.notMatched = true;
               resolve(false);
             } else {

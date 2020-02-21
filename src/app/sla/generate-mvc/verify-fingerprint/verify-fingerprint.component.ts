@@ -39,7 +39,7 @@ export class VerifyFingerprintComponent implements OnInit {
           if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             const res = JSON.parse(xmlhttp.responseText);
             if (res.ErrorCode === 0) {
-              if (res.MatchingScore > 120) {
+              if (res.MatchingScore > 100) {
                 resolve(true);
                 return;
               } else {

@@ -29,7 +29,7 @@
               </td>
               <td>
                 <ng-select appearance="outline" labelForId="dosage" [searchable]="true" [clearable]="false" appendTo="body"
-                  [(ngModel)]="prescription.dosage" placeholder="Select dosage">
+                  [(ngModel)]="prescription.dosage" placeholder="Select dosage"  [disabled]="viewing">
                   <ng-option *ngFor="let dose of dosages" [value]="dose.name" (change)="onChange($event, prescription)">
                     {{dose.name}}
                   </ng-option>
@@ -37,7 +37,7 @@
               </td>
               <td>
                 <ng-select appearance="outline" labelForId="administration" [searchable]="true" [clearable]="false" appendTo="body"
-                  [(ngModel)]="prescription.administration" placeholder="Select administration">
+                  [(ngModel)]="prescription.administration" placeholder="Select administration"  [disabled]="viewing">
                   <ng-option *ngFor="let admin of administrations"  [value]="admin.name" (change)="onChange($event, prescription)">
                     {{admin.name}}
                   </ng-option>
@@ -45,16 +45,16 @@
               </td>
               <td>
                 <input type="number" onkeydown="return event.keyCode !== 69" id="duration" class="table-inputs" placeholder="Duration"
-                  name="duration" [(ngModel)]="prescription.duration" (keyup)="onChange($event, prescription)" />
+                  name="duration" [(ngModel)]="prescription.duration" (keyup)="onChange($event, prescription)" [disabled]="viewing" />
               </td>
               <td>
                 <input type="number" onkeydown="return event.keyCode !== 69" class="table-inputs" name="units" placeholder="Units"
-                  [(ngModel)]="prescription.units" (keyup)="onChange($event, prescription)" />
+                  [(ngModel)]="prescription.units" (keyup)="onChange($event, prescription)" [disabled]="viewing" />
               </td>
               <td>
                 <input type="number" onkeydown="return event.keyCode !== 69" class="table-inputs"
                   [ngModelOptions]="{standalone: true}" name="unit_price" [(ngModel)]="prescription.unit_price" placeholder="Unit Price"
-                  (keyup)="onChange($event, prescription)" />
+                  (keyup)="onChange($event, prescription)" [disabled]="viewing" />
               </td>
               <td>
 
@@ -66,7 +66,7 @@
                 <div class="col-md-12">
                   <input type="file" class="table-inputs custom-file-input mx-auto" name="prescriptionFile"
                     (change)="onChange($event, prescription)" accept="application/pdf,image/x-png,image/gif,image/jpeg"
-                    maxsize="6000">
+                    maxsize="6000" [disabled]="viewing">
                   <label class="custom-file-label"
                     for="customFile">{{prescription.file ? prescription.file.filename: 'Upload file'}}</label>
                 </div>

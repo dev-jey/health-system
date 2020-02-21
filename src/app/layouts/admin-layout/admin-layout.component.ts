@@ -43,6 +43,26 @@ export const ROUTES: RouteInfo[] = [
     ]
   },
   {
+    path: "",
+    title: "Gradation",
+    icon: "fa-angle-right",
+    class: "drop-down",
+    children: [
+      {
+        path: "/sla/gradation/fill",
+        title: "Grading Sheet",
+        icon: "fa-angle-right",
+        class: ""
+      },
+      {
+        path: "/sla/gradation/view",
+        title: "View",
+        icon: "fa-angle-right",
+        class: ""
+      }
+    ]
+  },
+  {
     path: "/sla/scheme-rules",
     title: "Scheme Rules",
     icon: "fa-stop",

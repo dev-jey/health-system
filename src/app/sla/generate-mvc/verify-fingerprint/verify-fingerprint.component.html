@@ -1,4 +1,4 @@
-
+<div class="card-plain pb-4">
   <div class=" ml-4">
     <h4 class="" id="modal-basic-title">Biometric Authentication</h4>
   </div>
@@ -76,13 +76,15 @@
                   </div>
                 </div>
                 <div class="col-12 row">
-                  <button class="btn btn-info btn-sm text-center capture-btn" (click)="captureBiometric()"
+                  <button class="btn btn-info btn-sm text-center capture-btn d-block" (click)="captureBiometric()"
                     [disabled]="text==='Capturing'">{{text}}
-                  </button>
-                  <button (click)="hideBiometric.emit()" class="btn btn-dark btn-sm float-right mr-4 capture-btn">cancel</button>
+                  </button><br>
+                  <button (click)="hideBiometric.emit()" class="btn btn-dark btn-sm float-right mr-4 capture-btn d-block">cancel</button>
                 </div>
               </div>
             </form>
           </div>
         </div>
+      </div>
+      <br><br>
       </div>

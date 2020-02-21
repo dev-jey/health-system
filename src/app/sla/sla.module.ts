@@ -40,6 +40,8 @@ import { ConvertFilesPipe } from '../_pipes/convert-files.pipe';
 import { FormatDatePipe } from '../_pipes/format-date.pipe';
 import { SortByDatePipe } from '../_pipes/sort-by-date.pipe';
 import { HighchartsChartComponent } from 'highcharts-angular';
+import { FillComponent } from './gradation/fill/fill.component';
+import { ViewComponent } from './gradation/view/view.component';
 
 @NgModule({
   entryComponents:[BreakdownDialogComponent],
@@ -79,6 +81,8 @@ import { HighchartsChartComponent } from 'highcharts-angular';
     ContractsComponent,
     BreakdownDialogComponent,
     GraphsLayoutComponent,
+    FillComponent,
+    ViewComponent,
   ],
   imports: [CommonModule, NgSelectModule, SlaRoutingModule, ComponentsModule, MaterialModule],
   providers: [telFilter, ConvertFilesPipe, SortByDatePipe]

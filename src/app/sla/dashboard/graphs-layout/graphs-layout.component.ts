@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-// import * as Chart from 'chart.js'
 import * as Highcharts from 'highcharts';
-// import { Chart } from 'angular-highcharts';
 import { ServiceProviderService } from 'src/app/_services/ServiceProvider/service-provider.service';
 
 
@@ -23,11 +21,20 @@ noData(Highcharts);
 })
 export class GraphsLayoutComponent implements OnInit {
   loading: boolean;
+  @Input() month;
+  @Input() year;
+  @Input() preauthTotal;
+  @Input() preauthAvg;
+  @Input() mvcTotal;
+  @Input() mvcAvg;
+  @Input() claimsTotal;
+  @Input() claimsAvg;
   schemes: Array<any> = [];
   departments: Array<any> = [];
   graphFormErrors = {
     required: 'Field is required'
   }
+  currentFilter: any;
   graphMvcFormSubmitted: boolean;
   graphMvcForm: FormGroup;
   graphPreauthFormSubmitted: boolean;
@@ -35,6 +42,12 @@ export class GraphsLayoutComponent implements OnInit {
   graphClaimFormSubmitted: boolean;
   graphClaimForm: FormGroup;
   dashboard: any = {};
+  filterOptions: Array<any> = [
+    { id: 1, name: "By Day" }, {
+      id: 2, name: "By Week"
+    }, {
+      id: 3, name: "By Month"
+    }]
 
   public options: any = {
     chart: {
@@ -46,6 +59,18 @@ export class GraphsLayoutComponent implements OnInit {
     },
     subtitle: {
       text: 'MVC data breakdown'
+    },
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            enabled: false
+          }
+        }
+      }]
     },
     credits: {
       enabled: true
@@ -140,10 +165,10 @@ export class GraphsLayoutComponent implements OnInit {
       height: 400
     },
     title: {
-      text: 'Claim Chart'
+      text: 'Preauth Chart'
     },
     subtitle: {
-      text: 'Claim data breakdown'
+      text: 'Preauth data breakdown'
     },
   }
 
@@ -186,6 +211,7 @@ export class GraphsLayoutComponent implements OnInit {
     })
   }
 
+  setFilter(){}
   initForms() {
     this.graphMvcForm = this.fb.group({
       scheme: [null, Validators.required],

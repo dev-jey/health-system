@@ -63,15 +63,17 @@ export class ClaimPreauthListLayoutComponent implements OnInit {
   }
 
   validateDates = (from_date, to_date) => {
-    if (!from_date && !to_date) {
-      return this.alert.fire('Error!', 'Enter a start date and end date', 'error');
-    }
-    if (from_date && !to_date) {
-      return this.alert.fire('Error!', 'Enter an end date', 'error');
-    }
-    if (!from_date && to_date) {
-      return this.alert.fire('Error!', 'Enter a start date', 'error');
-    }
+    return new Promise<Boolean>((resolve) => {
+      if (from_date && !to_date) {
+        this.alert.fire('Error!', 'Enter an end date', 'error');
+        resolve(false);
+      }
+      if (!from_date && to_date) {
+        this.alert.fire('Error!', 'Enter a start date', 'error');
+        resolve(false);
+      }
+      resolve(true);
+    })
   }
 
   /**
@@ -115,10 +117,11 @@ export class ClaimPreauthListLayoutComponent implements OnInit {
     });
   };
 
-  searchPreauth = (e) => {
+  searchPreauth = async (e) => {
     e.preventDefault();
     const { member_no, mvc_no, scheme_id, department_id, sub_dept_id, status, start_date, end_date } = this.searchPreauthForm.value;
-    this.validateDates(start_date, end_date);
+    const validated = await this.validateDates(start_date, end_date);
+    if (!validated) return;
     this.searchParameters.start_date = moment(start_date);
     this.searchParameters.end_date = moment(end_date);
     scheme_id ? this.searchParameters.scheme_id = scheme_id : null;
@@ -132,11 +135,11 @@ export class ClaimPreauthListLayoutComponent implements OnInit {
       case 'preauth':
         this.serviceProvider.searchPreauths(this.searchParameters).subscribe((data) => {
           this.loading = false;
-          if (data.length === 0) {
+          if (data && data.length === 0) {
             this.mccData = [];
             return this.alert.fire('Attention!', 'No Preauth records found', 'info');
           }
-          this.mccData = this.sortByDate.transform(data);
+          if(data) this.mccData = this.sortByDate.transform(data);
         }, (error) => {
           this.loading = false;
         })
@@ -145,11 +148,11 @@ export class ClaimPreauthListLayoutComponent implements OnInit {
       case 'claim':
         this.serviceProvider.searchPreauths(this.searchParameters).subscribe((data) => {
           this.loading = false;
-          if (data.length === 0) {
+          if (data && data.length === 0) {
             this.mccData = [];
             return this.alert.fire('Attention!', 'No Claim records found', 'info');
           }
-          this.mccData = this.sortByDate.transform(data);
+          if(data) this.mccData = this.sortByDate.transform(data);
         }, (error) => {
           this.loading = false;
         })

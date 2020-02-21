@@ -1,0 +1,83 @@
+<section>
+  <div class="container-fluid main-content mt-4">
+    <form [formGroup]="gradingForm" (submit)="submitSheet($event)" novalidate>
+      <div class="form-group row card-plain">
+        <div class=" col-xl-12 animated fadeIn">
+          <h3 class="text-medi">Grading Items</h3>
+          <div class="row">
+            <div class="col-xl-4 col-lg-6">
+              <div class="form-group has-success">
+                <label for="grading_title" class="input-label"
+                  >Grading Title</label
+                >
+                <input
+                  type="text"
+                  class=" form-control input"
+                  name="grading_title"
+                  formControlName="grading_title"
+                />
+                <span
+                  class="small text-danger form-error-span"
+                  *ngIf="
+                    gradingForm.controls['grading_title'].errors &&
+                    gradingFormSubmitted
+                  "
+                ></span>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-6">
+              <div class="form-group has-success">
+                <label for="grading_description" class="input-label"
+                  >Grading Description</label
+                >
+                <input
+                  type="text"
+                  class="form-control input"
+                  name="grading_description"
+                  formControlName="grading_description"
+                />
+                <span
+                  class="small text-danger form-error-span"
+                  *ngIf="
+                    gradingForm.controls['grading_description'].errors &&
+                    gradingFormSubmitted
+                  "
+                ></span>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 mb-3">
+              <label for="select_facility_type" class="input-label"
+                >Facility Type*</label
+              >
+              <ng-select
+                appearance="outline"
+                labelForId="facility_id"
+                [searchable]="true"
+                [clearable]="false"
+                formControlName="facility_id"
+                (change)="onSelect()"
+              >
+                <ng-option
+                  *ngFor="let facility of facilityTypes"
+                  [value]="facility.id"
+                >
+                  {{ facility.name }}</ng-option
+                >
+              </ng-select>
+              <span
+                class="small text-danger form-error-span"
+                *ngIf="
+                  gradingForm.controls['facility_id'].errors &&
+                  gradingFormSubmitted
+                "
+              >
+                {{ gradingFormErrors.required }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+</section>
