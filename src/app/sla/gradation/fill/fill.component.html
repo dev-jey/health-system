@@ -1,8 +1,8 @@
 <section>
   <div class="container-fluid main-content mt-4">
-    <form [formGroup]="gradingForm" (submit)="submitSheet($event)" novalidate>
+    <form (submit)="submitSheet($event)">
       <div class="form-group row card-plain">
-        <div class=" col-xl-12 animated fadeIn">
+        <div class=" col-xl-12 animated fadeIn pb-4">
           <h3 class="text-medi">Grading Items</h3>
           <div class="row">
             <div class="col-xl-4 col-lg-6">
@@ -14,15 +14,8 @@
                   type="text"
                   class=" form-control input"
                   name="grading_title"
-                  formControlName="grading_title"
+                  [(ngModel)]="responseData.grading_title"
                 />
-                <span
-                  class="small text-danger form-error-span"
-                  *ngIf="
-                    gradingForm.controls['grading_title'].errors &&
-                    gradingFormSubmitted
-                  "
-                ></span>
               </div>
             </div>
             <div class="col-xl-4 col-lg-6">
@@ -34,15 +27,8 @@
                   type="text"
                   class="form-control input"
                   name="grading_description"
-                  formControlName="grading_description"
+                  [(ngModel)]="responseData.grading_description"
                 />
-                <span
-                  class="small text-danger form-error-span"
-                  *ngIf="
-                    gradingForm.controls['grading_description'].errors &&
-                    gradingFormSubmitted
-                  "
-                ></span>
               </div>
             </div>
             <div class="col-xl-4 col-lg-6 mb-3">
@@ -52,32 +38,121 @@
               <ng-select
                 appearance="outline"
                 labelForId="facility_id"
-                [searchable]="true"
+                [searchable]="false"
                 [clearable]="false"
-                formControlName="facility_id"
+                [ngModelOptions]="{ standalone: true }"
                 (change)="onSelect()"
+                [(ngModel)]="facilityId"
               >
                 <ng-option
-                  *ngFor="let facility of facilityTypes"
+                  *ngFor="let facility of userTypes"
                   [value]="facility.id"
                 >
                   {{ facility.name }}</ng-option
                 >
               </ng-select>
-              <span
-                class="small text-danger form-error-span"
-                *ngIf="
-                  gradingForm.controls['facility_id'].errors &&
-                  gradingFormSubmitted
-                "
-              >
-                {{ gradingFormErrors.required }}
-              </span>
             </div>
           </div>
         </div>
       </div>
+      <div class="row card-plain form-group" *ngIf="categories.length">
+        <div class="category-headings col-md-12">
+          <ul>
+            <li *ngFor="let category of categories">
+              <br />
+              <h2>{{ category.category.name }}</h2>
+              <hr />
+              <p *ngFor="let item of category.items">
+                <b>{{ item.item }}</b
+                ><br />
+                <br />
+
+                <input
+                  type="text"
+                  name=""
+                  class=" form-control input"
+                  [(ngModel)]="responseData[item.id]"
+                  id=""
+                  [ngModelOptions]="{ standalone: true }"
+                  *ngIf="item.grading_response_type_id.id === 1"
+                />
+
+                <textarea
+                  *ngIf="item.grading_response_type_id.id === 2"
+                  row="10"
+                  [ngModelOptions]="{ standalone: true }"
+                  [(ngModel)]="responseData[item.id]"
+                  class="form-control input"
+                >
+                </textarea>
+                
+                <ng-select
+                  *ngIf="item.grading_response_type_id.id === 3"
+                  [(ngModel)]="responseData[item.id]"
+                  [ngModelOptions]="{standalone: true}"
+                >
+                  <ng-option
+                    *ngFor="let opt of item.response_data"
+                    [value]="opt"
+                    >{{ opt.text }}</ng-option
+                  >
+                </ng-select>
+
+                <span *ngIf="item.grading_response_type_id.id === 4">
+                  <div *ngFor="let option of item.response_data; let i=index">
+                    <input
+                      type="radio"
+                      name="options"
+                      id="{{i}}"
+                      value="option"
+                      [(ngModel)]="responseData[item.id]"
+                    /><label for="{{i}}"> &nbsp;{{ option.text }}</label
+                    ><br />
+                  </div>
+                </span>
+
+                <span *ngIf="item.grading_response_type_id.id === 5">
+                  <div *ngFor="let option of item.response_data; let i= index">
+                    <input
+                      type="checkbox"
+                      id="response_checkbox{{i}}"
+                      name="option.text"
+                      [ngModelOptions]="{ standalone: true }"
+                      value="option"
+                      [checked]="option"
+                      [(ngModel)]="responseData[item.id] && responseData[item.id][option.id]" 
+                    />
+                    <label for="response_checkbox{{i}}"> &nbsp;{{ option.text }}</label
+                    ><br />
+                  </div>
+                </span>
+
+                <ng-select
+                  *ngIf="item.grading_response_type_id.id === 6"
+                  multiple="true"
+                  [(ngModel)]="responseData[item.id]"
+                >
+                  <ng-option
+                    *ngFor="let opt of item.response_data"
+                    [value]="opt"
+                    >{{ opt.text }}</ng-option
+                  >
+                </ng-select>
+
+                <br />
+                <br />
+              </p>
+              <br />
+            </li>
+          </ul>
+        </div>
+        <button
+          class="btn btn-success d-block float-right ml-auto"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
     </form>
   </div>
-  
 </section>

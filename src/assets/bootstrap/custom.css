@@ -12284,7 +12284,6 @@
   }
   
   .form-control {
-    border-color: #2b3553;
     border-radius: 0.4285rem;
     -webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
     -moz-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
@@ -16370,8 +16369,6 @@
     max-height: 80px;
     padding: 10px 10px 0 0;
     resize: none;
-    border: none;
-    border-bottom: 1px solid #2b3553;
     border-radius: 0;
     line-height: 2;
   }

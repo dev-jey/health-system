@@ -114,4 +114,16 @@ export class ServiceProviderService {
   getMemberHistory(payload): Observable<any> {
     return this.http.makeMediclaimRequest('user_category/history', 'POST', payload);
   }
+
+  getUserType():Observable<any> {
+    return this.http.makeMediclaimRequest('grading/userTypes', 'GET');
+  }
+
+  getGradingQuestionairre(userType, statusId):Observable<any> {
+    return this.http.makeMediclaimRequest(`grading/questionnaire?grading_user_type_id=${userType}%20&status_id=${statusId}`, 'GET')
+  }
+
+  gradingResponse(payload):Observable<any> {
+    return this.http.makeMediclaimRequest(`grading/response`, 'POST', payload)
+  }
 }
