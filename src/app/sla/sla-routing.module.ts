@@ -11,6 +11,7 @@ import { ClaimPreauthCreateLayoutComponent } from './claim-preauth-create-layout
 import { ClaimPreauthListLayoutComponent } from './claim-preauth-list-layout/claim-preauth-list-layout.component';
 import { FillComponent } from './gradation/fill/fill.component';
 import { ViewComponent } from './gradation/view/view.component';
+import { ViewSingleSheetComponent } from './gradation/view/view-single-sheet/view-single-sheet.component';
 
 const routes: Routes = [
   {
@@ -100,6 +101,11 @@ const routes: Routes = [
     path: "gradation/view",
     component: AdminLayoutComponent,
     children: [{ path: "", component: ViewComponent }],
+    canActivate: [AuthGuard]
+  },{
+    path: "gradation/view/:id",
+    component: AdminLayoutComponent,
+    children: [{ path: "", component: ViewSingleSheetComponent }],
     canActivate: [AuthGuard]
   }
 ];

@@ -42,6 +42,8 @@ import { SortByDatePipe } from '../_pipes/sort-by-date.pipe';
 import { HighchartsChartComponent } from 'highcharts-angular';
 import { FillComponent } from './gradation/fill/fill.component';
 import { ViewComponent } from './gradation/view/view.component';
+import { ViewSingleSheetComponent } from './gradation/view/view-single-sheet/view-single-sheet.component';
+import { FormatDatePickerPipe } from '../_pipes/format-date-picker.pipe';
 
 @NgModule({
   entryComponents:[BreakdownDialogComponent],
@@ -54,6 +56,7 @@ import { ViewComponent } from './gradation/view/view.component';
     PreauthLockPipe,
     SortByDatePipe,
     PreauthUnlockPipe,
+    FormatDatePickerPipe,
     ClaimLockPipe,
     ClaimUnlockPipe,
     HospitalConfigsPipe,
@@ -83,8 +86,9 @@ import { ViewComponent } from './gradation/view/view.component';
     GraphsLayoutComponent,
     FillComponent,
     ViewComponent,
+    ViewSingleSheetComponent,
   ],
   imports: [CommonModule, NgSelectModule, SlaRoutingModule, ComponentsModule, MaterialModule],
-  providers: [telFilter, ConvertFilesPipe, SortByDatePipe]
+  providers: [telFilter, ConvertFilesPipe, SortByDatePipe, FormatDatePickerPipe]
 })
 export class SlaModule { }

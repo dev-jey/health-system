@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment'; 
 import * as Bowser from "bowser";
 import { FileService } from 'src/app/_services/shared/file.service';
+import { FormatDatePickerPipe } from 'src/app/_pipes/format-date-picker.pipe';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
 
   constructor(
     private serviceProvider: ServiceProviderService,
+    private formatDatePicker: FormatDatePickerPipe,
     private alert: AlertService,
     private router: Router,
     private ref: ChangeDetectorRef,
@@ -246,6 +248,8 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
    */
   getSubmissionData() {
     if (this.nhif_rebate) this.preauthPayload.nhif_rebate = this.nhif_rebate;
+    this.preauthPayload.admission_date = this.formatDatePicker.transform(this.preauthPayload.admission_date)
+    this.preauthPayload.discharge_date = this.formatDatePicker.transform(this.preauthPayload.discharge_date)
     return {
       ...this.preauthPayload,
       mcc_id: String(this.memberData.id),
@@ -355,6 +359,7 @@ export class ClaimPreauthCreateLayoutComponent implements OnInit {
       this.alert.fire('Attention', 'Kindly enter diagnosis details to proceed', 'info');
       return;
     }
+    console.log(this.admissionDate)
     const payload = this.getSubmissionData();
     this.serviceProvider.editPreauth(payload.mcc_id, payload).subscribe(async data => {
       if (data.error) {

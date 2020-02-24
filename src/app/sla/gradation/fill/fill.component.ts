@@ -24,6 +24,7 @@ export class FillComponent implements OnInit {
     grading_description: any;
     remarks: string;
   };
+  responseLabels: any = {};
   constructor(private serviceProvider: ServiceProviderService) {}
   ngOnInit() {
     this.getUserTypes();
@@ -44,7 +45,6 @@ export class FillComponent implements OnInit {
    * @param e On select facility type
    */
   onSelect() {
-    console.log(this.responseData);
     this.serviceProvider
       .getGradingQuestionairre(this.facilityId, 1)
       .subscribe(data => {
@@ -71,8 +71,8 @@ export class FillComponent implements OnInit {
       grading_user_type_id: this.facilityId,
       stakeholder_id: JSON.parse(localStorage.getItem("mediclaimUser"))
         .bls_serviceprovider.id,
-      grading_title: this.responseData.grading_title,
-      grading_description: this.responseData.grading_description,
+      grading_title: this.responseLabels.grading_title,
+      grading_description: this.responseLabels.grading_description,
       remarks: "-"
     };
     const dataToSave = {

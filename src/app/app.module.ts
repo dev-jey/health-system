@@ -23,7 +23,7 @@ import { SlaModule } from './sla/sla.module';
     RouterModule,
     AppRoutingModule,
   ],
-  declarations: [AppComponent, PageNotFoundComponent],
+  declarations: [AppComponent, PageNotFoundComponent ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: HttpInterceptorService,

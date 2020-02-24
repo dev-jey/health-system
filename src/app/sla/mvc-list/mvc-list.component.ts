@@ -4,6 +4,8 @@ import { AlertService } from 'src/app/_services/shared/alert.service';
 import { ServiceProviderService } from 'src/app/_services/ServiceProvider/service-provider.service';
 import * as moment from 'moment';
 import { SortByDatePipe } from 'src/app/_pipes/sort-by-date.pipe';
+import { FormatDatePickerPipe } from 'src/app/_pipes/format-date-picker.pipe';
+
 @Component({
   selector: 'app-mvc-list',
   templateUrl: './mvc-list.component.html',
@@ -16,7 +18,7 @@ export class MvcListComponent implements OnInit {
   searchParameters: any = {};
   mccData: Array<any>;
   loading: boolean;
-  constructor(private fb: FormBuilder, private alert: AlertService, private serviceProvider: ServiceProviderService, private sortByDate:SortByDatePipe) {
+  constructor(private fb: FormBuilder, private alert: AlertService, private serviceProvider: ServiceProviderService, private sortByDate:SortByDatePipe, private formatDatePicker: FormatDatePickerPipe) {
 
   }
 
@@ -58,8 +60,8 @@ export class MvcListComponent implements OnInit {
     const validated = await this.validateDates(start_date, end_date);
     if (!validated) return;
     this.searchParameters.hospital_id = JSON.parse(localStorage.getItem('mediclaimUser')).hospital.id;
-    this.searchParameters.start_date = moment(start_date);
-    this.searchParameters.end_date = moment(end_date);
+    this.searchParameters.start_date = moment(this.formatDatePicker.transform(start_date));
+    this.searchParameters.end_date = moment(this.formatDatePicker.transform(end_date));
     member_no ? this.searchParameters.member_no = member_no : this.searchParameters.member_no = null;
     mvc_no ? this.searchParameters.mvc_no = mvc_no.toString() : this.searchParameters.mvc_no = null;
     this.loading = true;

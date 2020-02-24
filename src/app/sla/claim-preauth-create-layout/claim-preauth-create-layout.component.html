@@ -1,13 +1,19 @@
 <section>
   <nav aria-label="breadcrumb" class="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a [routerLink]="['/sla/dashboard']">Dashboard</a></li>
-      <li class="breadcrumb-item" *ngIf="_type.endsWith('preauth')"><a [routerLink]="['/sla/view/preauth']">Preauths</a>
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/sla/dashboard']">Dashboard</a>
       </li>
-      <li class="breadcrumb-item" *ngIf="_type.endsWith('claim')"><a [routerLink]="['/sla/view/claim']">Claims</a></li>
+      <li class="breadcrumb-item" *ngIf="_type.endsWith('preauth')">
+        <a [routerLink]="['/sla/view/preauth']">Preauths</a>
+      </li>
+      <li class="breadcrumb-item" *ngIf="_type.endsWith('claim')">
+        <a [routerLink]="['/sla/view/claim']">Claims</a>
+      </li>
       <li class="breadcrumb-item active" *ngIf="viewing"><a>View</a></li>
       <li class="breadcrumb-item active" *ngIf="creatingOrEditing && !editing">
-        <a>Create</a></li>
+        <a>Create</a>
+      </li>
       <li class="breadcrumb-item active" *ngIf="editing"><a>Edit</a></li>
     </ol>
   </nav>
@@ -15,294 +21,589 @@
     <app-loader *ngIf="loading"></app-loader>
     <div class="dashboard-items" id="printDoc" *ngIf="!loading">
       <mat-tab-group class="">
-        <mat-tab label="{{ _type==='create-preauth' && 'Generate Preauth'
-       ||  _type==='create-claim' && 'Generate Claim'
-       || _type==='view-claim' && 'Claim Details'
-       || _type==='view-preauth' && 'Preauth Details'
-       || _type==='create-edit-preauth' && 'Edit Preauth'
-       || _type==='create-edit-claim' && 'Edit Claim'
-        }}">
-          <h2 class="mt-4 mb-4 d-flex align-items-center">Status&nbsp;&nbsp;
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 0">Pending</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 1">Approved</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 2">Rejected</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 3">Add to Batch</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 4">Awaiting Payment</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 5">Paid</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 6">Incomplete</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 7">Hold</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 8">Fraud</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 9">Discounted</span>
-            <span class="badge badge-primary py-2" *ngIf="memberData.status === 10">Discharge</span>
+        <mat-tab
+          label="{{
+            (_type === 'create-preauth' && 'Generate Preauth') ||
+              (_type === 'create-claim' && 'Generate Claim') ||
+              (_type === 'view-claim' && 'Claim Details') ||
+              (_type === 'view-preauth' && 'Preauth Details') ||
+              (_type === 'create-edit-preauth' && 'Edit Preauth') ||
+              (_type === 'create-edit-claim' && 'Edit Claim')
+          }}"
+        >
+          <h2 class="mt-4 mb-4 d-flex align-items-center">
+            Status&nbsp;&nbsp;
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 0"
+              >Pending</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 1"
+              >Approved</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 2"
+              >Rejected</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 3"
+              >Add to Batch</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 4"
+              >Awaiting Payment</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 5"
+              >Paid</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 6"
+              >Incomplete</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 7"
+              >Hold</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 8"
+              >Fraud</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 9"
+              >Discounted</span
+            >
+            <span
+              class="badge badge-primary py-2"
+              *ngIf="memberData.status === 10"
+              >Discharge</span
+            >
           </h2>
-          <h3 class="mt-4 mb-4" *ngIf="memberData.status === 1">STATUS <span
-              class="badge badge-success">Completed</span>
+          <h3 class="mt-4 mb-4" *ngIf="memberData.status === 1">
+            STATUS <span class="badge badge-success">Completed</span>
           </h3>
           <div class="container-fluid">
             <div class="row">
-              <div class="col-xl-7 col-lg-12 col-12 card-plain mb-4 animated fadeIn">
+              <div
+                class="col-xl-7 col-lg-12 col-12 card-plain mb-4 animated fadeIn"
+              >
                 <h3>Member Details</h3>
-                <hr>
+                <hr />
                 <table class="col-md-7 user-details mt-2">
                   <tbody>
                     <tr>
                       <td class="text-dark">Name</td>
-                      <td class="text-muted">{{memberData.user && memberData.user.first_name}}&nbsp;
-                        {{memberData.user && memberData.user.last_name}}</td>
+                      <td class="text-muted">
+                        {{
+                          memberData.user && memberData.user.first_name
+                        }}&nbsp;
+                        {{ memberData.user && memberData.user.last_name }}
+                      </td>
                     </tr>
                     <tr>
                       <td class="text-dark">Member No</td>
-                      <td class="text-muted">{{memberData.member_no}}</td>
+                      <td class="text-muted">{{ memberData.member_no }}</td>
                     </tr>
                     <tr>
                       <td class="text-dark">Relation</td>
-                      <td class="text-muted">{{memberData.user && memberData.user.bls_member.relation}}</td>
+                      <td class="text-muted">
+                        {{
+                          memberData.user && memberData.user.bls_member.relation
+                        }}
+                      </td>
                     </tr>
                     <tr>
                       <td class="text-dark">Gender</td>
-                      <td *ngIf="memberData.user && memberData.user.gender === 0" class="text-muted">Male</td>
-                      <td *ngIf="memberData.user && memberData.user.gender === 1" class="text-muted">Female</td>
+                      <td
+                        *ngIf="memberData.user && memberData.user.gender === 0"
+                        class="text-muted"
+                      >
+                        Male
+                      </td>
+                      <td
+                        *ngIf="memberData.user && memberData.user.gender === 1"
+                        class="text-muted"
+                      >
+                        Female
+                      </td>
                     </tr>
                     <tr>
                       <td class="text-dark">Age</td>
-                      <td class="text-muted">{{memberData.user && memberData.user.date_of_birth | calculateAge}}
+                      <td class="text-muted">
+                        {{
+                          memberData.user && memberData.user.date_of_birth
+                            | calculateAge
+                        }}
                       </td>
                     </tr>
                     <tr>
                       <td class="text-dark">MVC</td>
-                      <td class="text-muted">{{memberData.id}}</td>
+                      <td class="text-muted">{{ memberData.id }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div class="col-xl-4 col-md-12 col-12 card-plain float-right ml-auto  mb-4  animated fadeIn">
-                <h4 class="p-2">Department: <span
-                    class="text-muted">{{memberData.department && memberData.department.name}}</span>
+              <div
+                class="col-xl-4 col-md-12 col-12 card-plain float-right ml-auto  mb-4  animated fadeIn"
+              >
+                <h4 class="p-2">
+                  Department:
+                  <span class="text-muted">{{
+                    memberData.department && memberData.department.name
+                  }}</span>
                 </h4>
-                <hr>
-                <form class="col-12" [formGroup]="admittedForm" novalidate *ngIf="memberData.department && memberData.department.name.toLowerCase() === 'inpatient' 
-                  || memberData.department && memberData.department.name.toLowerCase() === 'maternity'
-                  || memberData.department && memberData.department.name.toLowerCase() === 'inpatient follow-up'
-                  ">
+                <hr />
+                <form
+                  class="col-12"
+                  [formGroup]="admittedForm"
+                  novalidate
+                  *ngIf="
+                    (memberData.department &&
+                      memberData.department.name.toLowerCase() ===
+                        'inpatient') ||
+                    (memberData.department &&
+                      memberData.department.name.toLowerCase() ===
+                        'maternity') ||
+                    (memberData.department &&
+                      memberData.department.name.toLowerCase() ===
+                        'inpatient follow-up')
+                  "
+                >
                   <div *ngIf="creatingOrEditing">
                     <mat-label>Admission Date</mat-label>
                     <mat-form-field class="date-picker" appearance="outline">
-                      <input matInput [matDatepicker]="picker2" [min]="minDate" formControlName="admission_date">
-                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <input
+                        matInput
+                        [matDatepicker]="picker2"
+                        [min]="minDate"
+                        [max]="admittedForm.value.discharge_date"
+                        formControlName="admission_date"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker2"
+                      ></mat-datepicker-toggle>
                       <mat-datepicker #picker2></mat-datepicker>
                     </mat-form-field>
                   </div>
                   <div *ngIf="viewing && memberData.admission_date">
                     <mat-label>Admission Date</mat-label>
-                    <p disabled="disabled" class="pt-2">{{admissionDate}}</p>
+                    <p disabled="disabled" class="pt-2">{{ admissionDate }}</p>
                   </div>
                   <div *ngIf="creatingOrEditing">
                     <mat-label>Discharge Date</mat-label>
                     <mat-form-field class="date-picker" appearance="outline">
-                      <input matInput [matDatepicker]="picker3" [min]="admittedForm.value.admission_date"
-                        formControlName="discharge_date">
-                      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                      <input
+                        matInput
+                        [matDatepicker]="picker3"
+                        [min]="admittedForm.value.admission_date"
+                        formControlName="discharge_date"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker3"
+                      ></mat-datepicker-toggle>
                       <mat-datepicker #picker3></mat-datepicker>
                     </mat-form-field>
                   </div>
                   <div *ngIf="viewing && memberData.discharge_date">
                     <mat-label>Discharge Date</mat-label>
-                    <p disabled="disabled" class="pt-2">{{dischargeDate}}</p>
+                    <p disabled="disabled" class="pt-2">{{ dischargeDate }}</p>
                   </div>
-                  <div class="form-group has-success"
-                    *ngIf="!viewing && admittedForm.value.admission_date && admittedForm.value.discharge_date">
-                    <label for="hospitalStay" class="input-label">Estimated Hospital Stay</label>
-                    <p id="hospitalStay" name="hospitalStay" disabled="disabled">
-                      {{(admittedForm.value.discharge_date - admittedForm.value.admission_date) / 86400000}} Day(s)
+                  <div
+                    class="form-group has-success"
+                    *ngIf="
+                      !viewing &&
+                      admittedForm.value.admission_date &&
+                      admittedForm.value.discharge_date
+                    "
+                  >
+                    <label for="hospitalStay" class="input-label"
+                      >Estimated Hospital Stay</label
+                    >
+                    <p
+                      id="hospitalStay"
+                      name="hospitalStay"
+                      disabled="disabled"
+                    >
+                      {{
+                        (admittedForm.value.discharge_date -
+                          admittedForm.value.admission_date) /
+                          86400000
+                      }}
+                      Day(s)
                     </p>
                   </div>
-                  <div *ngIf="memberData.admission_date && memberData.discharge_date  && viewing">
+                  <div
+                    *ngIf="
+                      memberData.admission_date &&
+                      memberData.discharge_date &&
+                      viewing
+                    "
+                  >
                     <mat-label>Length of Stay</mat-label>
                     <p name="hospitalStay" disabled="disabled" class="pt-2">
-                      {{lengthOfStay}} Day(s)
+                      {{ lengthOfStay }} Day(s)
                     </p>
                   </div>
-                  <div class="form-group has-success" *ngIf="!memberData.nhif  && creatingorEditing">
+                  <div
+                    class="form-group has-success"
+                    *ngIf="!memberData.nhif && creatingorEditing"
+                  >
                     <label for="nhifNo" class="input-label">NHIF No</label>
-                    <input type="text" id="nhifNo" class=" form-control input" name="nhif_no"
-                      formControlName="nhif_no" />
+                    <input
+                      type="text"
+                      id="nhifNo"
+                      class=" form-control input"
+                      name="nhif_no"
+                      formControlName="nhif_no"
+                    />
                   </div>
-                  <div class="form-group has-success" *ngIf="memberData.nhif && viewing">
+                  <div
+                    class="form-group has-success"
+                    *ngIf="memberData.nhif && viewing"
+                  >
                     <mat-label>NHIF No</mat-label>
                     <p name="nhif" disabled="disabled">
-                      {{memberData.nhif}}
+                      {{ memberData.nhif }}
                     </p>
                   </div>
-                  <br>
-                  <div class="custom-control custom-checkbox" *ngIf="creatingOrEditing">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1" formControlName="discharge">
-                    <label class="custom-control-label" for="customCheck1">Discharge</label>
+                  <br />
+                  <div
+                    class="custom-control custom-checkbox"
+                    *ngIf="creatingOrEditing"
+                  >
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customCheck1"
+                      formControlName="discharge"
+                    />
+                    <label class="custom-control-label" for="customCheck1"
+                      >Discharge</label
+                    >
                   </div>
                 </form>
-                <form class="col-12" [formGroup]="outpatientForm" novalidate *ngIf="(memberData.department && memberData.department.name.toLowerCase() !== 'inpatient')
-                 && (memberData.department && memberData.department.name.toLowerCase() !== 'inpatient follow-up') &&
-                (memberData.department &&  memberData.department.name.toLowerCase() !== 'maternity')">
+                <form
+                  class="col-12"
+                  [formGroup]="outpatientForm"
+                  novalidate
+                  *ngIf="
+                    memberData.department &&
+                    memberData.department.name.toLowerCase() !== 'inpatient' &&
+                    memberData.department &&
+                    memberData.department.name.toLowerCase() !==
+                      'inpatient follow-up' &&
+                    memberData.department &&
+                    memberData.department.name.toLowerCase() !== 'maternity'
+                  "
+                >
                   <div class="form-group has-success" *ngIf="creatingOrEditing">
-                    <label for="invoiceNo" class="input-label mb-2">Invoice No</label>
-                    <input type="text" id="invoiceNo" class=" form-control input" name="invoice_no"
-                      formControlName="invoice_no" />
+                    <label for="invoiceNo" class="input-label mb-2"
+                      >Invoice No</label
+                    >
+                    <input
+                      type="text"
+                      id="invoiceNo"
+                      class=" form-control input"
+                      name="invoice_no"
+                      formControlName="invoice_no"
+                    />
                   </div>
                   <div *ngIf="viewing && memberData.invoice_no">
                     <mat-label>Invoice No</mat-label>
-                    <p disabled="disabled">{{memberData.invoice_no}}</p>
+                    <p disabled="disabled">{{ memberData.invoice_no }}</p>
                   </div>
                   <div class="custom-file mt-4 mb-4" *ngIf="creatingOrEditing">
-                    <input type="file" class="custom-file-input mx-auto" formControlName="file"
-                      (change)="convertFileToBase64($event)" name="invoiceFile"
-                      accept="application/pdf,image/x-png,image/gif,image/jpeg" maxsize="6000">
-                    <label class="custom-file-label" for="customFile">{{invoiceFile.filename}}</label>
+                    <input
+                      type="file"
+                      class="custom-file-input mx-auto"
+                      formControlName="file"
+                      (change)="convertFileToBase64($event)"
+                      name="invoiceFile"
+                      accept="application/pdf,image/x-png,image/gif,image/jpeg"
+                      maxsize="6000"
+                    />
+                    <label class="custom-file-label" for="customFile">{{
+                      invoiceFile.filename
+                    }}</label>
                   </div>
                   <div *ngIf="viewing && memberData.invoice">
                     <mat-label>Invoice</mat-label>
-                    <p disabled="disabled" class="pt-2">{{memberData.invoice && memberData.invoice.filename}}</p>
-                    <button class="btn btn-primary btn-sm"
-                      (click)="fileService.viewFile(memberData.invoice_no)">View</button>
+                    <p disabled="disabled" class="pt-2">
+                      {{ memberData.invoice && memberData.invoice.filename }}
+                    </p>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      (click)="fileService.viewFile(memberData.invoice_no)"
+                    >
+                      View
+                    </button>
                   </div>
                   <div *ngIf="creatingOrEditing">
                     <mat-label>Treatment Date*</mat-label>
                     <mat-form-field class="date-picker" appearance="outline">
-                      <input matInput [matDatepicker]="picker4" [min]="minDate" formControlName="treatment_date">
-                      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                      <input
+                        matInput
+                        [matDatepicker]="picker4"
+                        [min]="minDate"
+                        formControlName="treatment_date"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker4"
+                      ></mat-datepicker-toggle>
                       <mat-datepicker #picker4></mat-datepicker>
                     </mat-form-field>
                   </div>
                   <div *ngIf="viewing && memberData.treatment_date">
                     <mat-label>Treatment Date</mat-label>
-                    <p disabled="disabled" class="pt-2">{{treatmentDate}}</p>
+                    <p disabled="disabled" class="pt-2">{{ treatmentDate }}</p>
                   </div>
                 </form>
-                <br>
+                <br />
               </div>
             </div>
           </div>
-          <br><br>
+          <br />
           <div>
-            <app-consultations (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
-              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-              (setFinalDataItems)="setFinalDataItems($event)" [memberData]="memberData" [_type]="_type"
-              [totalAmount]="consultationSubTotal">
+            <app-consultations
+              (deleteItem)="deleteItem($event)"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              (setFinalDataItems)="setFinalDataItems($event)"
+              [memberData]="memberData"
+              [_type]="_type"
+              [totalAmount]="consultationSubTotal"
+            >
             </app-consultations>
           </div>
           <div>
-            <app-diagnosis (deleteItem)="deleteItem($event)" (setFinalDataItems)="setFinalDataItems($event)"
-              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
-              [memberData]="memberData" [investigations]="investigations"></app-diagnosis>
+            <app-diagnosis
+              (deleteItem)="deleteItem($event)"
+              (setFinalDataItems)="setFinalDataItems($event)"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              [_type]="_type"
+              [memberData]="memberData"
+              [investigations]="investigations"
+            ></app-diagnosis>
           </div>
           <div>
-            <app-service (deleteItem)="deleteItem($event)" [editing]="editing" [creatingOrEditing]="creatingOrEditing"
-              [viewing]="viewing" (setFinalDataItems)="setFinalDataItems($event)"
-              (deductSubTotalAmount)="deductSubTotalAmount($event)" [_type]="_type" [totalAmount]="serviceSubTotal"
-              [memberData]="memberData">
+            <app-service
+              (deleteItem)="deleteItem($event)"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              (setFinalDataItems)="setFinalDataItems($event)"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [_type]="_type"
+              [totalAmount]="serviceSubTotal"
+              [memberData]="memberData"
+            >
             </app-service>
           </div>
           <div>
-            <app-prescriptions (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
-              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-              [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
-              [memberData]="memberData"></app-prescriptions>
+            <app-prescriptions
+              (deleteItem)="deleteItem($event)"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              [totalAmount]="prescriptionSubTotal"
+              [_type]="_type"
+              (setFinalDataItems)="setFinalDataItems($event)"
+              [memberData]="memberData"
+            ></app-prescriptions>
           </div>
-          <div *ngIf="(memberData.department && memberData.department.name.toLowerCase() === 'inpatient') || 
-              (memberData.department &&  memberData.department.name.toLowerCase() === 'maternity')">
-            <app-nhif-rebate (setFinalDataItems)="setFinalDataItems($event)" [_type]="_type" [editing]="editing"
-              [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [memberData]="memberData"></app-nhif-rebate>
+          <div
+            *ngIf="
+              (memberData.department &&
+                memberData.department.name.toLowerCase() === 'inpatient') ||
+              (memberData.department &&
+                memberData.department.name.toLowerCase() === 'maternity')
+            "
+          >
+            <app-nhif-rebate
+              (setFinalDataItems)="setFinalDataItems($event)"
+              [_type]="_type"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              [memberData]="memberData"
+            ></app-nhif-rebate>
           </div>
           <div>
-            <app-supporting-documents (convertFileToBase64)="convertFileToBase64($event)" [docFile]="docFile"
-              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [memberData]="memberData"
-              (deleteItem)="deleteItem($event)" [_type]="_type"></app-supporting-documents>
+            <app-supporting-documents
+              (convertFileToBase64)="convertFileToBase64($event)"
+              [docFile]="docFile"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              [memberData]="memberData"
+              (deleteItem)="deleteItem($event)"
+              [_type]="_type"
+            ></app-supporting-documents>
           </div>
-          <br><br>
+          <br /><br />
         </mat-tab>
         <mat-tab label="History" *ngIf="creatingOrEditing">
-          <table class="table table-hover table-responsive-sm text-left layout-table">
-            <thead>
-              <tr>
-                <th>Patient Name</th>
-                <th>Date & Time</th>
-                <th>Clinic</th>
-                <th>Department</th>
-                <th>Diagnosis</th>
-                <th>Services</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let history of memberHistory.mvc">
+          <div class="card-plain">
+            <table
+              class="table table-hover table-responsive-sm text-left layout-table"
+            >
+              <thead>
+                <tr>
+                  <th>Patient Name</th>
+                  <th>Date & Time</th>
+                  <th>Clinic</th>
+                  <th>Department</th>
+                  <th>Diagnosis</th>
+                  <th>Services</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let history of memberHistory.mvc">
+                  <td>
+                    {{ history.user.first_name }}
+                    {{ history.user.last_name }}
+                  </td>
+                  <td>
+                    {{ history.claim.created_at.substr(0, 10) }}<br />
+                    {{ history.claim.created_at.substring(11, 16) }}
+                  </td>
+                  <td>{{ history.bls_serviceprovider.hospital.name }}</td>
+                  <td>{{ history.department.name }}</td>
+                  <td>
+                    <table>
+                      <tbody>
+                        <tr *ngFor="let diagnosis of memberHistory.diagnosis">
+                          <td>
+                            {{ diagnosis.healthcondition.name }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td>
+                    <table>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let investigation of memberHistory.investigations
+                          "
+                        >
+                          <td>
+                            {{ investigation.investigation.name }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-                <td>{{history.user.first_name}}
-                  {{history.user.last_name}}
-                </td>
-                <td>{{history.claim.created_at.substr(0,10)}}<br>
-                  {{history.claim.created_at.substring(11,16) }}
-                </td>
-                <td>{{history.bls_serviceprovider.hospital.name}}</td>
-                <td>{{history.department.name}}</td>
-                <td>
-                  <table>
-                    <tbody>
-                      <tr *ngFor="let diagnosis of memberHistory.diagnosis">
-                        <td>
-                          {{diagnosis.healthcondition.name}}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-                <td>
-                  <table>
-                    <tbody>
-                      <tr *ngFor="let investigation of memberHistory.investigations">
-                        <td>
-                          {{investigation.investigation.name}}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="mx-auto my-auto text-center" style="padding: 50px" *ngIf="!memberHistory.length">
-            <i class="fas fa-clipboard fa-7x" style="color:rgb(230, 230, 230)"></i><br><br>
-            No history!
+            <div
+              class="mx-auto my-auto text-center"
+              style="padding: 50px"
+              *ngIf="!memberHistory.length"
+            >
+              <i
+                class="fas fa-clipboard fa-7x"
+                style="color:rgb(230, 230, 230)"
+              ></i
+              ><br /><br />
+              No history!
+            </div>
           </div>
-          <hr>
+          <hr />
           <div>
-            <app-consultations (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
-              [_type]="_type" [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-              (setFinalDataItems)="setFinalDataItems($event)" [memberData]="memberData">
+            <app-consultations
+              (deleteItem)="deleteItem($event)"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [_type]="_type"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              (setFinalDataItems)="setFinalDataItems($event)"
+              [memberData]="memberData"
+            >
             </app-consultations>
           </div>
           <div>
-            <app-diagnosis (deleteItem)="deleteItem($event)" (setFinalDataItems)="setFinalDataItems($event)"
-              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
-              [memberData]="memberData" [investigations]="investigations"></app-diagnosis>
+            <app-diagnosis
+              (deleteItem)="deleteItem($event)"
+              (setFinalDataItems)="setFinalDataItems($event)"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              [_type]="_type"
+              [memberData]="memberData"
+              [investigations]="investigations"
+            ></app-diagnosis>
           </div>
           <div>
-            <app-service (deleteItem)="deleteItem($event)" [editing]="editing" [creatingOrEditing]="creatingOrEditing"
-              [viewing]="viewing" (setFinalDataItems)="setFinalDataItems($event)"
-              (deductSubTotalAmount)="deductSubTotalAmount($event)" [_type]="_type" [totalAmount]="serviceSubTotal"
-              [memberData]="memberData">
+            <app-service
+              (deleteItem)="deleteItem($event)"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              (setFinalDataItems)="setFinalDataItems($event)"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [_type]="_type"
+              [totalAmount]="serviceSubTotal"
+              [memberData]="memberData"
+            >
             </app-service>
           </div>
           <div>
-            <app-prescriptions (deleteItem)="deleteItem($event)" (deductSubTotalAmount)="deductSubTotalAmount($event)"
-              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing"
-              [totalAmount]="prescriptionSubTotal" [_type]="_type" (setFinalDataItems)="setFinalDataItems($event)"
-              [memberData]="memberData"></app-prescriptions>
+            <app-prescriptions
+              (deleteItem)="deleteItem($event)"
+              (deductSubTotalAmount)="deductSubTotalAmount($event)"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              [totalAmount]="prescriptionSubTotal"
+              [_type]="_type"
+              (setFinalDataItems)="setFinalDataItems($event)"
+              [memberData]="memberData"
+            ></app-prescriptions>
           </div>
           <div>
-            <app-nhif-rebate (setFinalDataItems)="setFinalDataItems($event)" [_type]="_type" [editing]="editing"
-              [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [memberData]="memberData"></app-nhif-rebate>
+            <app-nhif-rebate
+              (setFinalDataItems)="setFinalDataItems($event)"
+              [_type]="_type"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              [memberData]="memberData"
+            ></app-nhif-rebate>
           </div>
           <div>
-            <app-supporting-documents (convertFileToBase64)="convertFileToBase64($event)" [docFile]="docFile"
-              [editing]="editing" [creatingOrEditing]="creatingOrEditing" [viewing]="viewing" [_type]="_type"
-              [memberData]="memberData" (deleteItem)="deleteItem($event)"></app-supporting-documents>
+            <app-supporting-documents
+              (convertFileToBase64)="convertFileToBase64($event)"
+              [docFile]="docFile"
+              [editing]="editing"
+              [creatingOrEditing]="creatingOrEditing"
+              [viewing]="viewing"
+              [_type]="_type"
+              [memberData]="memberData"
+              (deleteItem)="deleteItem($event)"
+            ></app-supporting-documents>
           </div>
         </mat-tab>
       </mat-tab-group>
@@ -310,31 +611,57 @@
         <div class="row">
           <div class="col-12">
             <div class="pb-4">
-              <b class="text-left grand-total pb-2" *ngIf="creatingOrEditing"> GRAND TOTAL: Ksh <span
-                  class="total-amount">{{grandTotal}}</span></b>
-              <b class="text-left grand-total pb-2" *ngIf="viewing"> REQUESTED TOTAL: Ksh <span
-                  class="total-amount">{{grandTotal}}</span></b>
-              <b class="text-right float-right grand-total pb-2" *ngIf="viewing"> APPROVED TOTAL: Ksh<span
-                  class="total-amount">
-                  {{memberData.preauth && memberData.preauth.accepted_total || 0}}</span></b>
+              <b class="text-left grand-total pb-2" *ngIf="creatingOrEditing">
+                GRAND TOTAL: Ksh
+                <span class="total-amount">{{ grandTotal }}</span></b
+              >
+              <b class="text-left grand-total pb-2" *ngIf="viewing">
+                REQUESTED TOTAL: Ksh
+                <span class="total-amount">{{ grandTotal }}</span></b
+              >
+              <b
+                class="text-right float-right grand-total pb-2"
+                *ngIf="viewing"
+              >
+                APPROVED TOTAL: Ksh<span class="total-amount">
+                  {{
+                    (memberData.preauth && memberData.preauth.accepted_total) ||
+                      0
+                  }}</span
+                ></b
+              >
             </div>
           </div>
           <div class="col-12">
-            <button class="btn btn-success float-right" (click)="savePreauth()" *ngIf="_type==='create-preauth'"><i
-                class="fas fa-angle-double-right"></i>&nbsp;&nbsp;Submit
+            <button
+              class="btn btn-success float-right"
+              (click)="savePreauth()"
+              *ngIf="_type === 'create-preauth'"
+            >
+              <i class="fas fa-angle-double-right"></i>&nbsp;&nbsp;Submit
               Preauth
             </button>
-            <button class="btn btn-success float-right" (click)="saveClaim()" *ngIf="_type==='create-claim'"><i
-                class="fas fa-angle-double-right"></i>&nbsp;&nbsp;Submit
-              Claim
+            <button
+              class="btn btn-success float-right"
+              (click)="saveClaim()"
+              *ngIf="_type === 'create-claim'"
+            >
+              <i class="fas fa-angle-double-right"></i>&nbsp;&nbsp;Submit Claim
             </button>
-            <button class="btn btn-success float-right" (click)="editPreauth()" *ngIf="_type==='create-edit-preauth'"><i
-                class="fas fa-angle-double-right"></i>&nbsp;&nbsp;Update
+            <button
+              class="btn btn-success float-right"
+              (click)="editPreauth()"
+              *ngIf="_type === 'create-edit-preauth'"
+            >
+              <i class="fas fa-angle-double-right"></i>&nbsp;&nbsp;Update
               Preauth
             </button>
-            <button class="btn btn-success float-right" (click)="editClaim()" *ngIf="_type==='create-edit-claim'"><i
-                class="fas fa-angle-double-right"></i>&nbsp;&nbsp;Update
-              Claim
+            <button
+              class="btn btn-success float-right"
+              (click)="editClaim()"
+              *ngIf="_type === 'create-edit-claim'"
+            >
+              <i class="fas fa-angle-double-right"></i>&nbsp;&nbsp;Update Claim
             </button>
           </div>
         </div>

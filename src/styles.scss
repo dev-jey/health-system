@@ -19,9 +19,7 @@ body {
   height: 100%;
 }
 body {
-  margin: 0;
-  background-size: cover;
-  background-image: url('./assets/images/bg.svg');
+  margin: 0;background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(184, 255, 203, 0.2))
 }
 .mat-horizontal-content-container,
 .mat-horizontal-stepper-header-container {
@@ -248,13 +246,16 @@ mat-label,
 }
 
 .table-inputs{
-  border: solid 1px rgb(235, 235, 235);
+  border: solid 1px rgb(240, 240, 240);
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 10px;
   font-size: 13px !important;
   color: #000;
+}
+.table-inputs::placeholder {
+  color: rgb(211, 211, 211);
 }
 ng-select.ng-touched .ng-select-container {
   border: solid 1px rgb(209, 209, 209);

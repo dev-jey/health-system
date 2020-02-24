@@ -14,7 +14,7 @@
                   type="text"
                   class=" form-control input"
                   name="grading_title"
-                  [(ngModel)]="responseData.grading_title"
+                  [(ngModel)]="responseLabels.grading_title"
                 />
               </div>
             </div>
@@ -27,7 +27,7 @@
                   type="text"
                   class="form-control input"
                   name="grading_description"
-                  [(ngModel)]="responseData.grading_description"
+                  [(ngModel)]="responseLabels.grading_description"
                 />
               </div>
             </div>
@@ -85,11 +85,11 @@
                   class="form-control input"
                 >
                 </textarea>
-                
+
                 <ng-select
                   *ngIf="item.grading_response_type_id.id === 3"
                   [(ngModel)]="responseData[item.id]"
-                  [ngModelOptions]="{standalone: true}"
+                  [ngModelOptions]="{ standalone: true }"
                 >
                   <ng-option
                     *ngFor="let opt of item.response_data"
@@ -99,30 +99,35 @@
                 </ng-select>
 
                 <span *ngIf="item.grading_response_type_id.id === 4">
-                  <div *ngFor="let option of item.response_data; let i=index">
+                  <div *ngFor="let option of item.response_data; let i = index">
                     <input
                       type="radio"
                       name="options"
-                      id="{{i}}"
-                      value="option"
+                      id="{{ i }}"
+                      [value]="option"
                       [(ngModel)]="responseData[item.id]"
-                    /><label for="{{i}}"> &nbsp;{{ option.text }}</label
+                    /><label for="{{ i }}"> &nbsp;{{ option.text }}</label
                     ><br />
                   </div>
                 </span>
 
                 <span *ngIf="item.grading_response_type_id.id === 5">
-                  <div *ngFor="let option of item.response_data; let i= index">
+                  <div
+                    *ngFor="let checkbox of item.response_data; let i = index"
+                  >
                     <input
                       type="checkbox"
-                      id="response_checkbox{{i}}"
-                      name="option.text"
+                      id="response_checkbox{{ i }}"
+                      name="checkbox.text"
                       [ngModelOptions]="{ standalone: true }"
-                      value="option"
-                      [checked]="option"
-                      [(ngModel)]="responseData[item.id] && responseData[item.id][option.id]" 
+                      [checked]="checkbox"
+                      [value]="checkbox"
+                      [(ngModel)]="
+                        responseData[item.id] && responseData[item.id][checkbox.id]
+                      "
                     />
-                    <label for="response_checkbox{{i}}"> &nbsp;{{ option.text }}</label
+                    <label for="response_checkbox{{ i }}">
+                      &nbsp;{{ checkbox.text }}</label
                     ><br />
                   </div>
                 </span>
@@ -130,6 +135,7 @@
                 <ng-select
                   *ngIf="item.grading_response_type_id.id === 6"
                   multiple="true"
+                  [ngModelOptions]="{ standalone: true }"
                   [(ngModel)]="responseData[item.id]"
                 >
                   <ng-option

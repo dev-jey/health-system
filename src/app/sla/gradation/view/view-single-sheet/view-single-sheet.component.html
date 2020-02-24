@@ -1,0 +1,71 @@
+<section>
+  <nav aria-label="breadcrumb" class="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/sla/dashboard']">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item" [routerLink]="['/sla/gradation/view']">
+        <a href="">View Gradations</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="">{{ currentId }}</a>
+      </li>
+    </ol>
+  </nav>
+  <app-loader *ngIf="loading"></app-loader>
+  <div class="container-fluid animated fadeIn faster" *ngIf="!loading">
+    <div class="row main-content">
+      <div class="col-xl-12 card-plain" style="padding: 4% !important">
+        <h3>Sheet Details</h3>
+        <hr />
+        <table class="col-xl-4 p-2">
+          <tr class=" p-4">
+            <td class="py-2">Grading Date</td>
+            <td  class="py-2">
+              {{
+                gradingDetails.gradingPoint &&
+                  gradingDetails.gradingPoint.grading_date | formatDate
+              }}
+            </td>
+          </tr>
+          <tr class=" p-4">
+            <td  class="py-2">Hospital Name</td>
+            <td  class="py-2">{{ gradingDetails.gradingPoint.stakeholder_id.name }}</td>
+          </tr>
+          <tr class=" p-4">
+            <td  class="py-2">Grading Title</td>
+            <td  class="py-2">{{ gradingDetails.gradingPoint.grading_title }}</td>
+          </tr>
+          <tr class=" p-4">
+            <td  class="py-2">Total Points</td>
+            <td  class="py-2">{{ gradingDetails.gradingPoint.points }}</td>
+          </tr>
+          <tr class=" p-4">
+            <td  class="py-2">Remarks</td>
+            <td  class="py-2">{{ gradingDetails.gradingPoint.remarks }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="col-xl-12 card-plain mt-4">
+        <div *ngFor="let res of gradingDetails.gradingResponse">
+          <ul>
+            <li>
+              <br />
+              <h2>{{ res.responsesData.category.name }}</h2>
+              <hr />
+              <div *ngFor="let resp of res.responsesData.responses">
+                <h4><b>{{ resp[0].grading_item_id.item }}</b></h4>
+                <div class="response">Response(s)</div>
+                <p *ngFor="let subresponse of resp[0].response">
+                  <span class="text-muted">{{ subresponse.text }}</span>
+                </p>
+                <br>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

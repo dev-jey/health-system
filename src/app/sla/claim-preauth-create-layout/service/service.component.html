@@ -11,7 +11,6 @@
         <table class="table table-hover table-responsive-lg text-left layout-table">
           <thead class="text-left">
             <tr>
-              <th class="text-center text-small">No.</th>
               <th>Service</th>
               <th>Unit</th>
               <th>Unit Price</th>
@@ -22,7 +21,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let service of services; let i = index" class="animated fadeIn faster">
-              <td class="text-center">{{i+1}}.</td>
               <td>
                 <input type="text" name="service" [(ngModel)]="service.investigation.name" class="table-inputs" placeholder="Investigation"
                   (keyup)="onChange($event, service)" [ngModelOptions]="{standalone: true}" [disabled]="viewing" />
@@ -42,7 +40,7 @@
                 <input type="number" class=" table-inputs" name="amount" [(ngModel)]="service.amount"
                   [value]="service.units*service.unit_price" disabled="true" [ngModelOptions]="{standalone: true}" />
               </td>
-              <td class="text-center">
+              <td class="file-selector">
                 <div class="col-md-12">
                   <input type="file" class="table-inputs custom-file-input" name="serviceFile" [disabled]="viewing"
                     (change)="onChange($event, service)" accept="application/pdf,image/x-png,image/gif,image/jpeg"
@@ -63,8 +61,6 @@
             <tr class="animated fadeIn faster" *ngIf="services.length">
               <td>
                 <b>Total</b>
-              </td>
-              <td>
               </td>
               <td>
               </td>

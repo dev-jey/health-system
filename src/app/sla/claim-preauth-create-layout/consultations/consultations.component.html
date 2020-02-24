@@ -15,7 +15,6 @@
             <table class="table table-hover table-responsive-lg text-left layout-table">
               <thead>
                 <tr>
-                  <th class="text-center text-small">No.</th>
                   <th>Consultation</th>
                   <th>Qualification</th>
                   <th>Unit</th>
@@ -28,7 +27,6 @@
               <tbody>
                 <tr *ngFor="let consultation of consultations; let i = index" class="animated fadeIn faster"
                   class="animated fadeIn faster">
-                  <td class="text-center">{{i+1}}.</td>
                   <td>
                     <input type="text" class="table-inputs" name="description" [disabled]="viewing" placeholder="Doctor"
                       [(ngModel)]="consultation.description" (keyup)="onChange($event, consultation)"
@@ -54,7 +52,7 @@
                       [value]="consultation.units*consultation.unit_price" disabled="true"
                       [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td  class="file-selector">
                     <div class="col-md-12">
                       <input type="file" class="table-inputs custom-file-input mx-auto" name="consultationFile"
                         (change)="onChange($event, consultation)" [disabled]="viewing"
@@ -76,7 +74,6 @@
 
                     <b>Total</b>
                   </td>
-                  <td></td>
                   <td>
                   </td>
                   <td>

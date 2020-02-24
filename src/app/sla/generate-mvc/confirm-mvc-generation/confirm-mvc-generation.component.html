@@ -1,11 +1,11 @@
-<div *ngIf="optValidated && completeMVC" class="p-2 col-md-8 card-plain">
-  <form>
+<div *ngIf="optValidated && completeMVC" class="p-2 col-md-12 card-plain">
+  <form >
     <div class="text-medi">
       <h2>Member Verification Code</h2>
       <span></span>
     </div>
     <div class="">
-      <table class="table table-hover">
+      <table class="table table-hover table-striped">
         <thead>
           <tr>
             <th>Item</th>
@@ -58,7 +58,7 @@
         </tbody>
       </table>
     </div>
-  </form>
+  </form >
   <div class="row ml-1">
     <a class="btn btn-success btn-sm" routerLink="/sla/mvc/list">Generate Pre-Auth</a>
     <a class="btn btn-info btn-sm" routerLink="/sla/mvc/list">Generate Claim</a>
