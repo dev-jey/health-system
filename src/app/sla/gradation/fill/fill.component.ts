@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ServiceProviderService } from "src/app/_services/ServiceProvider/service-provider.service";
+import { Router } from "@angular/router";
+import { AlertService } from "src/app/_services/shared/alert.service";
 
 @Component({
   selector: "app-fill",
@@ -25,7 +27,11 @@ export class FillComponent implements OnInit {
     remarks: string;
   };
   responseLabels: any = {};
-  constructor(private serviceProvider: ServiceProviderService) {}
+  constructor(
+    private serviceProvider: ServiceProviderService,
+    private router: Router,
+    private alert: AlertService
+  ) {}
   ngOnInit() {
     this.getUserTypes();
   }
@@ -79,8 +85,17 @@ export class FillComponent implements OnInit {
       points: this.points,
       responses: this.response
     };
-    this.serviceProvider.gradingResponse(dataToSave).subscribe(res => {
-      console.log(res);
-    });
+    this.serviceProvider.gradingResponse(dataToSave).subscribe(
+      res => {
+        this.router.navigateByUrl(`/sla/gradation/view/${res.data.id}`);
+      },
+      error => {
+        this.alert.fire(
+          "Attention",
+          "Kindly ensure you fill in all the fields before you submit",
+          "info"
+        );
+      }
+    );
   }
 }

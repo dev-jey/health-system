@@ -70,6 +70,7 @@
                 <input
                   type="text"
                   name=""
+                  required
                   class=" form-control input"
                   [(ngModel)]="responseData[item.id]"
                   id=""
@@ -80,6 +81,7 @@
                 <textarea
                   *ngIf="item.grading_response_type_id.id === 2"
                   row="10"
+                  required
                   [ngModelOptions]="{ standalone: true }"
                   [(ngModel)]="responseData[item.id]"
                   class="form-control input"
@@ -102,6 +104,7 @@
                   <div *ngFor="let option of item.response_data; let i = index">
                     <input
                       type="radio"
+                      required
                       name="options"
                       id="{{ i }}"
                       [value]="option"
@@ -117,13 +120,15 @@
                   >
                     <input
                       type="checkbox"
+                      required
                       id="response_checkbox{{ i }}"
                       name="checkbox.text"
                       [ngModelOptions]="{ standalone: true }"
                       [checked]="checkbox"
                       [value]="checkbox"
                       [(ngModel)]="
-                        responseData[item.id] && responseData[item.id][checkbox.id]
+                        responseData[item.id] &&
+                        responseData[item.id][checkbox.id]
                       "
                     />
                     <label for="response_checkbox{{ i }}">
